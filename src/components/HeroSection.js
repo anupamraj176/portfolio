@@ -2,8 +2,7 @@ import React from "react";
 import Image from "../assets/portfolio.jpg";
 import HandIcon from "../assets/hand-icon.png";
 import { FaArrowRight,FaFileDownload  } from "react-icons/fa";
-// import downloadIcon from "../assets/download-icon.png";
-import { FancyButton } from "../components/fancyButton";
+import { FancyButton } from "./fancyButton";
 
 export const Header = () => {
   return (
