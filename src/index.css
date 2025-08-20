@@ -11,3 +11,6 @@ body{
     color: white;
     font-family:'outfit';
 }
+::-webkit-scrollbar{
+    display: none;
+}

@@ -1,5 +1,6 @@
-export const FancyButton = ({text}) => {
+export const FancyButton = ({link,text,Icon}) => {
   return (
+    <a href={link} target="_blank" rel="noopener noreferrer">
     <button
       className="
         relative px-6 py-3 rounded-[15px] font-extrabold text-[17px] text-emerald-50 hover:text-emerald-800 
@@ -8,9 +9,10 @@ export const FancyButton = ({text}) => {
       "
     >
       <span
-        className="relative z-10"
+        className="relative z-10 flex gap-2 items-center"
       >
         {text}
+        {Icon && <Icon />}
       </span>
 
       {/* Background overlay (acts like ::before) */}
@@ -22,5 +24,7 @@ export const FancyButton = ({text}) => {
         "
       ></span>
     </button>
+    </a>
   );
 };
+
