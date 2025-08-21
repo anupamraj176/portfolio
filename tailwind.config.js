@@ -4,7 +4,9 @@ module.exports = {
     "./src/**/*.{js,jsx,ts,tsx}", // add all React files here
   ],
   theme: {
-    extend: {},
+    extend: {
+
+    },
   },
   plugins: [],
 }
