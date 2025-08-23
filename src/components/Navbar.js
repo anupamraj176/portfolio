@@ -18,6 +18,7 @@ export const Navbar = () => {
         <li className="hover:text-blue-100 transition-colors duration-75 cursor-pointer">Contact</li>
       </ul>
 
+
       <FancyButton text={"Connect With Me"}/>
     </div>
   )
