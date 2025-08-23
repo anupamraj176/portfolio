@@ -1,18 +1,20 @@
 import React from "react";
 import {Navbar} from './components/Navbar';
 import {Header} from './components/HeroSection'
-import {About} from './components/About';
-// import {Tech} from './components/Tech'
-import {Contact} from './components/Contact'
 
+import {Tech} from './components/Tech'
+import {Contact} from './components/Contact'
+import { Divider } from "./components/Divider";
 
 function App(){
 
   return(<>
           <Navbar/>
+          {/* <Divider/> */}
           <Header/>
-          <About/>
-          {/* <Tech/> */}
+          <Divider/>
+          <Tech/>
+          <Divider/>
           <Contact/>
     </>
   )

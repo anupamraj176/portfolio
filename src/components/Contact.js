@@ -2,11 +2,11 @@ import React, { useState } from 'react'
 import { FancyButton } from './fancyButton'
 
 export const Contact = () => {
-  const [result, setResult] = useState("")
+  const [btnText,setbtnText] = useState("Send")
 
   const onSubmit = async (event) => {
     event.preventDefault()
-    setResult("Sending....")
+    setbtnText("Sending...")
     const formData = new FormData(event.target)
 
     formData.append("access_key", "15d76f77-810c-454a-9e80-ecfde34e344e")
@@ -19,11 +19,13 @@ export const Contact = () => {
     const data = await response.json()
 
     if (data.success) {
-      setResult("✅ Form Submitted Successfully")
-      event.target.reset()
+      setbtnText("Sent")
+      setTimeout(() => {
+        setbtnText("Send")
+        event.target.reset()
+      }, 3000);
     } else {
       console.log("Error", data)
-      setResult("❌ " + data.message)
     }
   }
 
@@ -41,6 +43,7 @@ export const Contact = () => {
         I'd love to hear from you! If you have any questions, comments, or feedback, 
         please use the form below.
       </p>
+      
 
       {/* ✅ uniform shadow around form */}
       <form 
@@ -73,10 +76,9 @@ export const Contact = () => {
         ></textarea>
 
         <div className="flex justify-center">
-          <FancyButton text="Submit" />
+          <FancyButton text={btnText} />
         </div>
 
-        <p className="mt-4 text-center text-gray-600">{result}</p>
       </form>
     </div>
   )
