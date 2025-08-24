@@ -1,4 +1,3 @@
-import { div } from "motion/react-client";
 
 export const Divider = () => {
   return (

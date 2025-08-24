@@ -1,6 +1,6 @@
-import React from "react";
+// import React from "react";
 import { icons } from "../icons/TechIcons";
-import ribbon from '../assets/ribbon.png';
+// import ribbon from '../assets/ribbon.png';
 
 export const Tech = () => {
   return (
