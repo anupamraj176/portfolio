@@ -11,7 +11,6 @@ function App(){
 
   return(<>
           <Navbar/>
-          {/* <Divider/> */}
           <Header/>
           <Divider/>
           <Tech/>
@@ -19,6 +18,7 @@ function App(){
           <ProjectSlider/>
           <Divider/>
           <Contact/>  
+          <Divider/>
     </>
   )
 }

@@ -109,25 +109,24 @@ export const ProjectSlider = () => {
   };
 
   return (
-    // Main container - NOTE: `overflow-hidden` is removed
-    <div className="w-full min-h-screen bg-emerald-100 flex flex-col items-center justify-center relative p-4">
-      <h1 className="text-4xl md:text-6xl font-bold text-emerald-400 mb-10 z-10">
+    <div className="w-full min-h-screen bg-emerald-100 flex flex-col items-center justify-center relative px-4 sm:px-6 md:px-10 lg:px-20 py-10">
+      <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-emerald-400 mb-6 sm:mb-10 z-10 text-center">
         My Projects
       </h1>
 
-      {/* New container for slider and buttons to provide space */}
+      {/* Container */}
       <div className="relative w-full max-w-7xl flex items-center justify-center">
-        {/* --- Prev Button (Outside Card) --- */}
+        {/* Prev */}
         <button
           onClick={prevSlide}
-          className="absolute left-0 top-1/2 -translate-y-1/2 z-20 text-5xl text-emerald-500/70 hover:text-emerald-400 transition"
+          className="absolute left-2 sm:left-0 top-1/2 -translate-y-1/2 z-20 text-3xl sm:text-5xl text-emerald-500/70 hover:text-emerald-400 transition"
           aria-label="Previous Project"
         >
           <BsArrowLeftCircleFill />
         </button>
 
-        {/* --- Card Container --- */}
-        <div className="relative w-full max-w-5xl h-[550px]">
+        {/* Card */}
+        <div className="relative w-full max-w-5xl h-[400px] sm:h-[500px] md:h-[550px]">
           <AnimatePresence custom={direction} mode="wait">
             <motion.div
               key={projects[current].id}
@@ -138,38 +137,46 @@ export const ProjectSlider = () => {
               exit="exit"
               className="absolute inset-0 grid grid-cols-1 md:grid-cols-2 bg-slate-800/60 backdrop-blur-md rounded-2xl overflow-hidden shadow-2xl shadow-emerald-900/40"
             >
-              <div className="w-full h-full">
+              {/* Image */}
+              <div className="w-full h-48 sm:h-full">
                 <img
                   src={projects[current].image}
                   alt={projects[current].title}
                   className="w-full h-full object-cover"
                 />
               </div>
+
+              {/* Content */}
               <motion.div
                 variants={contentContainerVariants}
                 initial="hidden"
                 animate="visible"
-                className="p-8 flex flex-col justify-center text-white"
+                className="p-4 sm:p-6 md:p-8 flex flex-col justify-center text-white text-center md:text-left"
               >
-                <motion.h2 variants={contentItemVariants} className="text-4xl font-bold mb-3 text-emerald-400">
+                <motion.h2 variants={contentItemVariants} className="text-2xl sm:text-3xl md:text-4xl font-bold mb-2 sm:mb-3 text-emerald-400">
                   {projects[current].title}
                 </motion.h2>
-                <motion.p variants={contentItemVariants} className="mb-6 text-slate-300 text-lg">
+                <motion.p variants={contentItemVariants} className="mb-4 sm:mb-6 text-slate-300 text-sm sm:text-base md:text-lg">
                   {projects[current].desc}
                 </motion.p>
-                <motion.div variants={contentItemVariants} className="flex flex-wrap gap-4 text-3xl mb-8">
+
+                <motion.div variants={contentItemVariants} className="flex flex-wrap gap-3 sm:gap-4 text-2xl sm:text-3xl mb-6 sm:mb-8 justify-center md:justify-start">
                   {projects[current].stack.map((Icon, index) => (
-                    <div key={index} className="p-2 bg-slate-700/50 rounded-md hover:bg-emerald-500/50 hover:scale-110 transition-all cursor-pointer">
+                    <div
+                      key={index}
+                      className="p-2 bg-slate-700/50 rounded-md hover:bg-emerald-500/50 hover:scale-110 transition-all cursor-pointer"
+                    >
                       <Icon />
                     </div>
                   ))}
                 </motion.div>
-                <motion.div variants={contentItemVariants} className="flex gap-6 items-center">
+
+                <motion.div variants={contentItemVariants} className="flex flex-col sm:flex-row gap-4 sm:gap-6 items-center justify-center md:justify-start">
                   <a href={projects[current].github} target="_blank" rel="noreferrer" aria-label="GitHub repository">
-                    <FaGithub className="text-4xl text-slate-400 hover:text-emerald-400 transition" />
+                    <FaGithub className="text-3xl sm:text-4xl text-slate-400 hover:text-emerald-400 transition" />
                   </a>
                   <a href={projects[current].live} target="_blank" rel="noreferrer" aria-label="Live demo">
-                    <BsLink45Deg className="text-4xl text-slate-400 hover:text-emerald-400 transition" />
+                    <BsLink45Deg className="text-3xl sm:text-4xl text-slate-400 hover:text-emerald-400 transition" />
                   </a>
                   <FancyButton text="View Case Study" />
                 </motion.div>
@@ -178,24 +185,24 @@ export const ProjectSlider = () => {
           </AnimatePresence>
         </div>
 
-        {/* --- Next Button (Outside Card) --- */}
+        {/* Next */}
         <button
           onClick={nextSlide}
-          className="absolute right-0 top-1/2 -translate-y-1/2 z-20 text-5xl text-emerald-500/70 hover:text-emerald-400 transition"
+          className="absolute right-2 sm:right-0 top-1/2 -translate-y-1/2 z-20 text-3xl sm:text-5xl text-emerald-500/70 hover:text-emerald-400 transition"
           aria-label="Next Project"
         >
           <BsArrowRightCircleFill />
         </button>
       </div>
 
-      {/* --- Dots --- */}
-      <div className="flex gap-3 mt-8 z-10">
+      {/* Dots */}
+      <div className="flex gap-2 sm:gap-3 mt-6 sm:mt-8 z-10">
         {projects.map((_, index) => (
           <button
             key={index}
             onClick={() => handleDotClick(index)}
-            className={`w-4 h-4 rounded-full transition-all ${
-              index === current ? "bg-emerald-400 scale-125" : "bg-slate-600"
+            className={`w-3 h-3 sm:w-4 sm:h-4 rounded-full transition-all ${
+              index === current ? "bg-emerald-400 scale-110 sm:scale-125" : "bg-slate-600"
             }`}
             aria-label={`Go to project ${index + 1}`}
           />
