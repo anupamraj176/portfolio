@@ -22,7 +22,6 @@ export const Header = () => {
       strings: [
         "Fullstack Web Developer",
         "Web Developer",
-        "UI-UX Designer",
         "Backend Developer",
         "Coder",
       ],
@@ -33,7 +32,7 @@ export const Header = () => {
     });
 
     return () => {
-      typed.destroy(); // cleanup
+      typed.destroy();
     };
   }, []);
 
@@ -55,7 +54,11 @@ export const Header = () => {
 
         {/* Social Links */}
         <div className="flex text-emerald-500 gap-6 sm:gap-8 justify-center h-[80px] sm:h-[100px] items-center">
-          <a href="https://www.instagram.com" target="_blank" rel="noreferrer">
+          <a
+            href="https://www.instagram.com/anupam__rajj/"
+            target="_blank"
+            rel="noreferrer"
+          >
             <FaInstagramSquare className="text-3xl sm:text-4xl transition-all duration-300 hover:scale-110 hover:text-emerald-700 hover:drop-shadow-[0_0_10px_rgba(16,185,129,0.8)]" />
           </a>
           <a
@@ -65,10 +68,18 @@ export const Header = () => {
           >
             <FaGithub className="text-3xl sm:text-4xl transition-all duration-300 hover:scale-110 hover:text-emerald-700 hover:drop-shadow-[0_0_10px_rgba(16,185,129,0.8)]" />
           </a>
-          <a href="https://twitter.com" target="_blank" rel="noreferrer">
+          <a
+            href="https://x.com/secret_johnwick"
+            target="_blank"
+            rel="noreferrer"
+          >
             <FaTwitter className="text-3xl sm:text-4xl transition-all duration-300 hover:scale-110 hover:text-emerald-700 hover:drop-shadow-[0_0_10px_rgba(16,185,129,0.8)]" />
           </a>
-          <a href="https://linkedin.com" target="_blank" rel="noreferrer">
+          <a
+            href="https://www.linkedin.com/in/anupam-raj-88833134b/"
+            target="_blank"
+            rel="noreferrer"
+          >
             <FaLinkedin className="text-3xl sm:text-4xl transition-all duration-300 hover:scale-110 hover:text-emerald-700 hover:drop-shadow-[0_0_10px_rgba(16,185,129,0.8)]" />
           </a>
         </div>
@@ -94,7 +105,11 @@ export const Header = () => {
 
         {/* Buttons */}
         <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 mt-5 sm:mt-6">
-          <FancyButton href="#Contact" text="Contact" Icon={FaArrowRight} />
+          <FancyButton
+            href="mailto:anupamraj176@gmail.com"
+            text="Contact"
+            Icon={FaArrowRight}
+          />
           <FancyButton
             link="https://www.google.com"
             text="My Resume"

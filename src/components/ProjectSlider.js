@@ -2,13 +2,18 @@ import React, { useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FaReact, FaNodeJs, FaGithub } from "react-icons/fa";
 import videoGallery from "../assets/Video-Gallery.jpg";
-import {
-  SiTailwindcss,
-  SiRedux,
-  SiNextdotjs,
-  SiVercel,
-  SiJavascript,
+import randomGifGenerator from "../assets/Randon-GIF.png";
+import studyNotion from "../assets/study-notion.png";
+import { 
+  SiTailwindcss, 
+  SiRedux, 
+  SiVercel, 
+  SiJavascript, 
+  SiHtml5, 
+  SiCss3 
 } from "react-icons/si";
+
+
 import {
   BsArrowLeftCircleFill,
   BsArrowRightCircleFill,
@@ -20,31 +25,33 @@ import { FancyButton } from "./fancyButton";
 const projects = [
   {
     id: 1,
-    title: "Tint & Orange",
-    desc: "A sleek, modern landing page for a car modification company specializing in high-quality paint protection films and automotive vinyl wraps.",
-    stack: [SiNextdotjs, SiTailwindcss, SiRedux, SiVercel, FaReact],
-    github: "#",
-    live: "#",
+    title: "Video Gallery Website",
+    desc: "A responsive video gallery built with HTML, CSS, and JavaScript. Each video thumbnail initially displays a static preview image, and when hovered, the image transitions into an auto-playing video. This creates an interactive, engaging browsing experience while keeping the gallery lightweight and visually appealing.",
+    stack: [SiHtml5, SiCss3, SiJavascript, SiVercel],
+    github: "https://github.com/anupamraj176/GALLERY",
+    live: "https://gallery-six-delta.vercel.app/",
     image: videoGallery,
   },
   {
     id: 2,
-    title: "Portfolio Website",
-    desc: "A personal portfolio built with Next.js and Framer Motion to showcase my projects and skills with a focus on fluid animations.",
-    stack: [FaReact, SiNextdotjs, SiTailwindcss, FaGithub],
-    github: "#",
-    live: "#",
-    image: "/images/projects/project2.jpg",
+    title: "Random GIF Generator",
+    desc: "A fun Random GIF Generator that fetches GIFs from an API and displays a new one with each click. Built with a clean, lightweight UI for endless entertainment.",
+    stack: [FaReact, SiTailwindcss, FaGithub ,SiVercel],
+    github: "https://github.com/anupamraj176/Gif_generator",
+    live: "https://gif-generator-eight-psi.vercel.app/",
+    image: randomGifGenerator,
   },
-  {
-    id: 3,
-    title: "E-Commerce App",
-    desc: "A full-stack shopping application featuring a dynamic shopping cart, user authentication, and a streamlined checkout process.",
-    stack: [FaReact, FaNodeJs, SiRedux, SiTailwindcss, SiJavascript],
-    github: "#",
-    live: "#",
-    image: "/images/projects/project3.jpg",
-  },
+{
+  id: 3,
+  title: "ED-Tech Platform",
+  desc: "Study Notion is a modern EdTech platform that empowers students to learn online through interactive courses, video lectures, and assessments. It bridges the gap between learners and educators with an easy-to-use interface and personalized learning experience.",
+  stack: [
+    FaReact,FaNodeJs,SiRedux,SiTailwindcss, SiJavascript,SiVercel      
+  ],
+  github: "#",
+  live: "#",
+  image: studyNotion,
+}
 ];
 
 // --- Animation Variants ---
@@ -135,10 +142,10 @@ export const ProjectSlider = () => {
               initial="enter"
               animate="center"
               exit="exit"
-              className="absolute inset-0 grid grid-cols-1 md:grid-cols-2 bg-slate-800/60 backdrop-blur-md rounded-2xl overflow-hidden shadow-2xl shadow-emerald-900/40"
+              className="absolute inset-0 grid grid-cols-1 md:grid-cols-2 h-full bg-slate-800/60 backdrop-blur-md rounded-2xl overflow-hidden shadow-2xl shadow-emerald-900/40"
             >
               {/* Image */}
-              <div className="w-full h-48 sm:h-full">
+              <div className="w-full h-full">
                 <img
                   src={projects[current].image}
                   alt={projects[current].title}
@@ -153,14 +160,23 @@ export const ProjectSlider = () => {
                 animate="visible"
                 className="p-4 sm:p-6 md:p-8 flex flex-col justify-center text-white text-center md:text-left"
               >
-                <motion.h2 variants={contentItemVariants} className="text-2xl sm:text-3xl md:text-4xl font-bold mb-2 sm:mb-3 text-emerald-400">
+                <motion.h2
+                  variants={contentItemVariants}
+                  className="text-2xl sm:text-3xl md:text-4xl font-bold mb-2 sm:mb-3 text-emerald-400"
+                >
                   {projects[current].title}
                 </motion.h2>
-                <motion.p variants={contentItemVariants} className="mb-4 sm:mb-6 text-slate-300 text-sm sm:text-base md:text-lg">
+                <motion.p
+                  variants={contentItemVariants}
+                  className="mb-4 sm:mb-6 text-slate-300 text-sm sm:text-base md:text-lg"
+                >
                   {projects[current].desc}
                 </motion.p>
 
-                <motion.div variants={contentItemVariants} className="flex flex-wrap gap-3 sm:gap-4 text-2xl sm:text-3xl mb-6 sm:mb-8 justify-center md:justify-start">
+                <motion.div
+                  variants={contentItemVariants}
+                  className="flex flex-wrap gap-3 sm:gap-4 text-2xl sm:text-3xl mb-6 sm:mb-8 justify-center md:justify-start"
+                >
                   {projects[current].stack.map((Icon, index) => (
                     <div
                       key={index}
@@ -171,11 +187,24 @@ export const ProjectSlider = () => {
                   ))}
                 </motion.div>
 
-                <motion.div variants={contentItemVariants} className="flex flex-col sm:flex-row gap-4 sm:gap-6 items-center justify-center md:justify-start">
-                  <a href={projects[current].github} target="_blank" rel="noreferrer" aria-label="GitHub repository">
+                <motion.div
+                  variants={contentItemVariants}
+                  className="flex flex-col sm:flex-row gap-4 sm:gap-6 items-center justify-center md:justify-start"
+                >
+                  <a
+                    href={projects[current].github}
+                    target="_blank"
+                    rel="noreferrer"
+                    aria-label="GitHub repository"
+                  >
                     <FaGithub className="text-3xl sm:text-4xl text-slate-400 hover:text-emerald-400 transition" />
                   </a>
-                  <a href={projects[current].live} target="_blank" rel="noreferrer" aria-label="Live demo">
+                  <a
+                    href={projects[current].live}
+                    target="_blank"
+                    rel="noreferrer"
+                    aria-label="Live demo"
+                  >
                     <BsLink45Deg className="text-3xl sm:text-4xl text-slate-400 hover:text-emerald-400 transition" />
                   </a>
                   <FancyButton text="View Case Study" />
@@ -202,7 +231,9 @@ export const ProjectSlider = () => {
             key={index}
             onClick={() => handleDotClick(index)}
             className={`w-3 h-3 sm:w-4 sm:h-4 rounded-full transition-all ${
-              index === current ? "bg-emerald-400 scale-110 sm:scale-125" : "bg-slate-600"
+              index === current
+                ? "bg-emerald-400 scale-110 sm:scale-125"
+                : "bg-slate-600"
             }`}
             aria-label={`Go to project ${index + 1}`}
           />
