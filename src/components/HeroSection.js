@@ -87,7 +87,7 @@ export const Header = () => {
 
       {/* RIGHT SIDE - Intro + Buttons */}
       <div className="flex flex-col justify-center flex-1 h-full items-center lg:items-start text-center lg:text-left gap-4 sm:gap-5">
-        <h3 className="flex items-center justify-center lg:justify-start gap-2 text-base sm:text-lg md:text-xl font-medium">
+        <h3 className="flex items-center justify-center lg:justify-start gap-2 text-base sm:text-lg md:text-xl font-medium text-black">
           Hi! I'm Anupam Raj
           <img src={HandIcon} alt="" className="w-5 sm:w-6" />
         </h3>
