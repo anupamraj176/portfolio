@@ -65,14 +65,14 @@ export const Contact = () => {
             type="text" 
             placeholder="Enter Your Name" 
             required
-            className="w-full p-3 sm:p-4 border bg-emerald-100 border-emerald-400 rounded-md outline-none focus:ring-2 focus:ring-emerald-500 text-sm sm:text-base"
+            className="w-full p-3 sm:p-4 text-green-500 border bg-emerald-100 border-emerald-400 rounded-md outline-none focus:ring-2 focus:ring-emerald-500 text-sm sm:text-base"
             name="name"
           />
           <input 
             type="email" 
             placeholder="Enter Your Email" 
             required
-            className="w-full p-3 sm:p-4 border bg-emerald-100 border-emerald-400 rounded-md outline-none focus:ring-2 focus:ring-emerald-500 text-sm sm:text-base"
+            className="w-full p-3 sm:p-4 border text-green-500 bg-emerald-100 border-emerald-400 rounded-md outline-none focus:ring-2 focus:ring-emerald-500 text-sm sm:text-base"
             name="email"
           />
         </div>
@@ -81,7 +81,7 @@ export const Contact = () => {
           rows={5} 
           placeholder="Enter Your Message" 
           required
-          className="w-full p-3 sm:p-4 border bg-emerald-100 border-emerald-400 rounded-md outline-none focus:ring-2 focus:ring-emerald-500 mb-6 text-sm sm:text-base"
+          className="w-full p-3 sm:p-4 border text-green-500 bg-emerald-100 border-emerald-400 rounded-md outline-none focus:ring-2 focus:ring-emerald-500 mb-6 text-sm sm:text-base"
           name="message"
         ></textarea>
 
