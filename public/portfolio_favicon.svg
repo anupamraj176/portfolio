@@ -1,0 +1,30 @@
+<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="64" height="64" fill="#0f172a"/>
+  
+  <!-- Gradient definition -->
+  <defs>
+    <linearGradient id="fadeGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#3b82f6;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#8b5cf6;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Portfolio briefcase icon with modern design -->
+  <g transform="translate(32, 32)">
+    <!-- Main briefcase body -->
+    <rect x="-14" y="-6" width="28" height="20" rx="2" fill="none" stroke="url(#fadeGradient)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+    
+    <!-- Handle -->
+    <path d="M -10 -6 Q -10 -14 0 -14 Q 10 -14 10 -6" fill="none" stroke="url(#fadeGradient)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+    
+    <!-- Divider in middle -->
+    <line x1="-14" y1="2" x2="14" y2="2" stroke="url(#fadeGradient)" stroke-width="2" stroke-linecap="round" opacity="0.6"/>
+    
+    <!-- Left pocket detail -->
+    <rect x="-12" y="4" width="8" height="8" rx="1" fill="none" stroke="url(#fadeGradient)" stroke-width="1.5" opacity="0.7"/>
+    
+    <!-- Right pocket detail -->
+    <rect x="4" y="4" width="8" height="8" rx="1" fill="none" stroke="url(#fadeGradient)" stroke-width="1.5" opacity="0.7"/>
+  </g>
+</svg>

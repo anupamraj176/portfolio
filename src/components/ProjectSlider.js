@@ -1,9 +1,7 @@
-import React, { useState, useCallback } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { FaReact, FaNodeJs, FaGithub } from "react-icons/fa";
-import videoGallery from "../assets/Video-Gallery.jpg";
-import randomGifGenerator from "../assets/Randon-GIF.png";
-import studyNotion from "../assets/study-notion.png";
+import React, { useEffect, useRef, useState } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { FaReact, FaNodeJs } from "react-icons/fa";
 import { 
   SiTailwindcss, 
   SiRedux, 
@@ -12,233 +10,290 @@ import {
   SiHtml5, 
   SiCss3 
 } from "react-icons/si";
+import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
 
+gsap.registerPlugin(ScrollTrigger);
 
-import {
-  BsArrowLeftCircleFill,
-  BsArrowRightCircleFill,
-  BsLink45Deg,
-} from "react-icons/bs";
-import { FancyButton } from "./fancyButton";
-
-// --- Project Data ---
 const projects = [
   {
     id: 1,
-    title: "Video Gallery Website",
-    desc: "A responsive video gallery built with HTML, CSS, and JavaScript. Each video thumbnail initially displays a static preview image, and when hovered, the image transitions into an auto-playing video. This creates an interactive, engaging browsing experience while keeping the gallery lightweight and visually appealing.",
+    title: "Video Gallery",
+    category: "WEB DEVELOPMENT",
+    desc: "A responsive video gallery with hover-to-play previews",
     stack: [SiHtml5, SiCss3, SiJavascript, SiVercel],
     github: "https://github.com/anupamraj176/GALLERY",
     live: "https://gallery-six-delta.vercel.app/",
-    image: videoGallery,
+    gradient: "from-purple-600 via-purple-700 to-purple-900",
+    accentColor: "purple",
   },
   {
     id: 2,
-    title: "Random GIF Generator",
-    desc: "A fun Random GIF Generator that fetches GIFs from an API and displays a new one with each click. Built with a clean, lightweight UI for endless entertainment.",
-    stack: [FaReact, SiTailwindcss, FaGithub ,SiVercel],
+    title: "GIF Generator",
+    category: "REACT APPLICATION",
+    desc: "Random GIF Generator with clean, lightweight UI",
+    stack: [FaReact, SiTailwindcss, SiVercel],
     github: "https://github.com/anupamraj176/Gif_generator",
     live: "https://gif-generator-eight-psi.vercel.app/",
-    image: randomGifGenerator,
+    gradient: "from-cyan-500 via-cyan-600 to-cyan-800",
+    accentColor: "cyan",
   },
-{
-  id: 3,
-  title: "ED-Tech Platform",
-  desc: "Study Notion is a modern EdTech platform that empowers students to learn online through interactive courses, video lectures, and assessments. It bridges the gap between learners and educators with an easy-to-use interface and personalized learning experience.",
-  stack: [
-    FaReact,FaNodeJs,SiRedux,SiTailwindcss, SiJavascript,SiVercel      
-  ],
-  github: "#",
-  live: "#",
-  image: studyNotion,
-}
+  {
+    id: 3,
+    title: "Study Notion",
+    category: "ED-TECH PLATFORM",
+    desc: "Modern EdTech platform with interactive courses",
+    stack: [FaReact, FaNodeJs, SiRedux, SiTailwindcss, SiJavascript],
+    github: "#",
+    live: "#",
+    gradient: "from-amber-500 via-orange-600 to-red-700",
+    accentColor: "amber",
+  },
 ];
 
-// --- Animation Variants ---
-const sliderVariants = {
-  enter: (direction) => ({
-    x: direction > 0 ? 500 : -500,
-    opacity: 0,
-    scale: 0.8,
-  }),
-  center: {
-    x: 0,
-    opacity: 1,
-    scale: 1,
-    transition: { type: "spring", stiffness: 100, damping: 20 },
-  },
-  exit: (direction) => ({
-    x: direction < 0 ? 500 : -500,
-    opacity: 0,
-    scale: 0.8,
-    transition: { type: "spring", stiffness: 100, damping: 20 },
-  }),
+// Project Card Component - Phone style card
+const ProjectCard = ({ project, index, isActive, direction }) => {
+  const cardRef = useRef(null);
+
+  useEffect(() => {
+    if (isActive && cardRef.current) {
+      gsap.fromTo(cardRef.current, 
+        { 
+          opacity: 0, 
+          x: direction === 'next' ? 100 : -100,
+          rotateY: direction === 'next' ? 15 : -15,
+        },
+        { 
+          opacity: 1, 
+          x: 0, 
+          rotateY: 0,
+          duration: 0.7, 
+          ease: "power3.out" 
+        }
+      );
+    }
+  }, [isActive, direction]);
+
+  if (!isActive) return null;
+
+  return (
+    <div
+      ref={cardRef}
+      className="relative w-[320px] sm:w-[380px] md:w-[420px] h-[480px] sm:h-[540px] md:h-[580px]"
+      style={{ perspective: '1000px' }}
+    >
+      {/* Phone-like card container */}
+      <div className="relative w-full h-full rounded-[40px] bg-gradient-to-b from-[#92140c] via-[#a82010] to-[#111d4a] p-[2px] shadow-2xl shadow-[#92140c]/30">
+        
+        {/* Inner card */}
+        <div className="relative w-full h-full rounded-[38px] bg-gradient-to-b from-[#92140c] via-[#a82010] to-[#111d4a] overflow-hidden">
+          
+          {/* Subtle inner glow at top */}
+          <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-[#ffcf99]/20 to-transparent"></div>
+
+          {/* Corner decoration - top left */}
+          <div className="absolute top-8 left-8 w-12 h-12">
+            <div className="absolute top-0 left-0 w-full h-[2px] bg-[#ffcf99]/50"></div>
+            <div className="absolute top-0 left-0 h-full w-[2px] bg-[#ffcf99]/50"></div>
+          </div>
+
+          {/* Number indicator - top right */}
+          <div className="absolute top-7 right-7 w-11 h-11 rounded-full border-2 border-[#ffcf99]/40 flex items-center justify-center backdrop-blur-sm">
+            <span className="text-[#ffcf99] font-semibold text-base">0{index + 1}</span>
+          </div>
+
+          {/* Main Content - Centered */}
+          <div className="absolute inset-0 flex flex-col justify-center px-8 md:px-10">
+            {/* Project Title */}
+            <h3 className="text-3xl sm:text-4xl md:text-5xl font-bold text-[#fff8f0] leading-tight mb-3">
+              {project.title}
+            </h3>
+            
+            {/* Category */}
+            <p className="text-[#ffcf99]/60 text-xs tracking-[0.25em] uppercase mb-8">
+              {project.category}
+            </p>
+
+            {/* Tech stack icons */}
+            <div className="flex flex-wrap gap-2 mb-8">
+              {project.stack.map((Icon, i) => (
+                <div
+                  key={i}
+                  className="w-11 h-11 rounded-xl bg-[#fff8f0]/10 backdrop-blur-sm flex items-center justify-center text-[#ffcf99] hover:bg-[#ffcf99]/25 hover:scale-110 transition-all duration-300 cursor-pointer"
+                >
+                  <Icon className="w-5 h-5" />
+                </div>
+              ))}
+            </div>
+
+            {/* CTA Button */}
+            <a 
+              href={project.live} 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-between w-full max-w-[220px] px-6 py-4 bg-[#fff8f0]/10 backdrop-blur-md border border-[#ffcf99]/30 rounded-2xl text-[#fff8f0] font-medium hover:bg-[#ffcf99]/20 transition-all duration-300 group"
+            >
+              <span className="text-sm tracking-wide">
+                EXPLORE<br />PROJECT
+              </span>
+              <ArrowRight className="w-5 h-5 text-[#ffcf99] group-hover:translate-x-1 transition-transform" />
+            </a>
+          </div>
+
+          {/* Bottom glow */}
+          <div className="absolute -bottom-10 left-1/2 -translate-x-1/2 w-40 h-40 bg-[#ffcf99]/10 rounded-full blur-3xl"></div>
+        </div>
+      </div>
+
+      {/* Reflection/Shadow beneath */}
+      <div className="absolute -bottom-4 left-1/2 -translate-x-1/2 w-[80%] h-8 bg-[#92140c]/30 blur-2xl rounded-full"></div>
+    </div>
+  );
 };
 
-const contentContainerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.1,
-      delayChildren: 0.3,
-    },
-  },
-};
-
-const contentItemVariants = {
-  hidden: { y: 20, opacity: 0 },
-  visible: {
-    y: 0,
-    opacity: 1,
-    transition: { type: "spring", stiffness: 120 },
-  },
-};
-
-// --- The Main Component ---
 export const ProjectSlider = () => {
-  const [current, setCurrent] = useState(0);
-  const [direction, setDirection] = useState(0);
+  const containerRef = useRef(null);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [direction, setDirection] = useState('next');
+  const titleRef = useRef(null);
+  const subtitleRef = useRef(null);
 
-  const prevSlide = useCallback(() => {
-    setDirection(-1);
-    setCurrent((prev) => (prev === 0 ? projects.length - 1 : prev - 1));
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      // Title animations
+      gsap.from(subtitleRef.current, {
+        y: 30,
+        opacity: 0,
+        duration: 0.8,
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: containerRef.current,
+          start: "top 80%",
+          toggleActions: "play none none none",
+        },
+      });
+
+      gsap.from(titleRef.current, {
+        y: 50,
+        opacity: 0,
+        duration: 1,
+        delay: 0.2,
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: containerRef.current,
+          start: "top 80%",
+          toggleActions: "play none none none",
+        },
+      });
+    }, containerRef);
+
+    return () => ctx.revert();
   }, []);
 
-  const nextSlide = useCallback(() => {
-    setDirection(1);
-    setCurrent((prev) => (prev === projects.length - 1 ? 0 : prev + 1));
-  }, []);
+  const nextProject = () => {
+    setDirection('next');
+    setActiveIndex((prev) => (prev + 1) % projects.length);
+  };
 
-  const handleDotClick = (index) => {
-    setDirection(index > current ? 1 : -1);
-    setCurrent(index);
+  const prevProject = () => {
+    setDirection('prev');
+    setActiveIndex((prev) => (prev - 1 + projects.length) % projects.length);
+  };
+
+  const goToProject = (idx) => {
+    setDirection(idx > activeIndex ? 'next' : 'prev');
+    setActiveIndex(idx);
   };
 
   return (
-    <div className="w-full min-h-screen bg-emerald-100 flex flex-col items-center justify-center relative px-4 sm:px-6 md:px-10 lg:px-20 py-10">
-      <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-emerald-400 mb-6 sm:mb-10 z-10 text-center">
-        My Projects
-      </h1>
+    <div 
+      ref={containerRef}
+      id="projects"
+      className="w-full min-h-screen bg-[#1e1e24] relative py-20 px-6 md:px-16 lg:px-24 overflow-hidden"
+    >
+      {/* Background glow */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-[#92140c]/15 rounded-full blur-[150px] pointer-events-none"></div>
 
-      {/* Container */}
-      <div className="relative w-full max-w-7xl flex items-center justify-center">
-        {/* Prev */}
-        <button
-          onClick={prevSlide}
-          className="absolute left-2 sm:left-0 top-1/2 -translate-y-1/2 z-20 text-3xl sm:text-5xl text-emerald-500/70 hover:text-emerald-400 transition"
-          aria-label="Previous Project"
-        >
-          <BsArrowLeftCircleFill />
-        </button>
-
-        {/* Card */}
-        <div className="relative w-full max-w-5xl h-[400px] sm:h-[500px] md:h-[550px]">
-          <AnimatePresence custom={direction} mode="wait">
-            <motion.div
-              key={projects[current].id}
-              custom={direction}
-              variants={sliderVariants}
-              initial="enter"
-              animate="center"
-              exit="exit"
-              className="absolute inset-0 grid grid-cols-1 md:grid-cols-2 h-full bg-slate-800/60 backdrop-blur-md rounded-2xl overflow-hidden shadow-2xl shadow-emerald-900/40"
+      <div className="max-w-7xl mx-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center min-h-[80vh]">
+          
+          {/* Left side - Text content */}
+          <div className="space-y-6">
+            <p 
+              ref={subtitleRef}
+              className="text-[#fff8f0]/60 text-sm tracking-[0.3em] uppercase"
             >
-              {/* Image */}
-              <div className="w-full h-full">
-                <img
-                  src={projects[current].image}
-                  alt={projects[current].title}
-                  className="w-full h-full object-cover"
-                />
-              </div>
+              EXPLORE PROJECTS
+            </p>
+            
+            <h1 
+              ref={titleRef}
+              className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-[#fff8f0] leading-tight"
+            >
+              Check Out My{' '}
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#92140c] to-[#ffcf99]">
+                Work.
+              </span>
+            </h1>
 
-              {/* Content */}
-              <motion.div
-                variants={contentContainerVariants}
-                initial="hidden"
-                animate="visible"
-                className="p-4 sm:p-6 md:p-8 flex flex-col justify-center text-white text-center md:text-left"
+            <p className="text-[#fff8f0]/70 text-lg max-w-md">
+              Browse through my recent projects showcasing my skills in web development and design.
+            </p>
+
+            {/* Navigation controls */}
+            <div className="flex items-center gap-4 pt-8">
+              <button 
+                onClick={prevProject}
+                className="w-12 h-12 rounded-full border border-[#ffcf99]/30 flex items-center justify-center text-[#fff8f0]/60 hover:text-[#ffcf99] hover:border-[#ffcf99]/60 transition-all duration-300"
               >
-                <motion.h2
-                  variants={contentItemVariants}
-                  className="text-2xl sm:text-3xl md:text-4xl font-bold mb-2 sm:mb-3 text-emerald-400"
-                >
-                  {projects[current].title}
-                </motion.h2>
-                <motion.p
-                  variants={contentItemVariants}
-                  className="mb-4 sm:mb-6 text-slate-300 text-sm sm:text-base md:text-lg"
-                >
-                  {projects[current].desc}
-                </motion.p>
+                <ChevronLeft className="w-5 h-5" />
+              </button>
+              <button 
+                onClick={nextProject}
+                className="w-12 h-12 rounded-full border border-[#ffcf99]/30 flex items-center justify-center text-[#fff8f0]/60 hover:text-[#ffcf99] hover:border-[#ffcf99]/60 transition-all duration-300"
+              >
+                <ChevronRight className="w-5 h-5" />
+              </button>
+              
+              {/* Progress indicators */}
+              <div className="flex gap-2 ml-4">
+                {projects.map((_, idx) => (
+                  <button
+                    key={idx}
+                    onClick={() => goToProject(idx)}
+                    className={`h-2 rounded-full transition-all duration-300 ${
+                      idx === activeIndex 
+                        ? 'w-8 bg-gradient-to-r from-[#92140c] to-[#ffcf99]' 
+                        : 'w-2 bg-[#fff8f0]/20 hover:bg-[#ffcf99]/40'
+                    }`}
+                  />
+                ))}
+              </div>
+            </div>
 
-                <motion.div
-                  variants={contentItemVariants}
-                  className="flex flex-wrap gap-3 sm:gap-4 text-2xl sm:text-3xl mb-6 sm:mb-8 justify-center md:justify-start"
-                >
-                  {projects[current].stack.map((Icon, index) => (
-                    <div
-                      key={index}
-                      className="p-2 bg-slate-700/50 rounded-md hover:bg-emerald-500/50 hover:scale-110 transition-all cursor-pointer"
-                    >
-                      <Icon />
-                    </div>
-                  ))}
-                </motion.div>
+            {/* Project counter */}
+            <div className="flex items-baseline gap-2 pt-4">
+              <span className="text-5xl font-bold text-[#fff8f0]">0{activeIndex + 1}</span>
+              <span className="text-[#fff8f0]/40 text-xl">/</span>
+              <span className="text-[#fff8f0]/40 text-xl">0{projects.length}</span>
+            </div>
+          </div>
 
-                <motion.div
-                  variants={contentItemVariants}
-                  className="flex flex-col sm:flex-row gap-4 sm:gap-6 items-center justify-center md:justify-start"
-                >
-                  <a
-                    href={projects[current].github}
-                    target="_blank"
-                    rel="noreferrer"
-                    aria-label="GitHub repository"
-                  >
-                    <FaGithub className="text-3xl sm:text-4xl text-slate-400 hover:text-emerald-400 transition" />
-                  </a>
-                  <a
-                    href={projects[current].live}
-                    target="_blank"
-                    rel="noreferrer"
-                    aria-label="Live demo"
-                  >
-                    <BsLink45Deg className="text-3xl sm:text-4xl text-slate-400 hover:text-emerald-400 transition" />
-                  </a>
-                  <FancyButton text="View Case Study" />
-                </motion.div>
-              </motion.div>
-            </motion.div>
-          </AnimatePresence>
+          {/* Right side - Project Card */}
+          <div className="relative flex justify-center lg:justify-end items-center min-h-[550px]">
+            {projects.map((project, index) => (
+              <ProjectCard 
+                key={project.id}
+                project={project}
+                index={index}
+                isActive={index === activeIndex}
+                direction={direction}
+              />
+            ))}
+          </div>
         </div>
-
-        {/* Next */}
-        <button
-          onClick={nextSlide}
-          className="absolute right-2 sm:right-0 top-1/2 -translate-y-1/2 z-20 text-3xl sm:text-5xl text-emerald-500/70 hover:text-emerald-400 transition"
-          aria-label="Next Project"
-        >
-          <BsArrowRightCircleFill />
-        </button>
-      </div>
-
-      {/* Dots */}
-      <div className="flex gap-2 sm:gap-3 mt-6 sm:mt-8 z-10">
-        {projects.map((_, index) => (
-          <button
-            key={index}
-            onClick={() => handleDotClick(index)}
-            className={`w-3 h-3 sm:w-4 sm:h-4 rounded-full transition-all ${
-              index === current
-                ? "bg-emerald-400 scale-110 sm:scale-125"
-                : "bg-slate-600"
-            }`}
-            aria-label={`Go to project ${index + 1}`}
-          />
-        ))}
       </div>
     </div>
   );
 };
+
+export default ProjectSlider;
