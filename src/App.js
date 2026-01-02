@@ -5,7 +5,7 @@ import {Header} from './components/HeroSection'
 import {Tech} from './components/Tech'
 import {Contact} from './components/Contact'
 import { Divider } from "./components/Divider";
-import {ProjectSlider} from './components/ProjectSlider'
+import ProjectSlider from './components/ProjectSlider'
 
 function App(){
 

@@ -17,6 +17,28 @@ gsap.registerPlugin(ScrollTrigger);
 const projects = [
   {
     id: 1,
+    title: "Farmer Hub",
+    category: "Direct-to-Consumer Platform",
+    desc: "Connecting farmers directly with consumers for fresh produce",
+    stack: [FaReact, FaNodeJs, SiRedux, SiTailwindcss, SiJavascript ],
+    github: "https://github.com/anupamraj176/SAI",
+    live: "https://sai-8zrg.onrender.com/",
+    gradient: "from-amber-500 via-orange-600 to-red-700",
+    accentColor: "amber",
+  },
+  {
+    id: 2,
+    title: "Grid layout Generator",
+    category: "WEB DEVELOPMENT",
+    desc: "It help to generate css grid layout code easily",
+    stack: [FaReact, FaNodeJs, SiRedux, SiTailwindcss, SiJavascript ],
+    github: "https://github.com/anupamraj176/GridLayoutGenrator",
+    live: "https://grid-layout-genrator.vercel.app/",
+    gradient: "from-amber-500 via-orange-600 to-red-700",
+    accentColor: "amber",
+  },
+  {
+    id: 3,
     title: "Video Gallery",
     category: "WEB DEVELOPMENT",
     desc: "A responsive video gallery with hover-to-play previews",
@@ -27,7 +49,7 @@ const projects = [
     accentColor: "purple",
   },
   {
-    id: 2,
+    id: 4,
     title: "GIF Generator",
     category: "REACT APPLICATION",
     desc: "Random GIF Generator with clean, lightweight UI",
@@ -36,17 +58,6 @@ const projects = [
     live: "https://gif-generator-eight-psi.vercel.app/",
     gradient: "from-cyan-500 via-cyan-600 to-cyan-800",
     accentColor: "cyan",
-  },
-  {
-    id: 3,
-    title: "Study Notion",
-    category: "ED-TECH PLATFORM",
-    desc: "Modern EdTech platform with interactive courses",
-    stack: [FaReact, FaNodeJs, SiRedux, SiTailwindcss, SiJavascript],
-    github: "#",
-    live: "#",
-    gradient: "from-amber-500 via-orange-600 to-red-700",
-    accentColor: "amber",
   },
 ];
 
