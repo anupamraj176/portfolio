@@ -10,7 +10,7 @@ import {
   SiHtml5, 
   SiCss3 
 } from "react-icons/si";
-import { ArrowRight, ChevronLeft, ChevronRight, ExternalLink, Github } from "lucide-react";
+import { ChevronLeft, ChevronRight, ExternalLink, Github } from "lucide-react";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -99,7 +99,7 @@ const ProjectCard = ({ project, index, isActive, direction }) => {
   return (
     <div
       ref={cardRef}
-      className="relative w-[320px] sm:w-[380px] md:w-[420px] h-[480px] sm:h-[540px] md:h-[580px]"
+      className="relative w-[260px] sm:w-[300px] md:w-[340px] lg:w-[380px] xl:w-[420px] h-[380px] sm:h-[430px] md:h-[480px] lg:h-[520px] xl:h-[580px]"
       style={{ perspective: '1000px' }}
     >
       {/* Phone-like card container with premium styling */}
@@ -257,31 +257,33 @@ export const ProjectSlider = () => {
   };
 
   return (
-    <div 
+    <section 
       ref={containerRef}
       id="projects"
-      className="w-full min-h-screen bg-[#1e1e24] relative py-20 px-6 md:px-16 lg:px-24 overflow-hidden"
+      aria-labelledby="projects-title"
+      className="w-full h-[calc(100vh-64px)] sm:h-[calc(100vh-80px)] bg-[#1e1e24] relative py-4 sm:py-8 lg:py-12 px-4 sm:px-6 md:px-10 lg:px-16 xl:px-24 overflow-hidden flex items-center"
     >
       {/* Subtle background glow */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[900px] bg-[#92140c]/12 rounded-full blur-[180px] pointer-events-none"></div>
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] sm:w-[900px] h-[600px] sm:h-[900px] bg-[#92140c]/12 rounded-full blur-[180px] pointer-events-none"></div>
 
-      <div className="max-w-7xl mx-auto">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24 items-center min-h-[80vh]">
+      <div className="max-w-7xl mx-auto w-full">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-16 xl:gap-24 items-center">
           
           {/* Left side - Premium Text content */}
-          <div className="space-y-8">
+          <div className="space-y-3 sm:space-y-6 text-center lg:text-left">
             <div>
               <p 
                 ref={subtitleRef}
-                className="text-[#ffcf99]/70 text-xs tracking-[0.4em] uppercase font-bold letter-spacing-wider mb-6 flex items-center gap-3"
+                className="text-[#ffcf99]/70 text-[10px] sm:text-xs tracking-[0.3em] sm:tracking-[0.4em] uppercase font-bold mb-2 sm:mb-4 flex items-center gap-2 sm:gap-3 justify-center lg:justify-start"
               >
-                <span className="w-8 h-[1px] bg-gradient-to-r from-[#ffcf99]/80 to-transparent"></span>
+                <span className="w-4 sm:w-8 h-[1px] bg-gradient-to-r from-[#ffcf99]/80 to-transparent"></span>
                 FEATURED WORK
               </p>
               
               <h1 
+                id="projects-title"
                 ref={titleRef}
-                className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black text-[#fff8f0] leading-tight tracking-tight"
+                className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-black text-[#fff8f0] leading-tight tracking-tight"
               >
                 My{' '}
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#92140c] via-[#ffcf99] to-[#ffb866]">
@@ -290,55 +292,59 @@ export const ProjectSlider = () => {
               </h1>
             </div>
 
-            <p className="text-[#fff8f0]/65 text-base leading-relaxed max-w-lg font-light">
+            <p className="text-[#fff8f0]/65 text-xs sm:text-sm lg:text-base leading-relaxed max-w-lg mx-auto lg:mx-0 font-light">
               Explore my portfolio of work showcasing expertise in web development, design, and innovative solutions.
             </p>
 
             {/* Premium Navigation controls */}
-            <div className="flex items-center gap-6 pt-8">
-              <div className="flex gap-3">
+            <div className="flex items-center gap-3 sm:gap-6 pt-2 sm:pt-4 justify-center lg:justify-start">
+              <div className="flex gap-2 sm:gap-3">
                 <button 
                   onClick={prevProject}
-                  className="w-13 h-13 rounded-full border-2 border-[#ffcf99]/30 flex items-center justify-center text-[#fff8f0]/60 hover:text-[#ffcf99] hover:border-[#ffcf99]/70 hover:bg-[#ffcf99]/10 transition-all duration-300 group backdrop-blur-sm"
+                  aria-label="Previous project"
+                  className="w-10 h-10 sm:w-12 sm:h-12 rounded-full border-2 border-[#ffcf99]/30 flex items-center justify-center text-[#fff8f0]/60 hover:text-[#ffcf99] hover:border-[#ffcf99]/70 hover:bg-[#ffcf99]/10 transition-all duration-300 group backdrop-blur-sm"
                 >
-                  <ChevronLeft className="w-5 h-5 group-hover:scale-110 transition-transform" />
+                  <ChevronLeft className="w-4 h-4 sm:w-5 sm:h-5 group-hover:scale-110 transition-transform" />
                 </button>
                 <button 
                   onClick={nextProject}
-                  className="w-13 h-13 rounded-full border-2 border-[#ffcf99]/30 flex items-center justify-center text-[#fff8f0]/60 hover:text-[#ffcf99] hover:border-[#ffcf99]/70 hover:bg-[#ffcf99]/10 transition-all duration-300 group backdrop-blur-sm"
+                  aria-label="Next project"
+                  className="w-10 h-10 sm:w-12 sm:h-12 rounded-full border-2 border-[#ffcf99]/30 flex items-center justify-center text-[#fff8f0]/60 hover:text-[#ffcf99] hover:border-[#ffcf99]/70 hover:bg-[#ffcf99]/10 transition-all duration-300 group backdrop-blur-sm"
                 >
-                  <ChevronRight className="w-5 h-5 group-hover:scale-110 transition-transform" />
+                  <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5 group-hover:scale-110 transition-transform" />
                 </button>
               </div>
               
               {/* Premium Progress indicators */}
-              <div className="flex gap-2.5 ml-6">
+              <nav aria-label="Project pagination" className="flex gap-1.5 sm:gap-2.5 ml-2 sm:ml-6">
                 {projects.map((_, idx) => (
                   <button
                     key={idx}
                     onClick={() => goToProject(idx)}
+                    aria-label={`Go to project ${idx + 1}`}
+                    aria-current={idx === activeIndex ? 'true' : 'false'}
                     className={`rounded-full transition-all duration-300 ${
                       idx === activeIndex 
-                        ? 'w-8 h-2.5 bg-gradient-to-r from-[#92140c] to-[#ffcf99] shadow-lg shadow-[#ffcf99]/30' 
-                        : 'w-2.5 h-2.5 bg-[#fff8f0]/25 hover:bg-[#ffcf99]/50'
+                        ? 'w-6 sm:w-8 h-2 sm:h-2.5 bg-gradient-to-r from-[#92140c] to-[#ffcf99] shadow-lg shadow-[#ffcf99]/30' 
+                        : 'w-2 sm:w-2.5 h-2 sm:h-2.5 bg-[#fff8f0]/25 hover:bg-[#ffcf99]/50'
                     }`}
                   />
                 ))}
-              </div>
+              </nav>
             </div>
 
-            {/* Premium Project counter */}
-            <div className="flex items-baseline gap-3 pt-8 border-t border-[#fff8f0]/15">
-              <span className="text-6xl font-black text-transparent bg-clip-text bg-gradient-to-r from-[#92140c] to-[#ffcf99]">
+            {/* Premium Project counter - hidden on small screens */}
+            <div className="hidden sm:flex items-baseline gap-2 sm:gap-3 pt-2 sm:pt-4 border-t border-[#fff8f0]/15 justify-center lg:justify-start">
+              <span className="text-4xl sm:text-5xl lg:text-6xl font-black text-transparent bg-clip-text bg-gradient-to-r from-[#92140c] to-[#ffcf99]">
                 0{activeIndex + 1}
               </span>
-              <span className="text-[#fff8f0]/30 text-2xl font-light">/</span>
-              <span className="text-[#fff8f0]/40 text-xl font-light">0{projects.length}</span>
+              <span className="text-[#fff8f0]/30 text-xl sm:text-2xl font-light">/</span>
+              <span className="text-[#fff8f0]/40 text-lg sm:text-xl font-light">0{projects.length}</span>
             </div>
           </div>
 
           {/* Right side - Project Card */}
-          <div className="relative flex justify-center lg:justify-end items-center min-h-[550px]">
+          <div className="relative flex justify-center lg:justify-end items-center h-[350px] sm:h-[450px] md:h-[500px] lg:h-[550px]">
             {projects.map((project, index) => (
               <ProjectCard 
                 key={project.id}
@@ -351,7 +357,7 @@ export const ProjectSlider = () => {
           </div>
         </div>
       </div>
-    </div>
+    </section>
   );
 };
 

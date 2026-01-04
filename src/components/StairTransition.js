@@ -5,7 +5,7 @@ import { useNavigation } from '../context/NavigationContext';
 const STAIR_COUNT = 7;
 
 const StairTransition = ({ children }) => {
-  const { isTransitioning, completeTransition, pendingSection } = useNavigation();
+  const { isTransitioning, completeTransition, switchSection, pendingSection } = useNavigation();
   
   const stairContainerRef = useRef(null);
   const stairsRef = useRef([]);
@@ -36,6 +36,9 @@ const StairTransition = ({ children }) => {
       visibility: 'visible'
     });
 
+    // Hide content immediately
+    tl.set(contentRef.current, { opacity: 0 });
+
     // Animate stairs IN with wave effect
     tl.fromTo(stairsRef.current, 
       { 
@@ -55,6 +58,11 @@ const StairTransition = ({ children }) => {
       }
     );
 
+    // SWITCH SECTION NOW - when stairs fully cover the screen
+    tl.call(() => {
+      switchSection();
+    });
+
     // Add a wave distortion effect
     tl.to(stairsRef.current, {
       scaleX: 1.02,
@@ -66,7 +74,7 @@ const StairTransition = ({ children }) => {
         repeat: 1
       },
       ease: 'sine.inOut'
-    }, '-=0.3');
+    }, '-=0.1');
 
     // Animate particles
     tl.fromTo(particlesRef.current,
@@ -109,7 +117,7 @@ const StairTransition = ({ children }) => {
     );
 
     // Hold
-    tl.to({}, { duration: 0.35 });
+    tl.to({}, { duration: 0.3 });
 
     // Hide text with upward motion
     tl.to(overlayTextRef.current, {
@@ -171,7 +179,7 @@ const StairTransition = ({ children }) => {
     return () => {
       tl.kill();
     };
-  }, [isTransitioning, completeTransition]);
+  }, [isTransitioning, completeTransition, switchSection]);
 
   // Generate gradient colors for each stair - matching theme with more variety
   const getStairStyle = (index) => {

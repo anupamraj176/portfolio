@@ -22,19 +22,25 @@ export const NavigationProvider = ({ children }) => {
     setPendingSection(sectionId);
   }, [isTransitioning, currentSection]);
 
-  const completeTransition = useCallback(() => {
+  // Called when stairs fully cover the screen - change content now
+  const switchSection = useCallback(() => {
     if (pendingSection) {
       setCurrentSection(pendingSection);
-      setPendingSection(null);
     }
-    setIsTransitioning(false);
   }, [pendingSection]);
+
+  // Called when transition animation is complete
+  const completeTransition = useCallback(() => {
+    setPendingSection(null);
+    setIsTransitioning(false);
+  }, []);
 
   const value = {
     currentSection,
     isTransitioning,
     pendingSection,
     navigateTo,
+    switchSection,
     completeTransition,
   };
 

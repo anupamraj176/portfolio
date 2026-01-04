@@ -99,9 +99,10 @@ export const Tech = () => {
     <section
       id="about"
       ref={sectionRef}
-      className="w-full px-6 sm:px-10 md:px-[12%] py-16 bg-[#1e1e24]"
+      aria-labelledby="about-title"
+      className="w-full h-[calc(100vh-64px)] sm:h-[calc(100vh-80px)] px-4 sm:px-6 md:px-10 lg:px-[12%] py-6 sm:py-10 lg:py-16 bg-[#1e1e24] overflow-hidden flex items-center"
     >
-      <div className="flex flex-col md:flex-row gap-14 items-center">
+      <div className="flex flex-col lg:flex-row gap-6 sm:gap-10 lg:gap-14 items-center w-full">
 
         {/* LEFT */}
         <div className="md:w-1/2">
