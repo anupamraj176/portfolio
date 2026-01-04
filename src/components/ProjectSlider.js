@@ -59,6 +59,17 @@ const projects = [
     gradient: "from-cyan-500 via-cyan-600 to-cyan-800",
     accentColor: "cyan",
   },
+    {
+    id: 5,
+    title: "NPM package - Constellation Background",
+    category: "NPM PACKAGE",
+    desc: "A customizable constellation background effect for web applications",
+    stack: [SiJavascript, SiHtml5, SiVercel],
+    github: "https://github.com/anupamraj176/my-constellation-bg",
+    live: "https://www.npmjs.com/package/my-constellation-bg",
+    gradient: "from-cyan-500 via-cyan-600 to-cyan-800",
+    accentColor: "cyan",
+  },
 ];
 
 // Project Card Component - Phone style card
