@@ -2,6 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 *{margin:0;padding:0;}
-html{scroll-behavior:smooth;}
-body{color:white;font-family:'outfit';}
+html{overflow-x:hidden;}
+body{color:white;font-family:'outfit';overflow-x:hidden;}
 ::-webkit-scrollbar{display:none;}

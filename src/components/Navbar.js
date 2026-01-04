@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { Menu, X } from "lucide-react";
 import gsap from "gsap";
 import { FancyButton } from "./fancyButton";
+import { useNavigation } from "../context/NavigationContext";
 
 const navItems = [
   { label: "Home", id: "home" },
@@ -17,6 +18,8 @@ export const Navbar = () => {
   const navItemsRef = useRef([]);
   const buttonRef = useRef(null);
   const mobileMenuRef = useRef(null);
+  
+  const { navigateTo, currentSection, isTransitioning } = useNavigation();
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -105,9 +108,10 @@ export const Navbar = () => {
     }
   }, [isOpen]);
 
-  const scrollTo = (id) => {
-    const el = document.getElementById(id);
-    if (el) el.scrollIntoView({ behavior: "smooth" });
+  const handleNavClick = (id) => {
+    if (!isTransitioning) {
+      navigateTo(id);
+    }
     setIsOpen(false);
   };
 
@@ -127,7 +131,7 @@ export const Navbar = () => {
       <div className="flex items-center">
         <span
           ref={logoRef}
-          onClick={() => scrollTo("home")}
+          onClick={() => handleNavClick("home")}
           className="text-lg sm:text-xl md:text-2xl font-bold tracking-tight cursor-pointer hover:scale-110 transition-transform duration-300 bg-gradient-to-r from-[#92140c] to-[#ffcf99] bg-clip-text text-transparent"
         >
           Anupam Raj
@@ -139,12 +143,19 @@ export const Navbar = () => {
           <li
             key={item.id}
             ref={(el) => (navItemsRef.current[index] = el)}
-            onClick={() => scrollTo(item.id)}
+            onClick={() => handleNavClick(item.id)}
             onMouseEnter={(e) => handleNavHover(e, true)}
             onMouseLeave={(e) => handleNavHover(e, false)}
-            className="hover:text-[#ffcf99] transition-colors duration-300 cursor-pointer relative text-[#fff8f0]/80"
+            className={`hover:text-[#ffcf99] transition-colors duration-300 cursor-pointer relative ${
+              currentSection === item.id 
+                ? 'text-[#ffcf99]' 
+                : 'text-[#fff8f0]/80'
+            } ${isTransitioning ? 'pointer-events-none' : ''}`}
           >
             {item.label}
+            {currentSection === item.id && (
+              <span className="absolute -bottom-1 left-0 right-0 h-0.5 bg-gradient-to-r from-[#92140c] to-[#ffcf99] rounded-full" />
+            )}
           </li>
         ))}
       </ul>
@@ -171,8 +182,12 @@ export const Navbar = () => {
         {navItems.map((item) => (
           <li
             key={item.id}
-            onClick={() => scrollTo(item.id)}
-            className="hover:text-[#ffcf99] cursor-pointer list-none hover:scale-105 transition-all duration-200 text-[#fff8f0]/80"
+            onClick={() => handleNavClick(item.id)}
+            className={`hover:text-[#ffcf99] cursor-pointer list-none hover:scale-105 transition-all duration-200 ${
+              currentSection === item.id 
+                ? 'text-[#ffcf99]' 
+                : 'text-[#fff8f0]/80'
+            } ${isTransitioning ? 'pointer-events-none' : ''}`}
           >
             {item.label}
           </li>
