@@ -124,41 +124,48 @@ export const Navbar = () => {
   };
 
   return (
-    <div
+    <header
       ref={navRef}
-      className="flex items-center justify-between h-20 px-6 sm:px-10 md:px-16 bg-[#1e1e24]/90 backdrop-blur-xl sticky top-0 z-50 text-[#fff8f0] shadow-2xl shadow-black/20 border-b border-[#ffcf99]/10"
+      role="banner"
+      className="flex items-center justify-between h-16 sm:h-20 px-4 sm:px-6 md:px-10 lg:px-16 bg-[#1e1e24]/90 backdrop-blur-xl sticky top-0 z-50 text-[#fff8f0] shadow-2xl shadow-black/20 border-b border-[#ffcf99]/10"
     >
       <div className="flex items-center">
-        <span
+        <button
           ref={logoRef}
           onClick={() => handleNavClick("home")}
-          className="text-lg sm:text-xl md:text-2xl font-bold tracking-tight cursor-pointer hover:scale-110 transition-transform duration-300 bg-gradient-to-r from-[#92140c] to-[#ffcf99] bg-clip-text text-transparent"
+          aria-label="Go to home section"
+          className="text-base sm:text-lg md:text-xl lg:text-2xl font-bold tracking-tight cursor-pointer hover:scale-110 transition-transform duration-300 bg-gradient-to-r from-[#92140c] to-[#ffcf99] bg-clip-text text-transparent"
         >
           Anupam Raj
-        </span>
+        </button>
       </div>
 
-      <ul className="hidden md:flex items-center gap-8 lg:gap-12 text-[15px] lg:text-[16px] font-medium">
-        {navItems.map((item, index) => (
-          <li
-            key={item.id}
-            ref={(el) => (navItemsRef.current[index] = el)}
-            onClick={() => handleNavClick(item.id)}
-            onMouseEnter={(e) => handleNavHover(e, true)}
-            onMouseLeave={(e) => handleNavHover(e, false)}
-            className={`hover:text-[#ffcf99] transition-colors duration-300 cursor-pointer relative ${
-              currentSection === item.id 
-                ? 'text-[#ffcf99]' 
-                : 'text-[#fff8f0]/80'
-            } ${isTransitioning ? 'pointer-events-none' : ''}`}
-          >
-            {item.label}
-            {currentSection === item.id && (
-              <span className="absolute -bottom-1 left-0 right-0 h-0.5 bg-gradient-to-r from-[#92140c] to-[#ffcf99] rounded-full" />
-            )}
-          </li>
-        ))}
-      </ul>
+      <nav aria-label="Main navigation" className="hidden md:block">
+        <ul className="flex items-center gap-6 lg:gap-10 xl:gap-12 text-[14px] lg:text-[15px] xl:text-[16px] font-medium">
+          {navItems.map((item, index) => (
+            <li key={item.id}>
+              <button
+                ref={(el) => (navItemsRef.current[index] = el)}
+                onClick={() => handleNavClick(item.id)}
+                onMouseEnter={(e) => handleNavHover(e, true)}
+                onMouseLeave={(e) => handleNavHover(e, false)}
+                aria-current={currentSection === item.id ? 'page' : undefined}
+                disabled={isTransitioning}
+                className={`hover:text-[#ffcf99] transition-colors duration-300 cursor-pointer relative py-2 ${
+                  currentSection === item.id 
+                    ? 'text-[#ffcf99]' 
+                    : 'text-[#fff8f0]/80'
+                } ${isTransitioning ? 'pointer-events-none opacity-60' : ''}`}
+              >
+                {item.label}
+                {currentSection === item.id && (
+                  <span className="absolute -bottom-1 left-0 right-0 h-0.5 bg-gradient-to-r from-[#92140c] to-[#ffcf99] rounded-full" />
+                )}
+              </button>
+            </li>
+          ))}
+        </ul>
+      </nav>
 
       <div ref={buttonRef} className="hidden md:block">
         <FancyButton 
@@ -170,34 +177,41 @@ export const Navbar = () => {
       <button
         className="md:hidden p-2 hover:scale-110 transition-transform duration-200 hover:text-[#ffcf99]"
         onClick={() => setIsOpen(!isOpen)}
+        aria-expanded={isOpen}
+        aria-controls="mobile-menu"
+        aria-label={isOpen ? "Close navigation menu" : "Open navigation menu"}
       >
-        {isOpen ? <X size={28} /> : <Menu size={28} />}
+        {isOpen ? <X size={24} /> : <Menu size={24} />}
       </button>
 
-      <div
+      <nav
+        id="mobile-menu"
         ref={mobileMenuRef}
         style={{ display: "none" }}
-        className="absolute top-20 left-0 w-full bg-[#1e1e24]/95 backdrop-blur-xl shadow-2xl border-b border-[#ffcf99]/10 md:hidden flex-col items-center gap-6 py-8 text-lg font-medium"
+        aria-label="Mobile navigation"
+        className="absolute top-16 sm:top-20 left-0 w-full bg-[#1e1e24]/98 backdrop-blur-xl shadow-2xl border-b border-[#ffcf99]/10 md:hidden flex-col items-center gap-4 sm:gap-6 py-6 sm:py-8 text-base sm:text-lg font-medium"
       >
         {navItems.map((item) => (
-          <li
+          <button
             key={item.id}
             onClick={() => handleNavClick(item.id)}
-            className={`hover:text-[#ffcf99] cursor-pointer list-none hover:scale-105 transition-all duration-200 ${
+            aria-current={currentSection === item.id ? 'page' : undefined}
+            disabled={isTransitioning}
+            className={`hover:text-[#ffcf99] cursor-pointer hover:scale-105 transition-all duration-200 py-2 px-4 ${
               currentSection === item.id 
                 ? 'text-[#ffcf99]' 
                 : 'text-[#fff8f0]/80'
-            } ${isTransitioning ? 'pointer-events-none' : ''}`}
+            } ${isTransitioning ? 'pointer-events-none opacity-60' : ''}`}
           >
             {item.label}
-          </li>
+          </button>
         ))}
         <FancyButton 
           link="https://www.linkedin.com/in/anupam-raj-88833134b/" 
           text="Connect With Me" 
         />
-      </div>
-    </div>
+      </nav>
+    </header>
   );
 };
 

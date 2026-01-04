@@ -4,45 +4,24 @@ import { Header } from './HeroSection';
 import { Tech } from './Tech';
 import ProjectSlider from './ProjectSlider';
 import { Contact } from './Contact';
-import { Divider } from './Divider';
 
 const sections = {
-  home: () => (
-    <>
-      <Header />
-      <Divider />
-    </>
-  ),
-  about: () => (
-    <>
-      <Tech />
-      <Divider />
-    </>
-  ),
-  projects: () => (
-    <>
-      <ProjectSlider />
-      <Divider />
-    </>
-  ),
-  contact: () => (
-    <>
-      <Contact />
-      <Divider />
-    </>
-  ),
+  home: Header,
+  about: Tech,
+  projects: ProjectSlider,
+  contact: Contact,
 };
 
 const SectionRenderer = () => {
   const { currentSection } = useNavigation();
   
-  const SectionComponent = sections[currentSection];
+  const SectionComponent = sections[currentSection] || Header;
   
-  if (!SectionComponent) {
-    return sections.home();
-  }
-  
-  return <SectionComponent />;
+  return (
+    <main role="main" aria-label={`${currentSection} section`}>
+      <SectionComponent />
+    </main>
+  );
 };
 
 export default SectionRenderer;

@@ -138,29 +138,31 @@ export const Contact = () => {
   };
 
   return (
-    <div
+    <section
       id="contact"
       ref={sectionRef}
-      className="w-full px-6 py-20 bg-[#1e1e24] flex flex-col items-center justify-center min-h-screen"
+      aria-labelledby="contact-title"
+      className="w-full px-4 sm:px-6 py-6 sm:py-10 lg:py-16 bg-[#1e1e24] flex flex-col items-center justify-center h-[calc(100vh-64px)] sm:h-[calc(100vh-80px)] overflow-hidden"
     >
-      <div className="text-center mb-12 max-w-3xl">
+      <div className="text-center mb-4 sm:mb-8 max-w-3xl">
         <h4
           ref={titleRef}
-          className="text-[#ffcf99] font-medium tracking-widest uppercase text-sm mb-3"
+          className="text-[#ffcf99] font-medium tracking-widest uppercase text-xs sm:text-sm mb-2"
         >
           Connect With Me
         </h4>
 
         <h2
+          id="contact-title"
           ref={subtitleRef}
-          className="text-4xl md:text-5xl lg:text-6xl font-bold text-[#fff8f0] leading-tight"
+          className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-[#fff8f0] leading-tight"
         >
           Get in touch
         </h2>
 
         <p
           ref={descRef}
-          className="text-[#fff8f0]/60 mt-6 text-lg max-w-md mx-auto"
+          className="text-[#fff8f0]/60 mt-2 sm:mt-4 text-sm sm:text-base lg:text-lg max-w-md mx-auto"
         >
           I'd love to hear from you! Please use the form below.
         </p>
@@ -168,9 +170,9 @@ export const Contact = () => {
 
       <div
         ref={formRef}
-        className="w-full max-w-2xl bg-[#1a1a20]/90 backdrop-blur-lg p-8 md:p-12 rounded-2xl border border-[#ffcf99]/20 shadow-2xl"
+        className="w-full max-w-2xl bg-[#1a1a20]/90 backdrop-blur-lg p-4 sm:p-6 md:p-8 lg:p-10 rounded-xl sm:rounded-2xl border border-[#ffcf99]/20 shadow-2xl"
       >
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4 md:gap-6 mb-3 sm:mb-4 md:mb-6">
           <input
             ref={nameInputRef}
             name="name"
@@ -180,7 +182,8 @@ export const Contact = () => {
             onChange={handleChange}
             onFocus={handleFocus}
             onBlur={handleBlur}
-            className="w-full px-5 py-4 rounded-xl bg-[#2a2a32] text-white border border-[#ffcf99]/20 focus:border-[#ffcf99] focus:outline-none transition-all placeholder:text-gray-500 shadow-lg"
+            aria-label="Your name"
+            className="w-full px-4 py-3 sm:px-5 sm:py-4 rounded-lg sm:rounded-xl bg-[#2a2a32] text-white border border-[#ffcf99]/20 focus:border-[#ffcf99] focus:outline-none transition-all placeholder:text-gray-500 shadow-lg text-sm sm:text-base"
           />
 
           <input
@@ -192,20 +195,22 @@ export const Contact = () => {
             onChange={handleChange}
             onFocus={handleFocus}
             onBlur={handleBlur}
-            className="w-full px-5 py-4 rounded-xl bg-[#2a2a32] text-white border border-[#ffcf99]/20 focus:border-[#ffcf99] focus:outline-none transition-all placeholder:text-gray-500 shadow-lg"
+            aria-label="Your email address"
+            className="w-full px-4 py-3 sm:px-5 sm:py-4 rounded-lg sm:rounded-xl bg-[#2a2a32] text-white border border-[#ffcf99]/20 focus:border-[#ffcf99] focus:outline-none transition-all placeholder:text-gray-500 shadow-lg text-sm sm:text-base"
           />
         </div>
 
         <textarea
           ref={messageInputRef}
           name="message"
-          rows={6}
+          rows={4}
           placeholder="How can I help you?"
           value={formData.message}
           onChange={handleChange}
           onFocus={handleFocus}
           onBlur={handleBlur}
-          className="w-full px-5 py-4 rounded-xl bg-[#2a2a32] text-white border border-[#ffcf99]/20 focus:border-[#ffcf99] focus:outline-none transition-all placeholder:text-gray-500 mb-8 resize-none shadow-lg"
+          aria-label="Your message"
+          className="w-full px-4 py-3 sm:px-5 sm:py-4 rounded-lg sm:rounded-xl bg-[#2a2a32] text-white border border-[#ffcf99]/20 focus:border-[#ffcf99] focus:outline-none transition-all placeholder:text-gray-500 mb-4 sm:mb-6 resize-none shadow-lg text-sm sm:text-base"
         />
 
         <div ref={buttonContainerRef} className="flex justify-center">
@@ -214,7 +219,7 @@ export const Contact = () => {
 
 
       </div>
-    </div>
+    </section>
   );
 };
 
