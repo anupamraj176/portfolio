@@ -1,26 +1,20 @@
 import React from "react";
-import {Navbar} from './components/Navbar';
-import {Header} from './components/HeroSection'
+import { NavigationProvider } from './context/NavigationContext';
+import { Navbar } from './components/Navbar';
+import StairTransition from './components/StairTransition';
+import SectionRenderer from './components/SectionRenderer';
 
-import {Tech} from './components/Tech'
-import {Contact} from './components/Contact'
-import { Divider } from "./components/Divider";
-import ProjectSlider from './components/ProjectSlider'
-
-function App(){
-
-  return(<>
-          <Navbar/>
-          <Header/>
-          <Divider/>
-          <Tech/>
-          <Divider/>
-          <ProjectSlider/>
-          <Divider/>
-          <Contact/>  
-          <Divider/>
-    </>
-  )
+function App() {
+  return (
+    <NavigationProvider>
+      <div className="min-h-screen bg-[#1e1e24] overflow-hidden">
+        <Navbar />
+        <StairTransition>
+          <SectionRenderer />
+        </StairTransition>
+      </div>
+    </NavigationProvider>
+  );
 }
 
 export default App;
