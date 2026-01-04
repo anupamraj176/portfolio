@@ -16,14 +16,13 @@ export const Navbar = () => {
   const navRef = useRef(null);
   const logoRef = useRef(null);
   const navItemsRef = useRef([]);
-  const buttonRef = useRef(null);
+  // const buttonRef = useRef(null);
   const mobileMenuRef = useRef(null);
   
   const { navigateTo, currentSection, isTransitioning } = useNavigation();
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      // Navbar entrance animation
       gsap.from(navRef.current, {
         y: -100,
         opacity: 0,
@@ -31,7 +30,6 @@ export const Navbar = () => {
         ease: "power3.out",
       });
 
-      // Logo animation
       gsap.from(logoRef.current, {
         x: -50,
         opacity: 0,
@@ -40,7 +38,6 @@ export const Navbar = () => {
         ease: "back.out(1.7)",
       });
 
-      // Nav items stagger animation
       gsap.from(navItemsRef.current, {
         y: -20,
         opacity: 0,
@@ -49,167 +46,116 @@ export const Navbar = () => {
         delay: 0.5,
         ease: "power2.out",
       });
-
-      // Button animation
-      if (buttonRef.current) {
-        gsap.from(buttonRef.current, {
-          scale: 0,
-          opacity: 0,
-          duration: 0.5,
-          delay: 0.8,
-          ease: "back.out(1.7)",
-        });
-      }
     }, navRef);
 
     return () => ctx.revert();
   }, []);
 
   useEffect(() => {
-    if (mobileMenuRef.current) {
-      if (isOpen) {
-        gsap.fromTo(
-          mobileMenuRef.current,
-          {
-            opacity: 0,
-            y: -20,
-            display: "none",
-          },
-          {
-            opacity: 1,
-            y: 0,
-            display: "flex",
-            duration: 0.3,
-            ease: "power2.out",
-          }
-        );
-
-        gsap.from(mobileMenuRef.current.children, {
-          x: -30,
-          opacity: 0,
-          duration: 0.3,
-          stagger: 0.08,
-          delay: 0.1,
-          ease: "power2.out",
-        });
-      } else {
-        gsap.to(mobileMenuRef.current, {
-          opacity: 0,
-          y: -20,
-          duration: 0.2,
-          ease: "power2.in",
-          onComplete: () => {
-            if (mobileMenuRef.current) {
-              mobileMenuRef.current.style.display = "none";
-            }
-          },
-        });
-      }
+    if (isOpen) {
+      gsap.set(mobileMenuRef.current, { display: "flex" });
+      gsap.fromTo(
+        mobileMenuRef.current,
+        { opacity: 0, y: -20 },
+        { opacity: 1, y: 0, duration: 0.3, ease: "power2.out" }
+      );
+    } else {
+      gsap.to(mobileMenuRef.current, {
+        opacity: 0,
+        y: -20,
+        duration: 0.2,
+        onComplete: () => {
+          if (mobileMenuRef.current) gsap.set(mobileMenuRef.current, { display: "none" });
+        },
+      });
     }
   }, [isOpen]);
 
   const handleNavClick = (id) => {
-    if (!isTransitioning) {
-      navigateTo(id);
-    }
+    if (!isTransitioning) navigateTo(id);
     setIsOpen(false);
-  };
-
-  const handleNavHover = (e, isEntering) => {
-    gsap.to(e.currentTarget, {
-      y: isEntering ? -3 : 0,
-      duration: 0.3,
-      ease: "power2.out",
-    });
   };
 
   return (
     <header
       ref={navRef}
       role="banner"
-      className="flex items-center justify-between h-16 sm:h-20 px-4 sm:px-6 md:px-10 lg:px-16 bg-[#1e1e24]/90 backdrop-blur-xl sticky top-0 z-50 text-[#fff8f0] shadow-2xl shadow-black/20 border-b border-[#ffcf99]/10"
+      // Added w-full and box-sizing fix
+      className="flex items-center justify-between h-16 sm:h-20 px-4 sm:px-6 md:px-10 bg-[#1e1e24]/90 backdrop-blur-xl sticky top-0 z-50 text-[#fff8f0] border-b border-[#ffcf99]/10 w-full box-border"
     >
-      <div className="flex items-center">
+      {/* Container to keep logo in view */}
+      <div className="flex items-center flex-1">
         <button
           ref={logoRef}
           onClick={() => handleNavClick("home")}
-          aria-label="Go to home section"
-          className="text-base sm:text-lg md:text-xl lg:text-2xl font-bold tracking-tight cursor-pointer hover:scale-110 transition-transform duration-300 bg-gradient-to-r from-[#92140c] to-[#ffcf99] bg-clip-text text-transparent"
+          // Reduced text size on mobile to prevent clipping
+          className="text-lg sm:text-xl font-bold tracking-tight bg-gradient-to-r from-[#92140c] to-[#ffcf99] bg-clip-text text-transparent whitespace-nowrap"
         >
           Anupam Raj
         </button>
       </div>
 
+      {/* Desktop Navigation */}
       <nav aria-label="Main navigation" className="hidden md:block">
-        <ul className="flex items-center gap-6 lg:gap-10 xl:gap-12 text-[14px] lg:text-[15px] xl:text-[16px] font-medium">
+        <ul className="flex items-center gap-6 lg:gap-10 font-medium">
           {navItems.map((item, index) => (
             <li key={item.id}>
               <button
                 ref={(el) => (navItemsRef.current[index] = el)}
                 onClick={() => handleNavClick(item.id)}
-                onMouseEnter={(e) => handleNavHover(e, true)}
-                onMouseLeave={(e) => handleNavHover(e, false)}
-                aria-current={currentSection === item.id ? 'page' : undefined}
-                disabled={isTransitioning}
-                className={`hover:text-[#ffcf99] transition-colors duration-300 cursor-pointer relative py-2 ${
-                  currentSection === item.id 
-                    ? 'text-[#ffcf99]' 
-                    : 'text-[#fff8f0]/80'
-                } ${isTransitioning ? 'pointer-events-none opacity-60' : ''}`}
+                className={`transition-colors duration-300 relative py-2 ${
+                  currentSection === item.id ? 'text-[#ffcf99]' : 'text-[#fff8f0]/80'
+                }`}
               >
                 {item.label}
-                {currentSection === item.id && (
-                  <span className="absolute -bottom-1 left-0 right-0 h-0.5 bg-gradient-to-r from-[#92140c] to-[#ffcf99] rounded-full" />
-                )}
               </button>
             </li>
           ))}
         </ul>
       </nav>
 
-      <div ref={buttonRef} className="hidden md:block">
+      {/* Desktop Button */}
+      <div className="hidden md:block ml-6">
         <FancyButton 
           link="https://www.linkedin.com/in/anupam-raj-88833134b/" 
           text="Connect With Me" 
         />
       </div>
 
+      {/* Mobile Hamburger - Added explicit width/height for touch target */}
       <button
-        className="md:hidden p-2 hover:scale-110 transition-transform duration-200 hover:text-[#ffcf99]"
+        className="md:hidden flex items-center justify-center p-2 text-[#fff8f0] z-50"
         onClick={() => setIsOpen(!isOpen)}
-        aria-expanded={isOpen}
-        aria-controls="mobile-menu"
-        aria-label={isOpen ? "Close navigation menu" : "Open navigation menu"}
+        aria-label="Toggle menu"
       >
-        {isOpen ? <X size={24} /> : <Menu size={24} />}
+        {isOpen ? <X size={28} /> : <Menu size={28} />}
       </button>
 
+      {/* Mobile Navigation Menu */}
       <nav
         id="mobile-menu"
         ref={mobileMenuRef}
         style={{ display: "none" }}
-        aria-label="Mobile navigation"
-        className="absolute top-16 sm:top-20 left-0 w-full bg-[#1e1e24]/98 backdrop-blur-xl shadow-2xl border-b border-[#ffcf99]/10 md:hidden flex-col items-center gap-4 sm:gap-6 py-6 sm:py-8 text-base sm:text-lg font-medium"
+        className="absolute top-[64px] sm:top-[80px] left-0 w-full bg-[#1e1e24] flex-col items-center py-10 gap-6 border-b border-[#ffcf99]/10 md:hidden z-40 shadow-2xl"
       >
         {navItems.map((item) => (
           <button
             key={item.id}
             onClick={() => handleNavClick(item.id)}
-            aria-current={currentSection === item.id ? 'page' : undefined}
-            disabled={isTransitioning}
-            className={`hover:text-[#ffcf99] cursor-pointer hover:scale-105 transition-all duration-200 py-2 px-4 ${
-              currentSection === item.id 
-                ? 'text-[#ffcf99]' 
-                : 'text-[#fff8f0]/80'
-            } ${isTransitioning ? 'pointer-events-none opacity-60' : ''}`}
+            className={`text-xl font-semibold transition-all ${
+              currentSection === item.id ? 'text-[#ffcf99]' : 'text-[#fff8f0]/90'
+            }`}
           >
             {item.label}
           </button>
         ))}
-        <FancyButton 
-          link="https://www.linkedin.com/in/anupam-raj-88833134b/" 
-          text="Connect With Me" 
-        />
+        {/* Button inside mobile menu */}
+        <div className="mt-4 px-6 w-full flex justify-center">
+          <FancyButton 
+            link="https://www.linkedin.com/in/anupam-raj-88833134b/" 
+            text="Connect With Me" 
+          />
+        </div>
       </nav>
     </header>
   );
