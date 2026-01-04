@@ -10,7 +10,7 @@ import {
   SiHtml5, 
   SiCss3 
 } from "react-icons/si";
-import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
+import { ArrowRight, ChevronLeft, ChevronRight, ExternalLink, Github } from "lucide-react";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -28,7 +28,7 @@ const projects = [
   },
   {
     id: 2,
-    title: "Grid layout Generator",
+    title: "Grid Layout Generator",
     category: "WEB DEVELOPMENT",
     desc: "It help to generate css grid layout code easily",
     stack: [FaReact, FaNodeJs, SiRedux, SiTailwindcss, SiJavascript ],
@@ -59,7 +59,7 @@ const projects = [
     gradient: "from-cyan-500 via-cyan-600 to-cyan-800",
     accentColor: "cyan",
   },
-    {
+  {
     id: 5,
     title: "NPM package - Constellation Background",
     category: "NPM PACKAGE",
@@ -72,7 +72,6 @@ const projects = [
   },
 ];
 
-// Project Card Component - Phone style card
 const ProjectCard = ({ project, index, isActive, direction }) => {
   const cardRef = useRef(null);
 
@@ -103,71 +102,103 @@ const ProjectCard = ({ project, index, isActive, direction }) => {
       className="relative w-[320px] sm:w-[380px] md:w-[420px] h-[480px] sm:h-[540px] md:h-[580px]"
       style={{ perspective: '1000px' }}
     >
-      {/* Phone-like card container */}
-      <div className="relative w-full h-full rounded-[40px] bg-gradient-to-b from-[#92140c] via-[#a82010] to-[#111d4a] p-[2px] shadow-2xl shadow-[#92140c]/30">
+      {/* Phone-like card container with premium styling */}
+      <div className="relative w-full h-full rounded-[40px] bg-gradient-to-b from-[#c41f0f] via-[#8b1a0a] to-[#1a1a2e] p-[2px] shadow-2xl shadow-[#c41f0f]/40">
         
         {/* Inner card */}
-        <div className="relative w-full h-full rounded-[38px] bg-gradient-to-b from-[#92140c] via-[#a82010] to-[#111d4a] overflow-hidden">
+        <div className="relative w-full h-full rounded-[38px] bg-gradient-to-b from-[#c41f0f] via-[#8b1a0a] to-[#1a1a2e] overflow-hidden">
           
-          {/* Subtle inner glow at top */}
-          <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-[#ffcf99]/20 to-transparent"></div>
+          {/* Glossy top overlay */}
+          <div className="absolute top-0 left-0 right-0 h-40 bg-gradient-to-b from-[#ff8c5a]/20 to-transparent pointer-events-none rounded-t-[38px]"></div>
 
-          {/* Corner decoration - top left */}
+          {/* Premium corner elements */}
           <div className="absolute top-8 left-8 w-12 h-12">
-            <div className="absolute top-0 left-0 w-full h-[2px] bg-[#ffcf99]/50"></div>
-            <div className="absolute top-0 left-0 h-full w-[2px] bg-[#ffcf99]/50"></div>
+            <div className="absolute top-0 left-0 w-full h-[1.5px] bg-gradient-to-r from-[#ff8c5a]/70 to-[#ff8c5a]/20"></div>
+            <div className="absolute top-0 left-0 h-full w-[1.5px] bg-gradient-to-b from-[#ff8c5a]/70 to-[#ff8c5a]/20"></div>
           </div>
 
-          {/* Number indicator - top right */}
-          <div className="absolute top-7 right-7 w-11 h-11 rounded-full border-2 border-[#ffcf99]/40 flex items-center justify-center backdrop-blur-sm">
-            <span className="text-[#ffcf99] font-semibold text-base">0{index + 1}</span>
+          <div className="absolute bottom-8 right-8 w-12 h-12">
+            <div className="absolute bottom-0 right-0 w-full h-[1.5px] bg-gradient-to-r from-[#ff8c5a]/20 to-[#ff8c5a]/70"></div>
+            <div className="absolute bottom-0 right-0 h-full w-[1.5px] bg-gradient-to-b from-[#ff8c5a]/20 to-[#ff8c5a]/70"></div>
           </div>
 
-          {/* Main Content - Centered */}
-          <div className="absolute inset-0 flex flex-col justify-center px-8 md:px-10">
-            {/* Project Title */}
-            <h3 className="text-3xl sm:text-4xl md:text-5xl font-bold text-[#fff8f0] leading-tight mb-3">
-              {project.title}
-            </h3>
+          {/* Project number indicator - Premium design */}
+          <div className="absolute top-7 right-7 w-12 h-12 rounded-full border border-[#ff8c5a]/40 flex items-center justify-center backdrop-blur-md bg-[#ff8c5a]/5 hover:bg-[#ff8c5a]/15 transition-all duration-300">
+            <span className="text-[#ff8c5a] font-bold text-sm">0{index + 1}</span>
+          </div>
+
+          {/* Main Content - Premium Layout */}
+          <div className="absolute inset-0 flex flex-col justify-between px-8 md:px-10 py-12">
             
-            {/* Category */}
-            <p className="text-[#ffcf99]/60 text-xs tracking-[0.25em] uppercase mb-8">
-              {project.category}
-            </p>
+            {/* Top section */}
+            <div>
+              {/* Category with premium styling */}
+              <p className="text-[#ff8c5a]/50 text-[11px] tracking-[0.35em] uppercase font-semibold mb-6 letter-spacing-wider">
+                {project.category}
+              </p>
 
-            {/* Tech stack icons */}
-            <div className="flex flex-wrap gap-2 mb-8">
-              {project.stack.map((Icon, i) => (
-                <div
-                  key={i}
-                  className="w-11 h-11 rounded-xl bg-[#fff8f0]/10 backdrop-blur-sm flex items-center justify-center text-[#ffcf99] hover:bg-[#ffcf99]/25 hover:scale-110 transition-all duration-300 cursor-pointer"
-                >
-                  <Icon className="w-5 h-5" />
-                </div>
-              ))}
+              {/* Project Title - Enhanced */}
+              <h3 className="text-3xl sm:text-4xl md:text-5xl font-black text-white leading-tight mb-2 tracking-tight">
+                {project.title}
+              </h3>
+              
+              {/* Divider line */}
+              <div className="w-12 h-[2px] bg-gradient-to-r from-[#ff8c5a]/80 to-[#ff8c5a]/20 my-6"></div>
+
+              {/* Description - Enhanced */}
+              <p className="text-white/70 text-sm leading-relaxed max-w-xs font-light">
+                {project.desc}
+              </p>
             </div>
 
-            {/* CTA Button */}
-            <a 
-              href={project.live} 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="inline-flex items-center justify-between w-full max-w-[220px] px-6 py-4 bg-[#fff8f0]/10 backdrop-blur-md border border-[#ffcf99]/30 rounded-2xl text-[#fff8f0] font-medium hover:bg-[#ffcf99]/20 transition-all duration-300 group"
-            >
-              <span className="text-sm tracking-wide">
-                EXPLORE<br />PROJECT
-              </span>
-              <ArrowRight className="w-5 h-5 text-[#ffcf99] group-hover:translate-x-1 transition-transform" />
-            </a>
+            {/* Bottom section */}
+            <div>
+              {/* Tech stack - Premium design */}
+              <p className="text-[#ff8c5a]/40 text-[10px] tracking-[0.25em] uppercase font-semibold mb-4">
+                TECH STACK
+              </p>
+              <div className="flex flex-wrap gap-2.5 mb-8">
+                {project.stack.map((Icon, i) => (
+                  <div
+                    key={i}
+                    className="w-10 h-10 rounded-lg bg-gradient-to-br from-white/12 to-white/5 backdrop-blur-md border border-[#ff8c5a]/20 flex items-center justify-center text-[#ff8c5a]/80 hover:bg-gradient-to-br hover:from-[#ff8c5a]/25 hover:to-[#ff8c5a]/15 hover:text-[#ff8c5a] hover:scale-110 transition-all duration-300 cursor-pointer shadow-lg shadow-[#ff8c5a]/5"
+                  >
+                    <Icon className="w-4 h-4" />
+                  </div>
+                ))}
+              </div>
+
+              {/* CTA Buttons - Premium design */}
+              <div className="flex gap-3">
+                <a 
+                  href={project.live} 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="flex-1 inline-flex items-center justify-center gap-2 px-5 py-3.5 bg-gradient-to-r from-[#ff8c5a]/20 to-[#ff8c5a]/10 backdrop-blur-md border border-[#ff8c5a]/40 rounded-xl text-white font-semibold text-sm hover:from-[#ff8c5a]/35 hover:to-[#ff8c5a]/20 hover:border-[#ff8c5a]/60 transition-all duration-300 group shadow-lg shadow-[#ff8c5a]/10"
+                >
+                  <ExternalLink className="w-4 h-4 group-hover:translate-y-[-2px] transition-transform" />
+                  LIVE
+                </a>
+                <a 
+                  href={project.github} 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="flex-1 inline-flex items-center justify-center gap-2 px-5 py-3.5 bg-gradient-to-r from-[#ff8c5a]/10 to-[#ff8c5a]/5 backdrop-blur-md border border-[#ff8c5a]/30 rounded-xl text-[#ff8c5a]/80 font-semibold text-sm hover:text-[#ff8c5a] hover:bg-gradient-to-r hover:from-[#ff8c5a]/20 hover:to-[#ff8c5a]/10 hover:border-[#ff8c5a]/50 transition-all duration-300 group shadow-lg shadow-[#ff8c5a]/5"
+                >
+                  <Github className="w-4 h-4 group-hover:scale-110 transition-transform" />
+                  CODE
+                </a>
+              </div>
+            </div>
           </div>
 
-          {/* Bottom glow */}
-          <div className="absolute -bottom-10 left-1/2 -translate-x-1/2 w-40 h-40 bg-[#ffcf99]/10 rounded-full blur-3xl"></div>
+          {/* Bottom premium glow */}
+          <div className="absolute -bottom-12 left-1/2 -translate-x-1/2 w-48 h-48 bg-gradient-to-t from-[#ffcf99]/5 to-transparent rounded-full blur-3xl pointer-events-none"></div>
         </div>
       </div>
 
-      {/* Reflection/Shadow beneath */}
-      <div className="absolute -bottom-4 left-1/2 -translate-x-1/2 w-[80%] h-8 bg-[#92140c]/30 blur-2xl rounded-full"></div>
+      {/* Elegant shadow beneath */}
+      <div className="absolute -bottom-6 left-1/2 -translate-x-1/2 w-[85%] h-10 bg-gradient-to-b from-[#92140c]/25 to-transparent blur-3xl rounded-full"></div>
     </div>
   );
 };
@@ -181,7 +212,6 @@ export const ProjectSlider = () => {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      // Title animations
       gsap.from(subtitleRef.current, {
         y: 30,
         opacity: 0,
@@ -232,71 +262,78 @@ export const ProjectSlider = () => {
       id="projects"
       className="w-full min-h-screen bg-[#1e1e24] relative py-20 px-6 md:px-16 lg:px-24 overflow-hidden"
     >
-      {/* Background glow */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-[#92140c]/15 rounded-full blur-[150px] pointer-events-none"></div>
+      {/* Subtle background glow */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[900px] bg-[#92140c]/12 rounded-full blur-[180px] pointer-events-none"></div>
 
       <div className="max-w-7xl mx-auto">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center min-h-[80vh]">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24 items-center min-h-[80vh]">
           
-          {/* Left side - Text content */}
-          <div className="space-y-6">
-            <p 
-              ref={subtitleRef}
-              className="text-[#fff8f0]/60 text-sm tracking-[0.3em] uppercase"
-            >
-              EXPLORE PROJECTS
-            </p>
-            
-            <h1 
-              ref={titleRef}
-              className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-[#fff8f0] leading-tight"
-            >
-              Check Out My{' '}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#92140c] to-[#ffcf99]">
-                Work.
-              </span>
-            </h1>
-
-            <p className="text-[#fff8f0]/70 text-lg max-w-md">
-              Browse through my recent projects showcasing my skills in web development and design.
-            </p>
-
-            {/* Navigation controls */}
-            <div className="flex items-center gap-4 pt-8">
-              <button 
-                onClick={prevProject}
-                className="w-12 h-12 rounded-full border border-[#ffcf99]/30 flex items-center justify-center text-[#fff8f0]/60 hover:text-[#ffcf99] hover:border-[#ffcf99]/60 transition-all duration-300"
+          {/* Left side - Premium Text content */}
+          <div className="space-y-8">
+            <div>
+              <p 
+                ref={subtitleRef}
+                className="text-[#ffcf99]/70 text-xs tracking-[0.4em] uppercase font-bold letter-spacing-wider mb-6 flex items-center gap-3"
               >
-                <ChevronLeft className="w-5 h-5" />
-              </button>
-              <button 
-                onClick={nextProject}
-                className="w-12 h-12 rounded-full border border-[#ffcf99]/30 flex items-center justify-center text-[#fff8f0]/60 hover:text-[#ffcf99] hover:border-[#ffcf99]/60 transition-all duration-300"
-              >
-                <ChevronRight className="w-5 h-5" />
-              </button>
+                <span className="w-8 h-[1px] bg-gradient-to-r from-[#ffcf99]/80 to-transparent"></span>
+                FEATURED WORK
+              </p>
               
-              {/* Progress indicators */}
-              <div className="flex gap-2 ml-4">
+              <h1 
+                ref={titleRef}
+                className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black text-[#fff8f0] leading-tight tracking-tight"
+              >
+                My{' '}
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#92140c] via-[#ffcf99] to-[#ffb866]">
+                  Projects
+                </span>
+              </h1>
+            </div>
+
+            <p className="text-[#fff8f0]/65 text-base leading-relaxed max-w-lg font-light">
+              Explore my portfolio of work showcasing expertise in web development, design, and innovative solutions.
+            </p>
+
+            {/* Premium Navigation controls */}
+            <div className="flex items-center gap-6 pt-8">
+              <div className="flex gap-3">
+                <button 
+                  onClick={prevProject}
+                  className="w-13 h-13 rounded-full border-2 border-[#ffcf99]/30 flex items-center justify-center text-[#fff8f0]/60 hover:text-[#ffcf99] hover:border-[#ffcf99]/70 hover:bg-[#ffcf99]/10 transition-all duration-300 group backdrop-blur-sm"
+                >
+                  <ChevronLeft className="w-5 h-5 group-hover:scale-110 transition-transform" />
+                </button>
+                <button 
+                  onClick={nextProject}
+                  className="w-13 h-13 rounded-full border-2 border-[#ffcf99]/30 flex items-center justify-center text-[#fff8f0]/60 hover:text-[#ffcf99] hover:border-[#ffcf99]/70 hover:bg-[#ffcf99]/10 transition-all duration-300 group backdrop-blur-sm"
+                >
+                  <ChevronRight className="w-5 h-5 group-hover:scale-110 transition-transform" />
+                </button>
+              </div>
+              
+              {/* Premium Progress indicators */}
+              <div className="flex gap-2.5 ml-6">
                 {projects.map((_, idx) => (
                   <button
                     key={idx}
                     onClick={() => goToProject(idx)}
-                    className={`h-2 rounded-full transition-all duration-300 ${
+                    className={`rounded-full transition-all duration-300 ${
                       idx === activeIndex 
-                        ? 'w-8 bg-gradient-to-r from-[#92140c] to-[#ffcf99]' 
-                        : 'w-2 bg-[#fff8f0]/20 hover:bg-[#ffcf99]/40'
+                        ? 'w-8 h-2.5 bg-gradient-to-r from-[#92140c] to-[#ffcf99] shadow-lg shadow-[#ffcf99]/30' 
+                        : 'w-2.5 h-2.5 bg-[#fff8f0]/25 hover:bg-[#ffcf99]/50'
                     }`}
                   />
                 ))}
               </div>
             </div>
 
-            {/* Project counter */}
-            <div className="flex items-baseline gap-2 pt-4">
-              <span className="text-5xl font-bold text-[#fff8f0]">0{activeIndex + 1}</span>
-              <span className="text-[#fff8f0]/40 text-xl">/</span>
-              <span className="text-[#fff8f0]/40 text-xl">0{projects.length}</span>
+            {/* Premium Project counter */}
+            <div className="flex items-baseline gap-3 pt-8 border-t border-[#fff8f0]/15">
+              <span className="text-6xl font-black text-transparent bg-clip-text bg-gradient-to-r from-[#92140c] to-[#ffcf99]">
+                0{activeIndex + 1}
+              </span>
+              <span className="text-[#fff8f0]/30 text-2xl font-light">/</span>
+              <span className="text-[#fff8f0]/40 text-xl font-light">0{projects.length}</span>
             </div>
           </div>
 
