@@ -1,31 +1,59 @@
-# React & Tailwind CSS Starter Pack
+# Portfolio
 
-This is a starter pack for creating React projects with Tailwind CSS configured. It uses React version **18.2** and Tailwind CSS version **3.2**.
+Welcome to my developer portfolio! This project showcases my skills, projects, and experience as a software developer, built with React and styled using Tailwind CSS.
 
-## Usage
+## 🚀 Features
+- Modern, responsive UI
+- Interactive project slider
+- 3D card demo
+- Contact form
+- Technology stack icons
+- Smooth transitions and navigation
 
-This starter pack includes a basic setup for using **Tailwind CSS with React**. To start building your own components and styles, follow these steps:
+## 🛠️ Tech Stack
+- **Frontend:** React, JavaScript, Tailwind CSS
+- **Build Tools:** PostCSS
 
-1. Clone the repository to your local machine.
-    ```sh
-    git clone https://github.com/thepranaygupta/react-tailwind-css-starter-pack.git
+## 📁 Project Structure
+```
+src/
+  assets/           # Images and static assets
+  components/       # Reusable UI components
+  context/          # React context providers
+  icons/            # Custom icon components
+  lib/              # Utility functions
+  App.js            # Main app component
+  index.js          # Entry point
+public/
+  index.html        # Main HTML file
+tailwind.config.js  # Tailwind CSS configuration
+postcss.config.js   # PostCSS configuration
+```
+
+## 🖥️ Getting Started
+1. **Clone the repository:**
+    ```bash
+    git clone https://github.com/anupamraj176/portfolio.git
+    cd portfolio
     ```
-
-1. Install the required packages.
-    ```sh
-    cd react-tailwind-css-starter-pack
+2. **Install dependencies:**
+    ```bash
     npm install
     ```
-
-1. Start the development server.
-    ```sh
+3. **Start the development server:**
+    ```bash
     npm start
     ```
-1. Open the project in your browser at [`http://localhost:3000`](http://localhost:3000) to view your project.
-1. Create your React components and add your styles using Tailwind classes. You can also create new CSS files and import them into your components.
+4. **Build for production:**
+    ```bash
+    npm run build
+    ```
 
-The project is set up to use `postcss-cli` to process your CSS files. You can add your own `tailwind.config.js` file to customize your Tailwind setup.
+## 📸 Screenshots
+Add screenshots or a demo GIF here to showcase the UI.
 
-## Contributing
+## 📬 Contact
+Feel free to reach out via the contact form in the app or connect with me on [LinkedIn](https://www.linkedin.com/in/anupamraj176/).
 
-Contributions are welcome! If you have any suggestions or find any issues, please feel free to open an issue or a pull request.
+---
+© 2026 Anupam Raj. All rights reserved.
