@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import { FaArrowRight, FaFileDownload, FaInstagramSquare, FaGithub, FaTwitter, FaLinkedin } from "react-icons/fa";
 import gsap from "gsap";
-import portfolioImg from "../assets/portfolio.jpg";
+import portfolioImg from "../assets/profile.jpeg";
 import { CardBody, CardContainer, CardItem } from "./ui/3d-card";
 import { FancyButton } from "./fancyButton";
 
