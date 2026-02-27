@@ -209,9 +209,13 @@ export const ProjectSlider = () => {
   const [direction, setDirection] = useState('next');
   const titleRef = useRef(null);
   const subtitleRef = useRef(null);
+  const navButtonsRef = useRef([]);
+  const dotsRef = useRef([]);
+  const counterRef = useRef(null);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
+      // Enhanced subtitle animation
       gsap.from(subtitleRef.current, {
         y: 30,
         opacity: 0,
@@ -224,6 +228,7 @@ export const ProjectSlider = () => {
         },
       });
 
+      // Title animation with letter wave effect
       gsap.from(titleRef.current, {
         y: 50,
         opacity: 0,
@@ -236,10 +241,68 @@ export const ProjectSlider = () => {
           toggleActions: "play none none none",
         },
       });
+
+      // Navigation buttons pop in
+      gsap.from(navButtonsRef.current, {
+        scale: 0,
+        rotation: -180,
+        opacity: 0,
+        duration: 0.6,
+        stagger: 0.1,
+        delay: 0.5,
+        ease: "back.out(2)",
+        scrollTrigger: {
+          trigger: containerRef.current,
+          start: "top 80%",
+          toggleActions: "play none none none",
+        },
+      });
+
+      // Dots cascade animation
+      gsap.from(dotsRef.current, {
+        scale: 0,
+        opacity: 0,
+        duration: 0.4,
+        stagger: 0.08,
+        delay: 0.7,
+        ease: "back.out(3)",
+        scrollTrigger: {
+          trigger: containerRef.current,
+          start: "top 80%",
+          toggleActions: "play none none none",
+        },
+      });
+
+      // Counter number animation
+      if (counterRef.current) {
+        gsap.from(counterRef.current, {
+          textContent: 0,
+          duration: 1,
+          delay: 0.8,
+          snap: { textContent: 1 },
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: containerRef.current,
+            start: "top 80%",
+            toggleActions: "play none none none",
+          },
+        });
+      }
     }, containerRef);
 
     return () => ctx.revert();
   }, []);
+
+  // Button hover animations
+  const handleButtonHover = (el, enter) => {
+    if (!el) return;
+    gsap.to(el, {
+      scale: enter ? 1.15 : 1,
+      rotation: enter ? 10 : 0,
+      duration: 0.3,
+      ease: "back.out(1.7)",
+    });
+  };
 
   const nextProject = () => {
     setDirection('next');
@@ -300,18 +363,24 @@ export const ProjectSlider = () => {
             <div className="flex items-center gap-3 sm:gap-6 pt-2 sm:pt-4 justify-center lg:justify-start">
               <div className="flex gap-2 sm:gap-3">
                 <button 
+                  ref={el => navButtonsRef.current[0] = el}
                   onClick={prevProject}
+                  onMouseEnter={() => handleButtonHover(navButtonsRef.current[0], true)}
+                  onMouseLeave={() => handleButtonHover(navButtonsRef.current[0], false)}
                   aria-label="Previous project"
-                  className="w-10 h-10 sm:w-12 sm:h-12 rounded-full border-2 border-[#ffcf99]/30 flex items-center justify-center text-[#fff8f0]/60 hover:text-[#ffcf99] hover:border-[#ffcf99]/70 hover:bg-[#ffcf99]/10 transition-all duration-300 group backdrop-blur-sm"
+                  className="w-10 h-10 sm:w-12 sm:h-12 rounded-full border-2 border-[#ffcf99]/30 flex items-center justify-center text-[#fff8f0]/60 hover:text-[#ffcf99] hover:border-[#ffcf99]/70 hover:bg-[#ffcf99]/10 transition-colors duration-300 group backdrop-blur-sm"
                 >
-                  <ChevronLeft className="w-4 h-4 sm:w-5 sm:h-5 group-hover:scale-110 transition-transform" />
+                  <ChevronLeft className="w-4 h-4 sm:w-5 sm:h-5" />
                 </button>
                 <button 
+                  ref={el => navButtonsRef.current[1] = el}
                   onClick={nextProject}
+                  onMouseEnter={() => handleButtonHover(navButtonsRef.current[1], true)}
+                  onMouseLeave={() => handleButtonHover(navButtonsRef.current[1], false)}
                   aria-label="Next project"
-                  className="w-10 h-10 sm:w-12 sm:h-12 rounded-full border-2 border-[#ffcf99]/30 flex items-center justify-center text-[#fff8f0]/60 hover:text-[#ffcf99] hover:border-[#ffcf99]/70 hover:bg-[#ffcf99]/10 transition-all duration-300 group backdrop-blur-sm"
+                  className="w-10 h-10 sm:w-12 sm:h-12 rounded-full border-2 border-[#ffcf99]/30 flex items-center justify-center text-[#fff8f0]/60 hover:text-[#ffcf99] hover:border-[#ffcf99]/70 hover:bg-[#ffcf99]/10 transition-colors duration-300 group backdrop-blur-sm"
                 >
-                  <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5 group-hover:scale-110 transition-transform" />
+                  <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5" />
                 </button>
               </div>
               
@@ -320,6 +389,7 @@ export const ProjectSlider = () => {
                 {projects.map((_, idx) => (
                   <button
                     key={idx}
+                    ref={el => dotsRef.current[idx] = el}
                     onClick={() => goToProject(idx)}
                     aria-label={`Go to project ${idx + 1}`}
                     aria-current={idx === activeIndex ? 'true' : 'false'}
@@ -335,7 +405,7 @@ export const ProjectSlider = () => {
 
             {/* Premium Project counter - hidden on small screens */}
             <div className="hidden sm:flex items-baseline gap-2 sm:gap-3 pt-2 sm:pt-4 border-t border-[#fff8f0]/15 justify-center lg:justify-start">
-              <span className="text-4xl sm:text-5xl lg:text-6xl font-black text-transparent bg-clip-text bg-gradient-to-r from-[#92140c] to-[#ffcf99]">
+              <span ref={counterRef} className="text-4xl sm:text-5xl lg:text-6xl font-black text-transparent bg-clip-text bg-gradient-to-r from-[#92140c] to-[#ffcf99]">
                 0{activeIndex + 1}
               </span>
               <span className="text-[#fff8f0]/30 text-xl sm:text-2xl font-light">/</span>

@@ -103,11 +103,29 @@ export const Navbar = () => {
               <button
                 ref={(el) => (navItemsRef.current[index] = el)}
                 onClick={() => handleNavClick(item.id)}
-                className={`transition-colors duration-300 relative py-2 ${
-                  currentSection === item.id ? 'text-[#ffcf99]' : 'text-[#fff8f0]/80'
+                onMouseEnter={() => {
+                  gsap.to(navItemsRef.current[index], {
+                    y: -2,
+                    duration: 0.3,
+                    ease: "power2.out"
+                  });
+                }}
+                onMouseLeave={() => {
+                  gsap.to(navItemsRef.current[index], {
+                    y: 0,
+                    duration: 0.3,
+                    ease: "power2.out"
+                  });
+                }}
+                className={`transition-colors duration-300 relative py-2 group ${
+                  currentSection === item.id ? 'text-[#ffcf99]' : 'text-[#fff8f0]/80 hover:text-[#ffcf99]'
                 }`}
               >
                 {item.label}
+                {/* Animated underline */}
+                <span className={`absolute bottom-0 left-0 h-[2px] bg-gradient-to-r from-[#92140c] to-[#ffcf99] transition-all duration-300 ${
+                  currentSection === item.id ? 'w-full' : 'w-0 group-hover:w-full'
+                }`} />
               </button>
             </li>
           ))}

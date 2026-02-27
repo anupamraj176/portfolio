@@ -81,18 +81,46 @@ export const Tech = () => {
         },
       });
 
+      // Add continuous subtle floating animation to icons after they appear
+      iconsRef.current.forEach((icon, i) => {
+        if (!icon) return;
+        gsap.to(icon, {
+          y: -5,
+          duration: 1.5 + (i * 0.1),
+          repeat: -1,
+          yoyo: true,
+          ease: "sine.inOut",
+          delay: 1 + (i * 0.05),
+        });
+      });
+
     }, sectionRef);
 
     return () => ctx.revert();
   }, []);
 
   const handleHover = (el, enter) => {
-    gsap.to(el, {
-      y: enter ? -10 : 0,
-      rotate: enter ? 5 : 0,
-      duration: 0.3,
-      ease: "power2.out",
-    });
+    if (enter) {
+      gsap.to(el, {
+        y: -15,
+        scale: 1.15,
+        rotateY: 15,
+        rotateX: -10,
+        boxShadow: "0 20px 40px rgba(255, 207, 153, 0.4)",
+        duration: 0.4,
+        ease: "back.out(1.7)",
+      });
+    } else {
+      gsap.to(el, {
+        y: 0,
+        scale: 1,
+        rotateY: 0,
+        rotateX: 0,
+        boxShadow: "0 4px 15px rgba(0, 0, 0, 0.3)",
+        duration: 0.5,
+        ease: "elastic.out(1, 0.5)",
+      });
+    }
   };
 
   return (
@@ -100,9 +128,13 @@ export const Tech = () => {
       id="about"
       ref={sectionRef}
       aria-labelledby="about-title"
-      className="w-full h-[calc(100vh-64px)] sm:h-[calc(100vh-80px)] px-4 sm:px-6 md:px-10 lg:px-[12%] py-6 sm:py-10 lg:py-16 bg-[#1e1e24] overflow-hidden flex items-center"
+      className="w-full h-[calc(100vh-64px)] sm:h-[calc(100vh-80px)] px-4 sm:px-6 md:px-10 lg:px-[12%] py-6 sm:py-10 lg:py-16 bg-[#1e1e24] overflow-hidden flex items-center relative"
     >
-      <div className="flex flex-col lg:flex-row gap-6 sm:gap-10 lg:gap-14 items-center w-full">
+      {/* Background animated gradient */}
+      <div className="absolute top-1/3 right-0 w-96 h-96 bg-[#92140c]/10 rounded-full blur-3xl pointer-events-none animate-pulse" />
+      <div className="absolute bottom-1/4 left-0 w-80 h-80 bg-[#ffcf99]/10 rounded-full blur-3xl pointer-events-none animate-pulse" style={{ animationDelay: '1.5s' }} />
+      
+      <div className="flex flex-col lg:flex-row gap-6 sm:gap-10 lg:gap-14 items-center w-full relative z-10">
 
         {/* LEFT */}
         <div className="md:w-1/2">
@@ -125,10 +157,11 @@ export const Tech = () => {
           </p>
         </div>
 
-        {/* RIGHT */}
+        {/* RIGHT - Tech Icons Grid with 3D perspective */}
         <div
           ref={iconsWrapRef}
           className="md:w-1/2 flex flex-wrap justify-center gap-8"
+          style={{ perspective: '1000px' }}
         >
           {icons.map((tech, i) => (
             <div
@@ -139,10 +172,13 @@ export const Tech = () => {
               className="w-[95px] h-[95px] flex flex-col items-center justify-center
                 rounded-2xl bg-[#111d4a]/60 border border-[#ffcf99]/20
                 shadow-lg hover:shadow-[0_0_30px_rgba(255,207,153,0.6)]
-                transition-all cursor-pointer"
+                transition-colors cursor-pointer backdrop-blur-sm"
+              style={{ transformStyle: 'preserve-3d' }}
             >
-              {tech.icon}
-              <p className="mt-2 text-xs text-[#fff8f0] font-semibold">
+              <div style={{ transform: 'translateZ(20px)' }}>
+                {tech.icon}
+              </div>
+              <p className="mt-2 text-xs text-[#fff8f0] font-semibold" style={{ transform: 'translateZ(10px)' }}>
                 {tech.name}
               </p>
             </div>

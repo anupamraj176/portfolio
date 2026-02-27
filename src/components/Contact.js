@@ -105,8 +105,15 @@ export const Contact = () => {
       y: -8,
       scale: 1.02,
       boxShadow: "0 15px 30px rgba(255, 207, 153, 0.2)",
+      borderColor: "#ffcf99",
       duration: 0.4,
       ease: "power2.out",
+    });
+    
+    // Add glow effect to label/placeholder
+    gsap.to(e.target, {
+      textShadow: "0 0 10px rgba(255, 207, 153, 0.3)",
+      duration: 0.3,
     });
   };
 
@@ -115,6 +122,8 @@ export const Contact = () => {
       y: 0,
       scale: 1,
       boxShadow: "0 4px 15px rgba(0, 0, 0, 0.3)",
+      borderColor: "rgba(255, 207, 153, 0.2)",
+      textShadow: "none",
       duration: 0.4,
       ease: "power2.out",
     });
@@ -122,13 +131,37 @@ export const Contact = () => {
 
   const handleSubmit = () => {
     if (!formData.name || !formData.email || !formData.message) {
+      // Shake animation for error
+      gsap.to(formRef.current, {
+        x: [-10, 10, -10, 10, 0],
+        duration: 0.4,
+        ease: "power2.out",
+      });
       setBtnText("Fill all fields!");
       setTimeout(() => setBtnText("Send"), 2000);
       return;
     }
+    
+    // Success animation - pulse effect
+    gsap.to(formRef.current, {
+      scale: 0.98,
+      duration: 0.1,
+      yoyo: true,
+      repeat: 1,
+      ease: "power2.inOut",
+    });
+    
     setBtnText("Sending...");
     // Add your submission logic here
     setTimeout(() => {
+      // Success celebration animation
+      gsap.to(buttonContainerRef.current, {
+        scale: 1.1,
+        duration: 0.3,
+        yoyo: true,
+        repeat: 1,
+        ease: "back.out(2)",
+      });
       setBtnText("Sent ✓");
       setTimeout(() => {
         setBtnText("Send");
@@ -142,9 +175,13 @@ export const Contact = () => {
       id="contact"
       ref={sectionRef}
       aria-labelledby="contact-title"
-      className="w-full px-4 sm:px-6 py-6 sm:py-10 lg:py-16 bg-[#1e1e24] flex flex-col items-center justify-center h-[calc(100vh-64px)] sm:h-[calc(100vh-80px)] overflow-hidden"
+      className="w-full px-4 sm:px-6 py-6 sm:py-10 lg:py-16 bg-[#1e1e24] flex flex-col items-center justify-center h-[calc(100vh-64px)] sm:h-[calc(100vh-80px)] overflow-hidden relative"
     >
-      <div className="text-center mb-4 sm:mb-8 max-w-3xl">
+      {/* Background animated gradient orbs */}
+      <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-[#92140c]/15 rounded-full blur-3xl animate-pulse pointer-events-none" />
+      <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-[#ffcf99]/10 rounded-full blur-3xl animate-pulse pointer-events-none" style={{ animationDelay: '1s' }} />
+      
+      <div className="text-center mb-4 sm:mb-8 max-w-3xl relative z-10">
         <h4
           ref={titleRef}
           className="text-[#ffcf99] font-medium tracking-widest uppercase text-xs sm:text-sm mb-2"
@@ -170,7 +207,7 @@ export const Contact = () => {
 
       <div
         ref={formRef}
-        className="w-full max-w-2xl bg-[#1a1a20]/90 backdrop-blur-lg p-4 sm:p-6 md:p-8 lg:p-10 rounded-xl sm:rounded-2xl border border-[#ffcf99]/20 shadow-2xl"
+        className="w-full max-w-2xl bg-[#1a1a20]/90 backdrop-blur-lg p-4 sm:p-6 md:p-8 lg:p-10 rounded-xl sm:rounded-2xl border border-[#ffcf99]/20 shadow-2xl relative z-10"
       >
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4 md:gap-6 mb-3 sm:mb-4 md:mb-6">
           <input
