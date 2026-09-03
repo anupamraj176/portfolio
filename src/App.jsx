@@ -5,6 +5,7 @@ import { Header } from './components/HeroSection';
 import ProjectSlider from './components/ProjectSlider';
 import { Contact } from './components/Contact';
 import { AnimatedCursor, ParticlesBackground } from './components/animations';
+import DrawingCanvas from './components/DrawingCanvas';
 
 function App() {
   return (
@@ -15,6 +16,9 @@ function App() {
         
         {/* Floating Particles Background (acts like chalk dust) */}
         <ParticlesBackground count={20} />
+        
+        {/* Interactive Chalk Canvas Overlay */}
+        <DrawingCanvas />
         
         <Navbar />
         
