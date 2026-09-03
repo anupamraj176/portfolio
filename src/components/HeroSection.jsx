@@ -130,7 +130,7 @@ export const Header = () => {
         {/* The Sticky Note */}
         <div 
           ref={noteRef}
-          className="absolute -bottom-10 -right-12 w-64 bg-[#f1c40f] p-5 shadow-xl z-20 origin-top-left rounded-bl-3xl"
+          className="absolute top-[75%] left-[50%] w-64 bg-[#f1c40f] p-5 shadow-xl z-20 origin-top-left rounded-bl-3xl"
           style={{
             boxShadow: "4px 8px 15px rgba(0,0,0,0.3)"
           }}

@@ -141,6 +141,9 @@ export const ProjectSlider = () => {
         }
       });
 
+      // Force refresh after a slight delay to ensure all DOM elements are sized correctly
+      setTimeout(() => ScrollTrigger.refresh(), 500);
+
     }, sectionRef);
 
     return () => ctx.revert();

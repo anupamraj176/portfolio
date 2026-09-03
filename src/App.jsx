@@ -26,7 +26,7 @@ function App() {
         
         <Navbar />
         
-        <main className="flex flex-col w-full relative pt-24" role="main">
+        <main className="w-full relative pt-24" role="main">
           <section id="home" className="min-h-screen w-full flex items-center justify-center relative">
             <Header />
           </section>
