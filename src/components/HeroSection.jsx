@@ -104,7 +104,7 @@ export const Header = () => {
       </div>
 
       {/* Right Content - Polaroid & Sticky Note */}
-      <div className="relative z-10 flex-shrink-0 mt-10 lg:mt-0 w-[280px] h-[350px]">
+      <div className="relative z-10 flex-shrink-0 mt-10 lg:-mt-24 lg:-translate-y-4 w-[280px] h-[350px]">
         
         {/* The Polaroid */}
         <div 
@@ -130,7 +130,7 @@ export const Header = () => {
         {/* The Sticky Note */}
         <div 
           ref={noteRef}
-          className="absolute top-[75%] left-[50%] w-64 bg-[#f1c40f] p-5 shadow-xl z-20 origin-top-left rounded-bl-3xl"
+          className="absolute -bottom-6 -right-16 w-64 bg-[#f1c40f] p-5 shadow-xl z-20 origin-top-left rounded-bl-3xl"
           style={{
             boxShadow: "4px 8px 15px rgba(0,0,0,0.3)"
           }}
