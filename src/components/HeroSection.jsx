@@ -85,10 +85,10 @@ export const Header = () => {
 
         <div className="mt-12 flex items-center justify-center lg:justify-start gap-6">
           {[
-            { icon: <FaGithub />, link: "https://github.com/anupamraj" },
-            { icon: <FaLinkedin />, link: "https://linkedin.com/in/anupamraj" },
-            { icon: <FaTwitter />, link: "https://twitter.com/anupamraj" },
-            { icon: <FaInstagramSquare />, link: "https://instagram.com/anupamraj" }
+            { icon: <FaGithub />, link: "https://github.com/anupamraj176" },
+            { icon: <FaLinkedin />, link: "https://www.linkedin.com/in/anupam-raj-88833134b/" },
+            { icon: <FaTwitter />, link: "#" },
+            { icon: <FaInstagramSquare />, link: "https://www.instagram.com/anupam__rajj/?hl=en" }
           ].map((social, idx) => (
             <a 
               key={idx}
