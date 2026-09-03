@@ -1,25 +1,39 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Menu, X } from "lucide-react";
 import gsap from "gsap";
-import { FancyButton } from "./fancyButton";
-import { useNavigation } from "../context/NavigationContext";
 
 const navItems = [
-  { label: "Home", id: "home" },
-  { label: "About Me", id: "about" },
-  { label: "Project", id: "projects" },
+  { label: "About", id: "home" },
+  { label: "Projects", id: "projects" },
   { label: "Contact", id: "contact" },
 ];
 
 export const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState("home");
   const navRef = useRef(null);
-  const logoRef = useRef(null);
-  const navItemsRef = useRef([]);
-  // const buttonRef = useRef(null);
   const mobileMenuRef = useRef(null);
-  
-  const { navigateTo, currentSection, isTransitioning } = useNavigation();
+
+  // Set up intersection observer to highlight active section on scroll
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setActiveSection(entry.target.id);
+          }
+        });
+      },
+      { threshold: 0.5 } // Trigger when 50% of the section is visible
+    );
+
+    navItems.forEach((item) => {
+      const el = document.getElementById(item.id);
+      if (el) observer.observe(el);
+    });
+
+    return () => observer.disconnect();
+  }, []);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -29,25 +43,7 @@ export const Navbar = () => {
         duration: 0.8,
         ease: "power3.out",
       });
-
-      gsap.from(logoRef.current, {
-        x: -50,
-        opacity: 0,
-        duration: 0.6,
-        delay: 0.3,
-        ease: "back.out(1.7)",
-      });
-
-      gsap.from(navItemsRef.current, {
-        y: -20,
-        opacity: 0,
-        duration: 0.5,
-        stagger: 0.1,
-        delay: 0.5,
-        ease: "power2.out",
-      });
     }, navRef);
-
     return () => ctx.revert();
   }, []);
 
@@ -71,111 +67,98 @@ export const Navbar = () => {
     }
   }, [isOpen]);
 
-  const handleNavClick = (id) => {
-    if (!isTransitioning) navigateTo(id);
-    setIsOpen(false);
-  };
-
   return (
-    <header
-      ref={navRef}
-      role="banner"
-      // Added w-full and box-sizing fix
-      className="flex items-center justify-between h-16 sm:h-20 px-4 sm:px-6 md:px-10 bg-[#1e1e24]/90 backdrop-blur-xl sticky top-0 z-50 text-[#fff8f0] border-b border-[#ffcf99]/10 w-full box-border"
-    >
-      {/* Container to keep logo in view */}
-      <div className="flex items-center flex-1">
-        <button
-          ref={logoRef}
-          onClick={() => handleNavClick("home")}
-          // Reduced text size on mobile to prevent clipping
-          className="text-lg sm:text-xl font-bold tracking-tight bg-gradient-to-r from-[#92140c] to-[#ffcf99] bg-clip-text text-transparent whitespace-nowrap"
-        >
-          Anupam Raj
-        </button>
-      </div>
-
-      {/* Desktop Navigation */}
-      <nav aria-label="Main navigation" className="hidden md:block">
-        <ul className="flex items-center gap-6 lg:gap-10 font-medium">
-          {navItems.map((item, index) => (
-            <li key={item.id}>
-              <button
-                ref={(el) => (navItemsRef.current[index] = el)}
-                onClick={() => handleNavClick(item.id)}
-                onMouseEnter={() => {
-                  gsap.to(navItemsRef.current[index], {
-                    y: -2,
-                    duration: 0.3,
-                    ease: "power2.out"
-                  });
+    <div className="fixed top-6 left-0 right-0 z-50 flex justify-center w-full px-4 pointer-events-none">
+      <header
+        ref={navRef}
+        role="banner"
+        className="pointer-events-auto flex items-center justify-between px-6 py-2 bg-[#2a2a2a]/80 backdrop-blur-md rounded-full shadow-lg border-2 border-white/10"
+        style={{
+          boxShadow: "4px 6px 0px rgba(0,0,0,0.4), inset 0 0 10px rgba(255,255,255,0.05)",
+          borderBottomRightRadius: "30px",
+          borderTopLeftRadius: "30px",
+        }}
+      >
+        {/* Desktop Navigation */}
+        <nav aria-label="Main navigation" className="hidden md:block">
+          <ul className="flex items-center gap-8 text-xl">
+            {navItems.map((item) => (
+              <li key={item.id}>
+                <a
+                  href={`#${item.id}`}
+                  className={`transition-colors duration-300 relative group px-2 py-1 ${
+                    activeSection === item.id ? 'text-white' : 'text-white/60 hover:text-white/90'
+                  }`}
+                >
+                  {item.label}
+                  {/* Handwritten underline effect */}
+                  {activeSection === item.id && (
+                    <span className="absolute bottom-0 left-0 w-full h-1 bg-[#e74c3c] rounded-full" 
+                          style={{ transform: "rotate(-2deg)" }} />
+                  )}
+                </a>
+              </li>
+            ))}
+            
+            <li>
+               <a 
+                href="https://www.linkedin.com/in/anupam-raj-88833134b/"
+                target="_blank"
+                rel="noreferrer"
+                className="ml-4 px-4 py-1 text-[#e74c3c] border-2 border-[#e74c3c] rounded-full hover:bg-[#e74c3c] hover:text-white transition-all transform hover:scale-105 inline-block"
+                style={{
+                  borderRadius: "255px 15px 225px 15px/15px 225px 15px 255px",
                 }}
-                onMouseLeave={() => {
-                  gsap.to(navItemsRef.current[index], {
-                    y: 0,
-                    duration: 0.3,
-                    ease: "power2.out"
-                  });
-                }}
-                className={`transition-colors duration-300 relative py-2 group ${
-                  currentSection === item.id ? 'text-[#ffcf99]' : 'text-[#fff8f0]/80 hover:text-[#ffcf99]'
-                }`}
               >
-                {item.label}
-                {/* Animated underline */}
-                <span className={`absolute bottom-0 left-0 h-[2px] bg-gradient-to-r from-[#92140c] to-[#ffcf99] transition-all duration-300 ${
-                  currentSection === item.id ? 'w-full' : 'w-0 group-hover:w-full'
-                }`} />
-              </button>
+                Connect
+              </a>
             </li>
+          </ul>
+        </nav>
+
+        {/* Mobile Hamburger */}
+        <button
+          className="md:hidden flex items-center justify-center p-2 text-white z-50"
+          onClick={() => setIsOpen(!isOpen)}
+          aria-label="Toggle menu"
+        >
+          {isOpen ? <X size={28} /> : <Menu size={28} />}
+        </button>
+
+        {/* Mobile Navigation Menu */}
+        <nav
+          id="mobile-menu"
+          ref={mobileMenuRef}
+          style={{ display: "none" }}
+          className="absolute top-16 right-0 bg-[#2a2a2a] flex-col items-center p-6 gap-4 rounded-2xl border-2 border-white/10 md:hidden z-40"
+          style={{
+            boxShadow: "4px 6px 0px rgba(0,0,0,0.4)",
+          }}
+        >
+          {navItems.map((item) => (
+            <a
+              key={item.id}
+              href={`#${item.id}`}
+              onClick={() => setIsOpen(false)}
+              className={`text-xl font-semibold transition-all w-full text-center py-2 ${
+                activeSection === item.id ? 'text-[#e74c3c]' : 'text-white/80'
+              }`}
+            >
+              {item.label}
+            </a>
           ))}
-        </ul>
-      </nav>
-
-      {/* Desktop Button */}
-      <div className="hidden md:block ml-6">
-        <FancyButton 
-          link="https://www.linkedin.com/in/anupam-raj-88833134b/" 
-          text="Connect With Me" 
-        />
-      </div>
-
-      {/* Mobile Hamburger - Added explicit width/height for touch target */}
-      <button
-        className="md:hidden flex items-center justify-center p-2 text-[#fff8f0] z-50"
-        onClick={() => setIsOpen(!isOpen)}
-        aria-label="Toggle menu"
-      >
-        {isOpen ? <X size={28} /> : <Menu size={28} />}
-      </button>
-
-      {/* Mobile Navigation Menu */}
-      <nav
-        id="mobile-menu"
-        ref={mobileMenuRef}
-        style={{ display: "none" }}
-        className="absolute top-[64px] sm:top-[80px] left-0 w-full bg-[#1e1e24] flex-col items-center py-10 gap-6 border-b border-[#ffcf99]/10 md:hidden z-40 shadow-2xl"
-      >
-        {navItems.map((item) => (
-          <button
-            key={item.id}
-            onClick={() => handleNavClick(item.id)}
-            className={`text-xl font-semibold transition-all ${
-              currentSection === item.id ? 'text-[#ffcf99]' : 'text-[#fff8f0]/90'
-            }`}
+          <a 
+            href="https://www.linkedin.com/in/anupam-raj-88833134b/"
+            target="_blank"
+            rel="noreferrer"
+            className="mt-2 px-6 py-2 text-[#e74c3c] border-2 border-[#e74c3c] rounded-full"
+            style={{ borderRadius: "255px 15px 225px 15px/15px 225px 15px 255px" }}
           >
-            {item.label}
-          </button>
-        ))}
-        {/* Button inside mobile menu */}
-        <div className="mt-4 px-6 w-full flex justify-center">
-          <FancyButton 
-            link="https://www.linkedin.com/in/anupam-raj-88833134b/" 
-            text="Connect With Me" 
-          />
-        </div>
-      </nav>
-    </header>
+            Connect
+          </a>
+        </nav>
+      </header>
+    </div>
   );
 };
 

@@ -1,24 +1,36 @@
 import React from "react";
 import { NavigationProvider } from './context/NavigationContext';
 import { Navbar } from './components/Navbar';
-import StairTransition from './components/StairTransition';
-import SectionRenderer from './components/SectionRenderer';
+import { Header } from './components/HeroSection';
+import ProjectSlider from './components/ProjectSlider';
+import { Contact } from './components/Contact';
 import { AnimatedCursor, ParticlesBackground } from './components/animations';
 
 function App() {
   return (
     <NavigationProvider>
-      <div className="min-h-screen bg-[#1e1e24] overflow-hidden relative">
+      <div className="min-h-screen text-white relative">
         {/* Animated Custom Cursor */}
         <AnimatedCursor />
         
-        {/* Floating Particles Background */}
-        <ParticlesBackground count={25} />
+        {/* Floating Particles Background (acts like chalk dust) */}
+        <ParticlesBackground count={20} />
         
         <Navbar />
-        <StairTransition>
-          <SectionRenderer />
-        </StairTransition>
+        
+        <main className="flex flex-col w-full relative pt-24" role="main">
+          <section id="home" className="min-h-screen w-full flex items-center justify-center relative">
+            <Header />
+          </section>
+          
+          <section id="projects" className="w-full relative">
+            <ProjectSlider />
+          </section>
+          
+          <section id="contact" className="min-h-screen w-full flex items-center justify-center relative">
+            <Contact />
+          </section>
+        </main>
       </div>
     </NavigationProvider>
   );

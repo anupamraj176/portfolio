@@ -5,7 +5,9 @@ module.exports = {
   ],
   theme: {
     extend: {
-
+      fontFamily: {
+        sans: ['Kalam', 'cursive', 'sans-serif'],
+      },
     },
   },
   plugins: [],
