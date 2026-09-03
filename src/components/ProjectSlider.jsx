@@ -72,13 +72,13 @@ const ProjectCard = ({ project }) => {
     <div 
       className="w-[300px] sm:w-[350px] flex-shrink-0 bg-[#f4f4f4] p-4 pb-6 shadow-2xl relative border border-black/10 transition-transform hover:z-50 hover:scale-105 duration-300"
       style={{ 
-        transform: `rotate(${project.rotation}deg)`,
+        transform: `rotate(${project.rotation * 0.5}deg)`,
         boxShadow: "5px 15px 25px rgba(0,0,0,0.4)",
-        borderRadius: "4px"
+        borderRadius: "24px"
       }}
     >
       {/* Red Pushpin */}
-      <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-4 h-4 rounded-full bg-[#e74c3c] shadow-md border border-[#c0392b] z-20"
+      <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-4 h-4 rounded-full bg-[#d97d4d] shadow-md border border-[#c2693b] z-20"
            style={{ boxShadow: "2px 5px 5px rgba(0,0,0,0.3)" }}>
         {/* Pin shine */}
         <div className="absolute top-1 left-1 w-1.5 h-1.5 rounded-full bg-white/60"></div>
@@ -87,13 +87,13 @@ const ProjectCard = ({ project }) => {
       </div>
 
       {/* Project Content */}
-      <div className="bg-[#2a2a2a] w-full h-40 sm:h-48 rounded flex items-center justify-center overflow-hidden border border-black/20 mb-4 text-white">
+      <div className="bg-[#2a2a2a] w-full h-40 sm:h-48 rounded-[16px] flex items-center justify-center overflow-hidden border border-black/20 mb-4 text-white">
         <h3 className="text-2xl font-bold opacity-50 px-4 text-center">{project.title}</h3>
       </div>
 
       <div>
         <h3 className="text-xl sm:text-2xl font-bold text-gray-800 mb-1 leading-tight">{project.title}</h3>
-        <p className="text-[#e74c3c] text-xs uppercase font-bold tracking-widest mb-3">{project.category}</p>
+        <p className="text-[#d97d4d] text-xs uppercase font-bold tracking-widest mb-3">{project.category}</p>
         <p className="text-gray-600 text-sm leading-relaxed mb-4 h-16">{project.desc}</p>
         
         {/* Tech Stack Icons */}
@@ -107,10 +107,10 @@ const ProjectCard = ({ project }) => {
 
         {/* Links */}
         <div className="flex gap-3">
-          <a href={project.github} target="_blank" rel="noreferrer" className="p-2 border-2 border-gray-300 rounded-md text-gray-600 hover:text-[#e74c3c] hover:border-[#e74c3c] transition-colors">
+          <a href={project.github} target="_blank" rel="noreferrer" className="p-2 border-2 border-gray-300 rounded-lg text-gray-600 hover:text-[#d97d4d] hover:border-[#d97d4d] transition-colors">
             <Github size={18} />
           </a>
-          <a href={project.live} target="_blank" rel="noreferrer" className="p-2 border-2 border-gray-300 rounded-md text-gray-600 hover:text-[#e74c3c] hover:border-[#e74c3c] transition-colors">
+          <a href={project.live} target="_blank" rel="noreferrer" className="p-2 border-2 border-gray-300 rounded-lg text-gray-600 hover:text-[#d97d4d] hover:border-[#d97d4d] transition-colors">
             <ExternalLink size={18} />
           </a>
         </div>
@@ -155,7 +155,7 @@ export const ProjectSlider = () => {
       {/* Title */}
       <div className="absolute top-10 left-6 sm:left-16 z-10 pointer-events-none">
         <h2 className="text-4xl sm:text-6xl font-bold text-white mb-2">
-          Projects <span className="text-[#e74c3c]">pinned up</span>
+          Projects <span className="text-[#d97d4d]">pinned up</span>
         </h2>
         <div className="w-24 h-1 bg-[#fff] rounded-full mt-2" style={{ transform: "rotate(-1deg)" }}></div>
       </div>
@@ -164,7 +164,7 @@ export const ProjectSlider = () => {
       <div className="absolute bottom-10 left-1/2 -translate-x-1/2 text-white/50 text-sm flex flex-col items-center gap-2 pointer-events-none">
         <span>scroll down to view projects</span>
         <div className="w-0.5 h-10 bg-white/20 relative overflow-hidden">
-          <div className="absolute top-0 left-0 w-full h-full bg-[#e74c3c] origin-top animate-bounce"></div>
+          <div className="absolute top-0 left-0 w-full h-full bg-[#d97d4d] origin-top animate-bounce"></div>
         </div>
       </div>
 

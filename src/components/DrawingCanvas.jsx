@@ -2,30 +2,29 @@ import React, { useEffect, useRef, useState } from 'react';
 
 const COLORS = {
   white: '#ffffff',
-  red: '#e74c3c',
+  red: '#d97d4d',
   yellow: '#f1c40f',
 };
 
 export const DrawingCanvas = () => {
   const canvasRef = useRef(null);
+  const containerRef = useRef(null);
   const [activeTool, setActiveTool] = useState(null); // 'white', 'red', 'yellow', 'eraser', or null
   const isDrawing = useRef(false);
   const lastPos = useRef({ x: 0, y: 0 });
-  const strokesRef = useRef([]); // Store strokes for redrawing on resize
+  const strokesRef = useRef([]); 
 
   // Setup canvas size and listeners
   useEffect(() => {
     const canvas = canvasRef.current;
     const ctx = canvas.getContext('2d');
+    const container = containerRef.current;
 
     const updateCanvasSize = () => {
-      const scrollHeight = document.documentElement.scrollHeight;
-      const scrollWidth = document.documentElement.scrollWidth;
-      
-      // Only resize if it actually grew (to avoid clearing on mobile browser bar hide/show)
-      if (canvas.width !== scrollWidth || canvas.height !== scrollHeight) {
-        canvas.width = scrollWidth;
-        canvas.height = scrollHeight;
+      const rect = container.getBoundingClientRect();
+      if (canvas.width !== rect.width || canvas.height !== rect.height) {
+        canvas.width = rect.width;
+        canvas.height = rect.height;
         redrawAll();
       }
     };
@@ -43,7 +42,6 @@ export const DrawingCanvas = () => {
           ctx.globalCompositeOperation = 'source-over';
           ctx.lineWidth = 4;
           ctx.strokeStyle = COLORS[stroke.tool] || COLORS.white;
-          // Slight opacity for chalk effect
           ctx.globalAlpha = 0.8;
         }
 
@@ -61,14 +59,18 @@ export const DrawingCanvas = () => {
 
     updateCanvasSize();
     window.addEventListener('resize', updateCanvasSize);
-
-    // Using ResizeObserver to catch layout changes
-    const observer = new ResizeObserver(updateCanvasSize);
-    observer.observe(document.body);
+    
+    if (window.ResizeObserver) {
+      const observer = new ResizeObserver(updateCanvasSize);
+      observer.observe(container);
+      return () => {
+        window.removeEventListener('resize', updateCanvasSize);
+        observer.disconnect();
+      };
+    }
 
     return () => {
       window.removeEventListener('resize', updateCanvasSize);
-      observer.disconnect();
     };
   }, []);
 
@@ -79,21 +81,31 @@ export const DrawingCanvas = () => {
     const canvas = canvasRef.current;
     const ctx = canvas.getContext('2d');
 
+    const getMousePos = (e) => {
+      const rect = canvas.getBoundingClientRect();
+      return {
+        x: e.clientX - rect.left,
+        y: e.clientY - rect.top
+      };
+    };
+
     const startDrawing = (e) => {
       // Don't draw if clicking on interactive elements
       if (e.target.closest('button, a, input, textarea, .chalk-toolbar')) {
         return;
       }
       
+      const { x, y } = getMousePos(e);
+      // Check if mouse is actually within the canvas area
+      if (x < 0 || x > canvas.width || y < 0 || y > canvas.height) {
+        return;
+      }
+
       isDrawing.current = true;
-      const x = e.pageX;
-      const y = e.pageY;
       lastPos.current = { x, y };
 
-      // Start a new stroke
       strokesRef.current.push({ tool: activeTool, points: [{ x, y }] });
 
-      // Draw dot
       ctx.beginPath();
       if (activeTool === 'eraser') {
         ctx.globalCompositeOperation = 'destination-out';
@@ -114,10 +126,8 @@ export const DrawingCanvas = () => {
     const draw = (e) => {
       if (!isDrawing.current) return;
       
-      const x = e.pageX;
-      const y = e.pageY;
+      const { x, y } = getMousePos(e);
 
-      // Add point to current stroke
       const currentStroke = strokesRef.current[strokesRef.current.length - 1];
       if (currentStroke) {
         currentStroke.points.push({ x, y });
@@ -159,20 +169,18 @@ export const DrawingCanvas = () => {
     };
   }, [activeTool]);
 
-  // Dynamic cursor based on tool
   let cursorStyle = 'default';
   if (activeTool === 'white') cursorStyle = 'url("data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'16\' height=\'16\'><circle cx=\'8\' cy=\'8\' r=\'4\' fill=\'%23ffffff\'/></svg>") 8 8, crosshair';
-  if (activeTool === 'red') cursorStyle = 'url("data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'16\' height=\'16\'><circle cx=\'8\' cy=\'8\' r=\'4\' fill=\'%23e74c3c\'/></svg>") 8 8, crosshair';
+  if (activeTool === 'red') cursorStyle = 'url("data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'16\' height=\'16\'><circle cx=\'8\' cy=\'8\' r=\'4\' fill=\'%23d97d4d\'/></svg>") 8 8, crosshair';
   if (activeTool === 'yellow') cursorStyle = 'url("data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'16\' height=\'16\'><circle cx=\'8\' cy=\'8\' r=\'4\' fill=\'%23f1c40f\'/></svg>") 8 8, crosshair';
   if (activeTool === 'eraser') cursorStyle = 'url("data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'32\' height=\'32\'><rect x=\'0\' y=\'0\' width=\'32\' height=\'32\' fill=\'white\' fill-opacity=\'0.5\' stroke=\'white\' stroke-width=\'2\'/></svg>") 16 16, cell';
 
   return (
-    <>
+    <div ref={containerRef} className="absolute inset-0 z-40 pointer-events-none overflow-hidden">
       {/* Absolute Canvas overlay */}
       <canvas
         ref={canvasRef}
-        className="absolute top-0 left-0 w-full pointer-events-none"
-        style={{ zIndex: 40 }}
+        className="absolute top-0 left-0"
       />
       
       {/* Body cursor override when drawing */}
@@ -182,8 +190,8 @@ export const DrawingCanvas = () => {
         </style>
       )}
 
-      {/* Floating Toolbar */}
-      <div className="chalk-toolbar fixed bottom-8 right-8 z-50 flex items-end gap-3 bg-[#2a2a2a]/80 backdrop-blur-md p-4 rounded-xl border border-white/10 shadow-2xl transition-transform duration-300">
+      {/* Floating Toolbar - Localized to bottom right of container */}
+      <div className="chalk-toolbar absolute bottom-8 right-8 z-50 flex items-end gap-3 bg-[#2a2a2a]/60 backdrop-blur-md p-4 rounded-3xl border border-white/5 shadow-xl transition-transform duration-300 pointer-events-auto">
         
         {/* White Chalk */}
         <button 
@@ -195,11 +203,11 @@ export const DrawingCanvas = () => {
           <div className="absolute bottom-0 w-full h-4 bg-[#8b5a2b] opacity-80" />
         </button>
 
-        {/* Red Chalk */}
+        {/* Red Chalk (Softer) */}
         <button 
           onClick={() => setActiveTool(activeTool === 'red' ? null : 'red')}
-          className={`w-4 h-16 rounded-t-sm transition-all shadow-md relative ${activeTool === 'red' ? '-translate-y-4 shadow-[0_0_15px_rgba(231,76,60,0.5)]' : 'hover:-translate-y-2'}`}
-          style={{ background: 'linear-gradient(to right, #c0392b, #e74c3c, #a93226)' }}
+          className={`w-4 h-16 rounded-t-sm transition-all shadow-md relative ${activeTool === 'red' ? '-translate-y-4 shadow-[0_0_15px_rgba(217,125,77,0.5)]' : 'hover:-translate-y-2'}`}
+          style={{ background: 'linear-gradient(to right, #e69062, #d97d4d, #c2693b)' }}
           aria-label="Red Chalk"
         >
           <div className="absolute bottom-0 w-full h-4 bg-[#8b5a2b] opacity-80" />
@@ -215,19 +223,19 @@ export const DrawingCanvas = () => {
           <div className="absolute bottom-0 w-full h-4 bg-[#8b5a2b] opacity-80" />
         </button>
 
-        <div className="w-[1px] h-12 bg-white/20 mx-1" />
+        <div className="w-[1px] h-12 bg-white/10 mx-1" />
 
         {/* Eraser */}
         <button 
           onClick={() => setActiveTool(activeTool === 'eraser' ? null : 'eraser')}
-          className={`w-12 h-8 rounded transition-all shadow-md bg-[#e67e22] relative border-b-4 border-[#d35400] ${activeTool === 'eraser' ? '-translate-y-4 shadow-[0_0_15px_rgba(230,126,34,0.5)]' : 'hover:-translate-y-2'}`}
+          className={`w-12 h-8 rounded-md transition-all shadow-md bg-[#d2b48c] relative border-b-4 border-[#b89b78] ${activeTool === 'eraser' ? '-translate-y-4 shadow-[0_0_15px_rgba(210,180,140,0.5)]' : 'hover:-translate-y-2'}`}
           aria-label="Eraser"
         >
-          <div className="absolute top-0 w-full h-3 bg-[#2c3e50] rounded-t opacity-80" />
+          <div className="absolute top-0 w-full h-3 bg-[#4a4a4a] rounded-t-md opacity-80" />
         </button>
 
       </div>
-    </>
+    </div>
   );
 };
 

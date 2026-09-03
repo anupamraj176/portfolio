@@ -93,7 +93,7 @@ export const Navbar = () => {
                   {item.label}
                   {/* Handwritten underline effect */}
                   {activeSection === item.id && (
-                    <span className="absolute bottom-0 left-0 w-full h-1 bg-[#e74c3c] rounded-full" 
+                    <span className="absolute bottom-0 left-0 w-full h-1 bg-[#d97d4d] rounded-full" 
                           style={{ transform: "rotate(-2deg)" }} />
                   )}
                 </a>
@@ -105,9 +105,9 @@ export const Navbar = () => {
                 href="https://www.linkedin.com/in/anupam-raj-88833134b/"
                 target="_blank"
                 rel="noreferrer"
-                className="ml-4 px-4 py-1 text-[#e74c3c] border-2 border-[#e74c3c] rounded-full hover:bg-[#e74c3c] hover:text-white transition-all transform hover:scale-105 inline-block"
+                className="ml-4 px-4 py-1 text-[#d97d4d] border-2 border-[#d97d4d] rounded-full hover:bg-[#d97d4d] hover:text-white transition-all transform hover:scale-105 inline-block"
                 style={{
-                  borderRadius: "255px 15px 225px 15px/15px 225px 15px 255px",
+                  borderRadius: "24px",
                 }}
               >
                 Connect
@@ -141,7 +141,7 @@ export const Navbar = () => {
               href={`#${item.id}`}
               onClick={() => setIsOpen(false)}
               className={`text-xl font-semibold transition-all w-full text-center py-2 ${
-                activeSection === item.id ? 'text-[#e74c3c]' : 'text-white/80'
+                activeSection === item.id ? 'text-[#d97d4d]' : 'text-white/80'
               }`}
             >
               {item.label}
@@ -151,8 +151,8 @@ export const Navbar = () => {
             href="https://www.linkedin.com/in/anupam-raj-88833134b/"
             target="_blank"
             rel="noreferrer"
-            className="mt-2 px-6 py-2 text-[#e74c3c] border-2 border-[#e74c3c] rounded-full"
-            style={{ borderRadius: "255px 15px 225px 15px/15px 225px 15px 255px" }}
+            className="mt-2 px-6 py-2 text-[#d97d4d] border-2 border-[#d97d4d] rounded-full"
+            style={{ borderRadius: "24px" }}
           >
             Connect
           </a>

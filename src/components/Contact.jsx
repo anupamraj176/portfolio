@@ -1,6 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import DrawingCanvas from './DrawingCanvas';
+import InteractiveMountains from './InteractiveMountains';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -10,16 +12,16 @@ const SketchyButton = ({ text, onClick }) => {
   const handleMouseEnter = () => {
     gsap.to(buttonRef.current, {
       scale: 1.05,
-      rotation: -2,
+      y: -3,
       duration: 0.3,
-      ease: "back.out(1.5)",
+      ease: "power2.out",
     });
   };
 
   const handleMouseLeave = () => {
     gsap.to(buttonRef.current, {
       scale: 1,
-      rotation: 1,
+      y: 0,
       duration: 0.3,
       ease: "power2.out",
     });
@@ -31,11 +33,9 @@ const SketchyButton = ({ text, onClick }) => {
       onClick={onClick}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
-      className="px-8 py-3 text-2xl font-bold text-white bg-[#e74c3c] transition-all transform hover:bg-[#c0392b]"
+      className="px-8 py-3 text-xl font-bold text-white bg-[#d97d4d] transition-colors hover:bg-[#c2693b] rounded-full shadow-lg relative z-20"
       style={{
-        borderRadius: "255px 15px 225px 15px/15px 225px 15px 255px",
-        boxShadow: "4px 6px 0px rgba(0,0,0,0.4)",
-        transform: "rotate(1deg)"
+        boxShadow: "4px 4px 0px rgba(0,0,0,0.2)",
       }}
     >
       {text}
@@ -49,13 +49,13 @@ export const Contact = () => {
 
   const sectionRef = useRef(null);
   const formRef = useRef(null);
+  const formContainerRef = useRef(null);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      gsap.from(formRef.current, {
-        y: 50,
+      gsap.from(formContainerRef.current, {
+        y: 30,
         opacity: 0,
-        rotation: -2,
         duration: 1,
         ease: "power3.out",
         scrollTrigger: {
@@ -76,8 +76,8 @@ export const Contact = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!formData.name || !formData.email || !formData.message) {
-      gsap.to(formRef.current, {
-        x: [-10, 10, -10, 10, 0],
+      gsap.to(formContainerRef.current, {
+        x: [-8, 8, -8, 8, 0],
         duration: 0.4,
         ease: "power2.out",
       });
@@ -86,100 +86,114 @@ export const Contact = () => {
       return;
     }
     
-    setBtnText("Sending...");
+    // Paper airplane animation for the button
+    const btn = formRef.current.querySelector('button');
+    gsap.to(btn, {
+      x: 100,
+      y: -100,
+      opacity: 0,
+      rotation: 15,
+      scale: 0.5,
+      duration: 0.6,
+      ease: "power2.in"
+    });
+    
     setTimeout(() => {
       setBtnText("Sent ✓");
+      gsap.fromTo(btn, 
+        { x: -50, y: 50, opacity: 0, scale: 0.5, rotation: -15 },
+        { x: 0, y: 0, opacity: 1, scale: 1, rotation: 0, duration: 0.6, ease: "back.out(1.5)" }
+      );
       setTimeout(() => {
         setBtnText("Send Message!");
         setFormData({ name: '', email: '', message: '' });
       }, 2000);
-    }, 1500);
+    }, 600);
   };
 
   const inputStyle = {
-    borderRadius: "255px 15px 225px 15px/15px 225px 15px 255px",
-    border: "2px solid rgba(255,255,255,0.2)",
-    boxShadow: "2px 4px 0px rgba(0,0,0,0.2)",
+    borderRadius: "16px",
+    border: "2px solid rgba(255,255,255,0.1)",
+    boxShadow: "inset 2px 2px 5px rgba(0,0,0,0.1)",
   };
 
   return (
     <section
       id="contact"
       ref={sectionRef}
-      className="w-full px-6 py-20 flex flex-col items-center justify-center min-h-screen overflow-hidden relative"
+      className="w-full px-6 pt-20 pb-32 flex flex-col items-center justify-center min-h-screen relative"
     >
+      {/* Restrict drawing canvas strictly to the footer */}
+      <DrawingCanvas />
       
-      <div className="text-center mb-10 relative z-10">
+      <div className="text-center mb-8 relative z-20 pointer-events-none">
         <h2 className="text-5xl md:text-6xl font-bold text-white mb-2 inline-block relative">
           Let's Connect!
-          <span className="absolute -bottom-2 left-0 w-full h-2 bg-[#e74c3c]" style={{ borderRadius: "255px 15px 225px 15px/15px 225px 15px 255px", transform: "rotate(-1deg)" }}></span>
+          <span className="absolute -bottom-2 left-0 w-full h-1.5 bg-[#d97d4d] rounded-full opacity-80"></span>
         </h2>
-        <p className="text-white/70 mt-6 text-xl max-w-md mx-auto" style={{ fontFamily: "monospace" }}>
+        <p className="text-white/60 mt-6 text-xl max-w-md mx-auto" style={{ fontFamily: "monospace" }}>
           I'm always open to discussing new projects, creative ideas, or opportunities to be part of your visions.
         </p>
       </div>
 
-      <form
-        ref={formRef}
-        onSubmit={handleSubmit}
-        className="w-full max-w-xl bg-[#2a2a2a] p-8 md:p-12 relative z-10"
+      <div
+        ref={formContainerRef}
+        className="w-full max-w-xl bg-[#2a2a2a]/90 backdrop-blur-md p-8 md:p-12 relative z-20 rounded-[30px]"
         style={{
-          borderRadius: "255px 15px 225px 15px/15px 225px 15px 255px",
-          boxShadow: "8px 12px 0px rgba(0,0,0,0.5)",
-          border: "2px solid rgba(255,255,255,0.1)",
-          transform: "rotate(-1deg)"
+          boxShadow: "0px 10px 30px rgba(0,0,0,0.3)",
+          border: "1px solid rgba(255,255,255,0.05)",
         }}
       >
-        {/* Tape at top */}
-        <div className="absolute -top-4 left-1/2 -translate-x-1/2 w-32 h-8 bg-white/60 shadow-sm border border-black/5"
-             style={{ transform: "rotate(2deg)" }}></div>
+        <form ref={formRef} onSubmit={handleSubmit} className="w-full">
+          <div className="flex flex-col gap-5 mb-8">
+            <div>
+              <label className="block text-white/70 mb-2 font-medium text-lg ml-2">Name</label>
+              <input
+                name="name"
+                type="text"
+                placeholder="John Doe"
+                value={formData.name}
+                onChange={handleChange}
+                className="w-full px-5 py-3 bg-[#1a1a1a]/80 text-white focus:outline-none focus:border-[#d97d4d] transition-colors text-lg"
+                style={inputStyle}
+              />
+            </div>
 
-        <div className="flex flex-col gap-6 mb-8 mt-4">
-          <div>
-            <label className="block text-white/80 mb-2 font-bold text-lg">Name</label>
-            <input
-              name="name"
-              type="text"
-              placeholder="John Doe"
-              value={formData.name}
-              onChange={handleChange}
-              className="w-full px-5 py-3 bg-[#1a1a1a] text-white focus:outline-none focus:border-[#e74c3c] transition-colors text-lg"
-              style={inputStyle}
-            />
+            <div>
+              <label className="block text-white/70 mb-2 font-medium text-lg ml-2">Email</label>
+              <input
+                name="email"
+                type="email"
+                placeholder="john@example.com"
+                value={formData.email}
+                onChange={handleChange}
+                className="w-full px-5 py-3 bg-[#1a1a1a]/80 text-white focus:outline-none focus:border-[#d97d4d] transition-colors text-lg"
+                style={inputStyle}
+              />
+            </div>
+
+            <div>
+              <label className="block text-white/70 mb-2 font-medium text-lg ml-2">Message</label>
+              <textarea
+                name="message"
+                rows={4}
+                placeholder="Hello Anupam..."
+                value={formData.message}
+                onChange={handleChange}
+                className="w-full px-5 py-3 bg-[#1a1a1a]/80 text-white focus:outline-none focus:border-[#d97d4d] transition-colors text-lg resize-none"
+                style={inputStyle}
+              />
+            </div>
           </div>
 
-          <div>
-            <label className="block text-white/80 mb-2 font-bold text-lg">Email</label>
-            <input
-              name="email"
-              type="email"
-              placeholder="john@example.com"
-              value={formData.email}
-              onChange={handleChange}
-              className="w-full px-5 py-3 bg-[#1a1a1a] text-white focus:outline-none focus:border-[#e74c3c] transition-colors text-lg"
-              style={inputStyle}
-            />
+          <div className="flex justify-center">
+            <SketchyButton text={btnText} onClick={handleSubmit} />
           </div>
-
-          <div>
-            <label className="block text-white/80 mb-2 font-bold text-lg">Message</label>
-            <textarea
-              name="message"
-              rows={4}
-              placeholder="Hello Anupam..."
-              value={formData.message}
-              onChange={handleChange}
-              className="w-full px-5 py-3 bg-[#1a1a1a] text-white focus:outline-none focus:border-[#e74c3c] transition-colors text-lg resize-none"
-              style={inputStyle}
-            />
-          </div>
-        </div>
-
-        <div className="flex justify-center">
-          <SketchyButton text={btnText} onClick={handleSubmit} />
-        </div>
-      </form>
+        </form>
+      </div>
       
+      {/* Decorative Interactive Mountains */}
+      <InteractiveMountains />
     </section>
   );
 };

@@ -3,76 +3,113 @@ import { FaInstagramSquare, FaGithub, FaTwitter, FaLinkedin, FaFileDownload, FaG
 import gsap from "gsap";
 import portfolioImg from "../assets/profile.jpeg";
 
-const socialLinks = [
-  { Icon: FaLinkedin, url: "https://linkedin.com/in/anupamraj176", color: "#e74c3c" },
-  { Icon: FaGithub, url: "https://github.com/anupamraj176", color: "#e74c3c" },
-  { Icon: FaTwitter, url: "https://twitter.com/anupamraj176", color: "#e74c3c" },
-  { Icon: FaInstagramSquare, url: "https://instagram.com/anupamraj176", color: "#e74c3c" },
-];
-
 export const Header = () => {
-  const containerRef = useRef(null);
   const polaroidRef = useRef(null);
-  const textRef = useRef(null);
-  const stickyRef = useRef(null);
-  const socialsRef = useRef([]);
+  const noteRef = useRef(null);
 
   useEffect(() => {
-    const ctx = gsap.context(() => {
-      const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
+    // Initial float up animation
+    gsap.fromTo(
+      polaroidRef.current,
+      { y: 50, opacity: 0, rotation: -5 },
+      { y: 0, opacity: 1, rotation: -2, duration: 1, ease: "power3.out" }
+    );
+    
+    gsap.fromTo(
+      noteRef.current,
+      { y: 50, opacity: 0, rotation: 10 },
+      { y: 0, opacity: 1, rotation: 3, duration: 1, ease: "power3.out", delay: 0.2 }
+    );
 
-      // Polaroid swing in
-      tl.from(polaroidRef.current, { 
-        y: -50,
-        opacity: 0,
-        rotation: -15,
-        duration: 1,
-        ease: "back.out(1.5)"
-      })
-      // Text fade and slide
-      .from(textRef.current, {
-        x: 50,
-        opacity: 0,
-        duration: 0.8
-      }, "-=0.6")
-      // Socials pop
-      .from(socialsRef.current, {
-        scale: 0,
-        opacity: 0,
-        stagger: 0.1,
-        duration: 0.5,
-        ease: "back.out(2)"
-      }, "-=0.4")
-      // Sticky note unfold
-      .from(stickyRef.current, {
-        y: 30,
-        opacity: 0,
-        rotation: 5,
-        duration: 0.6,
-        ease: "power2.out"
-      }, "-=0.2");
+    // Continuous subtle swinging
+    gsap.to(polaroidRef.current, {
+      rotation: 1,
+      y: -5,
+      duration: 3,
+      repeat: -1,
+      yoyo: true,
+      ease: "sine.inOut"
+    });
 
-      // Continuous subtle swing for polaroid
-      gsap.to(polaroidRef.current, {
-        rotation: -4,
-        duration: 2.5,
-        repeat: -1,
-        yoyo: true,
-        ease: "sine.inOut"
-      });
-
-    }, containerRef);
-    return () => ctx.revert();
+    gsap.to(noteRef.current, {
+      rotation: 5,
+      y: 5,
+      duration: 4,
+      repeat: -1,
+      yoyo: true,
+      ease: "sine.inOut",
+      delay: 0.5
+    });
   }, []);
 
   return (
-    <div ref={containerRef} className="flex flex-col lg:flex-row items-center justify-center max-w-6xl mx-auto px-6 py-12 gap-12 lg:gap-20 w-full">
+    <div className="w-full max-w-6xl mx-auto px-6 py-20 flex flex-col lg:flex-row items-center justify-between gap-16 relative">
       
-      {/* LEFT: Polaroid Photo */}
-      <div className="relative z-10 flex-shrink-0 mt-10 lg:mt-0">
+      {/* Left Content */}
+      <div className="flex-1 w-full text-center lg:text-left z-10 relative">
+        <div className="mb-6">
+          <span className="text-[#d97d4d] text-xl font-bold tracking-widest uppercase" style={{ fontFamily: "monospace" }}>
+            <span className="text-white/50">{"<"}</span> Hello World <span className="text-white/50">{"/>"}</span>
+          </span>
+        </div>
+        
+        <h1 className="text-5xl sm:text-6xl md:text-7xl font-bold text-white mb-4 relative inline-block">
+          I'm Anupam Raj
+          <span className="absolute -bottom-2 left-0 w-full h-2 bg-[#d97d4d] rounded-full opacity-80" style={{ transform: "rotate(-1deg)" }}></span>
+        </h1>
+        
+        <p className="text-[#d97d4d] text-xl md:text-2xl mt-4 font-bold tracking-wider" style={{ fontFamily: "monospace" }}>
+          Full-Stack Developer • Problem Solver
+        </p>
+
+        <p className="mt-8 text-white/70 text-lg md:text-xl leading-relaxed max-w-2xl mx-auto lg:mx-0" style={{ fontFamily: "monospace" }}>
+          I build scalable web applications with a focus on clean code and beautiful user experiences. 
+          Currently specializing in the MERN stack and modern frontend frameworks.
+        </p>
+
+        <div className="mt-10 flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-6">
+          <a
+            href="#projects"
+            className="px-8 py-3 text-lg font-bold text-white bg-[#d97d4d] transition-colors hover:bg-[#c2693b] rounded-full shadow-lg"
+            style={{ boxShadow: "4px 4px 0px rgba(0,0,0,0.2)" }}
+          >
+            View My Work
+          </a>
+          <a
+            href="/resume.pdf"
+            className="px-8 py-3 text-lg font-bold text-white bg-transparent border-2 border-white/20 transition-all hover:bg-white/10 rounded-full flex items-center gap-2"
+          >
+            <FaFileDownload /> Resume
+          </a>
+        </div>
+
+        <div className="mt-12 flex items-center justify-center lg:justify-start gap-6">
+          {[
+            { icon: <FaGithub />, link: "https://github.com/anupamraj" },
+            { icon: <FaLinkedin />, link: "https://linkedin.com/in/anupamraj" },
+            { icon: <FaTwitter />, link: "https://twitter.com/anupamraj" },
+            { icon: <FaInstagramSquare />, link: "https://instagram.com/anupamraj" }
+          ].map((social, idx) => (
+            <a 
+              key={idx}
+              href={social.link}
+              target="_blank"
+              rel="noreferrer"
+              className="text-white/60 hover:text-[#d97d4d] text-3xl transition-colors hover:-translate-y-1 transform duration-200"
+            >
+              {social.icon}
+            </a>
+          ))}
+        </div>
+      </div>
+
+      {/* Right Content - Polaroid & Sticky Note */}
+      <div className="relative z-10 flex-shrink-0 mt-10 lg:mt-0 w-[280px] h-[350px]">
+        
+        {/* The Polaroid */}
         <div 
           ref={polaroidRef}
-          className="bg-[#f4f4f4] p-4 pb-12 shadow-2xl relative transform -rotate-3 transition-transform hover:rotate-0 duration-300"
+          className="bg-[#f4f4f4] p-4 pb-12 shadow-2xl relative transform transition-transform hover:rotate-0 duration-300 rounded-sm"
           style={{
             boxShadow: "10px 15px 25px rgba(0,0,0,0.5)",
             width: "280px"
@@ -80,95 +117,38 @@ export const Header = () => {
         >
           {/* Tape */}
           <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 w-24 h-8 bg-white/60 shadow-sm border border-black/5 z-20"
-               style={{ transform: "translateX(-50%) rotate(-4deg)" }}></div>
+               style={{ transform: "translateX(-50%) rotate(-1deg)" }}></div>
           
           <img
             src={portfolioImg}
-            alt="Anupam Raj"
-            className="w-full h-auto object-cover grayscale-[20%] contrast-125 border border-black/10"
-            style={{ filter: "sepia(20%)" }}
+            alt="Anupam"
+            className="w-full h-auto aspect-[3/4] object-cover rounded-sm grayscale-[20%] contrast-110"
           />
-        </div>
-      </div>
-
-      {/* RIGHT: Content */}
-      <div className="flex flex-col items-center lg:items-start text-center lg:text-left flex-1 w-full max-w-2xl">
-        
-        {/* Header & Socials */}
-        <div ref={textRef} className="flex flex-col sm:flex-row items-center sm:items-end justify-between w-full mb-6 gap-4">
-          <div>
-            <h1 className="text-5xl sm:text-6xl font-bold text-white mb-2 relative inline-block">
-              Anupam Raj
-              <span className="absolute -bottom-2 left-0 w-full h-2 bg-[#e74c3c]" style={{ borderRadius: "255px 15px 225px 15px/15px 225px 15px 255px", transform: "rotate(-1deg)" }}></span>
-            </h1>
-            <p className="text-[#e74c3c] text-xl mt-4 font-bold tracking-wider" style={{ fontFamily: "monospace" }}>
-              Full-Stack Developer • Problem Solver
-            </p>
-          </div>
-          
-          <div className="flex gap-3">
-            {socialLinks.map(({ Icon, url, color }, i) => (
-              <a 
-                key={i}
-                ref={el => socialsRef.current[i] = el}
-                href={url}
-                target="_blank"
-                rel="noreferrer"
-                className="w-10 h-10 flex items-center justify-center bg-white rounded-full transition-transform hover:scale-110"
-                style={{
-                  color: color,
-                  border: `2px solid ${color}`,
-                  boxShadow: "3px 4px 0px rgba(0,0,0,0.3)"
-                }}
-              >
-                <Icon size={20} />
-              </a>
-            ))}
-          </div>
+          <p className="text-black/80 font-bold text-center mt-4 text-2xl" style={{ fontFamily: "Kalam, cursive" }}>Me!</p>
         </div>
 
-        {/* Sticky Note */}
+        {/* The Sticky Note */}
         <div 
-          ref={stickyRef}
-          className="bg-[#fef3c7] text-[#333] p-6 sm:p-8 w-full relative shadow-xl text-lg sm:text-xl leading-relaxed"
+          ref={noteRef}
+          className="absolute -bottom-10 -right-12 w-64 bg-[#f1c40f] p-5 shadow-xl z-20 origin-top-left rounded-bl-3xl"
           style={{
-            transform: "rotate(1deg)",
-            boxShadow: "5px 10px 15px rgba(0,0,0,0.4), inset 0 0 20px rgba(0,0,0,0.05)",
-            borderBottomRightRadius: "40px 5px",
+            boxShadow: "4px 8px 15px rgba(0,0,0,0.3)"
           }}
         >
-          {/* Sticky Note Tape */}
-          <div className="absolute -top-3 left-1/4 w-16 h-6 bg-white/50 shadow-sm border border-black/5"
-               style={{ transform: "rotate(2deg)" }}></div>
-
-          <ul className="space-y-4 text-left">
-            <li className="flex items-start gap-3">
-              <FaGraduationCap className="text-[#e74c3c] mt-1 flex-shrink-0" />
-              <span>Currently a B.Tech CSE student passionate about building real-world solutions.</span>
-            </li>
-            <li className="flex items-start gap-3">
-              <FaCode className="text-[#e74c3c] mt-1 flex-shrink-0" />
-              <span>Building modern, responsive, and user-friendly web applications from scratch.</span>
-            </li>
-            <li className="flex items-start gap-3">
-              <FaHeart className="text-[#e74c3c] mt-1 flex-shrink-0" />
-              <span>Obsessed with finding the right problems to solve and crafting clean code.</span>
-            </li>
-            <li className="flex items-center gap-3 pt-4">
-               <a 
-                  href="https://google.com" 
-                  target="_blank" 
-                  rel="noreferrer"
-                  className="flex items-center gap-2 px-4 py-1 text-sm text-[#e74c3c] border-2 border-[#e74c3c] rounded-full hover:bg-[#e74c3c] hover:text-white transition-all transform hover:scale-105"
-                  style={{ borderRadius: "255px 15px 225px 15px/15px 225px 15px 255px" }}
-                >
-                  <FaFileDownload /> Resume
-                </a>
-            </li>
+          {/* Push Pin */}
+          <div className="absolute top-2 left-1/2 -translate-x-1/2 w-3 h-3 bg-[#e74c3c] rounded-full shadow-md">
+            <div className="absolute top-0.5 left-0.5 w-1 h-1 bg-white/50 rounded-full"></div>
+          </div>
+          
+          <ul className="text-black/80 font-bold text-lg mt-2 flex flex-col gap-2">
+            <li className="flex items-center gap-2"><FaCode className="text-[#d97d4d]"/> MERN Stack</li>
+            <li className="flex items-center gap-2"><FaCode className="text-[#d97d4d]"/> Next.js & Tailwind</li>
+            <li className="flex items-center gap-2"><FaGraduationCap className="text-[#d97d4d]"/> B.Tech CS</li>
+            <li className="flex items-center gap-2"><FaHeart className="text-[#e74c3c]"/> Coffee & Code</li>
           </ul>
         </div>
-
       </div>
+      
     </div>
   );
 };
