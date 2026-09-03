@@ -2,9 +2,11 @@ import React from "react";
 import { NavigationProvider } from './context/NavigationContext';
 import { Navbar } from './components/Navbar';
 import { Header } from './components/HeroSection';
+import TechStack from './components/TechStack';
 import ProjectSlider from './components/ProjectSlider';
+import Education from './components/Education';
 import { Contact } from './components/Contact';
-import { AnimatedCursor, ParticlesBackground } from './components/animations';
+import { ParticlesBackground } from './components/animations';
 import Doodles from './components/Doodles';
 import ClickDust from './components/ClickDust';
 
@@ -12,8 +14,6 @@ function App() {
   return (
     <NavigationProvider>
       <div className="min-h-screen text-white relative">
-        {/* Animated Custom Cursor */}
-        <AnimatedCursor />
         
         {/* Floating Particles Background (acts like chalk dust) */}
         <ParticlesBackground count={20} />
@@ -31,13 +31,13 @@ function App() {
             <Header />
           </section>
           
-          <section id="projects" className="w-full relative">
-            <ProjectSlider />
-          </section>
+          <TechStack />
           
-          <section id="contact" className="min-h-screen w-full flex items-center justify-center relative">
-            <Contact />
-          </section>
+          <ProjectSlider />
+          
+          <Education />
+          
+          <Contact />
         </main>
       </div>
     </NavigationProvider>

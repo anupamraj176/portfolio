@@ -4,7 +4,9 @@ import gsap from "gsap";
 
 const navItems = [
   { label: "About", id: "home" },
+  { label: "Skills", id: "skills" },
   { label: "Projects", id: "projects" },
+  { label: "Education", id: "education" },
   { label: "Contact", id: "contact" },
 ];
 
@@ -129,9 +131,9 @@ export const Navbar = () => {
         <nav
           id="mobile-menu"
           ref={mobileMenuRef}
-          style={{ display: "none" }}
           className="absolute top-16 right-0 bg-[#2a2a2a] flex-col items-center p-6 gap-4 rounded-2xl border-2 border-white/10 md:hidden z-40"
           style={{
+            display: "none",
             boxShadow: "4px 6px 0px rgba(0,0,0,0.4)",
           }}
         >
