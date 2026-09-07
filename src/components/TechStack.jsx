@@ -20,13 +20,17 @@ import {
 
 gsap.registerPlugin(ScrollTrigger);
 
+import { Draggable } from "gsap/Draggable";
+
+gsap.registerPlugin(Draggable);
+
 const TechItem = ({ icon: Icon, name, color, delay, floatAmount }) => {
   const itemRef = useRef(null);
   const circleRef = useRef(null);
 
   useEffect(() => {
     // Floating animation
-    gsap.to(itemRef.current, {
+    const floatAnim = gsap.to(itemRef.current, {
       y: `+=${floatAmount}`,
       rotation: `+=${floatAmount / 2}`,
       duration: 3 + Math.random(),
@@ -35,6 +39,33 @@ const TechItem = ({ icon: Icon, name, color, delay, floatAmount }) => {
       ease: "sine.inOut",
       delay: delay
     });
+
+    // Make Draggable
+    const dragger = Draggable.create(itemRef.current, {
+      type: "x,y",
+      bounds: "#home", // Or some bounds, wait, #tech-stack-container is better
+      inertia: true,
+      onDragStart: () => {
+        floatAnim.pause();
+        gsap.to(itemRef.current, { scale: 1.1, zIndex: 100 });
+      },
+      onDragEnd: function() {
+        gsap.to(itemRef.current, { 
+          x: 0, 
+          y: 0, 
+          scale: 1, 
+          zIndex: 1, 
+          duration: 1, 
+          ease: "elastic.out(1, 0.3)",
+          onComplete: () => floatAnim.play()
+        });
+      }
+    });
+
+    return () => {
+      floatAnim.kill();
+      if (dragger[0]) dragger[0].kill();
+    };
   }, [delay, floatAmount]);
 
   const handleMouseEnter = () => {
@@ -56,7 +87,7 @@ const TechItem = ({ icon: Icon, name, color, delay, floatAmount }) => {
   return (
     <div 
       ref={itemRef}
-      className="relative flex flex-col items-center justify-center p-3 sm:p-4 bg-[#2a2a2a]/60 backdrop-blur-sm border border-white/10 rounded-2xl transition-colors hover:bg-white/10 group cursor-pointer"
+      className="relative flex flex-col items-center justify-center p-3 sm:p-4 bg-[#2a2a2a]/60 backdrop-blur-sm border border-white/10 rounded-2xl transition-colors hover:bg-white/10 group cursor-grab active:cursor-grabbing"
       style={{
         boxShadow: "4px 4px 10px rgba(0,0,0,0.3)"
       }}

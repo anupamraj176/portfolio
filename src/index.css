@@ -59,3 +59,46 @@ body {
     transition-duration: 0.01ms !important;
   }
 }
+
+/* --- Secret Neon Mode --- */
+body.neon-mode {
+  background-color: #050510 !important; /* Darker, slightly blue background */
+}
+
+body.neon-mode * {
+  /* We add a glowing text-shadow and drop-shadow to everything when in neon mode */
+  /* This is a bit brute force but works for a fun easter egg */
+}
+
+body.neon-mode h1, 
+body.neon-mode h2, 
+body.neon-mode h3, 
+body.neon-mode p, 
+body.neon-mode span, 
+body.neon-mode a, 
+body.neon-mode li {
+  text-shadow: 0 0 5px currentColor, 0 0 10px currentColor, 0 0 20px currentColor;
+}
+
+body.neon-mode svg {
+  filter: drop-shadow(0 0 5px currentColor) drop-shadow(0 0 10px currentColor);
+}
+
+body.neon-mode .bg-\[\#d97d4d\] {
+  background-color: #ff00ff !important;
+  box-shadow: 0 0 10px #ff00ff, 0 0 20px #ff00ff !important;
+}
+
+body.neon-mode .text-\[\#d97d4d\] {
+  color: #00ffff !important;
+}
+
+body.neon-mode .border-white\/20, 
+body.neon-mode .border-white\/10 {
+  border-color: #ff00ff !important;
+  box-shadow: 0 0 10px #ff00ff inset, 0 0 10px #ff00ff;
+}
+
+body.neon-mode .bg-\[\#2a2a2a\]\/60 {
+  background-color: rgba(20, 0, 40, 0.6) !important;
+}

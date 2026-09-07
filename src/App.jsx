@@ -1,27 +1,27 @@
 import React from "react";
 import { NavigationProvider } from './context/NavigationContext';
-import { Navbar } from './components/Navbar';
-import { Header } from './components/HeroSection';
+import Navbar from './components/Navbar';
+import Header from './components/HeroSection';
 import TechStack from './components/TechStack';
 import ProjectSlider from './components/ProjectSlider';
 import Education from './components/Education';
-import { Contact } from './components/Contact';
+import Contact from './components/Contact';
 import { ParticlesBackground } from './components/animations';
 import Doodles from './components/Doodles';
 import ClickDust from './components/ClickDust';
+import ChalkTrail from './components/ChalkTrail';
+import NeonSwitch from './components/NeonSwitch';
+import IntroWipe from './components/IntroWipe';
+import InteractiveMountains from './components/InteractiveMountains';
 
 function App() {
   return (
     <NavigationProvider>
       <div className="min-h-screen text-white relative">
-        
-        {/* Floating Particles Background (acts like chalk dust) */}
-        <ParticlesBackground count={20} />
-        
-        {/* Global Click Dust Effect */}
+        <IntroWipe />
+        <ChalkTrail />
+        <NeonSwitch />
         <ClickDust />
-        
-        {/* Global Floating Doodles */}
         <Doodles />
         
         <Navbar />
