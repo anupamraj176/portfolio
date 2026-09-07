@@ -66,7 +66,7 @@ const CoffeeEasterEgg = () => {
 
   return (
     <div 
-      className="absolute bottom-10 left-10 md:left-20 cursor-pointer z-20 group"
+      className="fixed bottom-6 left-6 cursor-pointer z-50 group"
       onClick={handleClick}
     >
       <div className="relative w-16 h-16">
