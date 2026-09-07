@@ -9,18 +9,12 @@ import Contact from './components/Contact';
 import { ParticlesBackground } from './components/animations';
 import Doodles from './components/Doodles';
 import ClickDust from './components/ClickDust';
-import ChalkTrail from './components/ChalkTrail';
-import NeonSwitch from './components/NeonSwitch';
-import IntroWipe from './components/IntroWipe';
 import InteractiveMountains from './components/InteractiveMountains';
 
 function App() {
   return (
     <NavigationProvider>
       <div className="min-h-screen text-white relative">
-        <IntroWipe />
-        <ChalkTrail />
-        <NeonSwitch />
         <ClickDust />
         <Doodles />
         
