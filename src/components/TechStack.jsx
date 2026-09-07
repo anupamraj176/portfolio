@@ -22,6 +22,7 @@ gsap.registerPlugin(ScrollTrigger);
 
 const TechItem = ({ icon: Icon, name, color, delay, floatAmount }) => {
   const itemRef = useRef(null);
+  const circleRef = useRef(null);
 
   useEffect(() => {
     // Floating animation
@@ -36,15 +37,46 @@ const TechItem = ({ icon: Icon, name, color, delay, floatAmount }) => {
     });
   }, [delay, floatAmount]);
 
+  const handleMouseEnter = () => {
+    if (circleRef.current) {
+      gsap.fromTo(circleRef.current, 
+        { strokeDashoffset: 300 },
+        { strokeDashoffset: 0, duration: 0.6, ease: "power2.out" }
+      );
+      gsap.to(circleRef.current, { opacity: 1, duration: 0.2 });
+    }
+  };
+
+  const handleMouseLeave = () => {
+    if (circleRef.current) {
+      gsap.to(circleRef.current, { strokeDashoffset: 300, opacity: 0, duration: 0.4, ease: "power2.in" });
+    }
+  };
+
   return (
     <div 
       ref={itemRef}
-      className="flex flex-col items-center justify-center p-3 sm:p-4 bg-[#2a2a2a]/60 backdrop-blur-sm border border-white/10 rounded-2xl transition-colors hover:bg-white/10"
+      className="relative flex flex-col items-center justify-center p-3 sm:p-4 bg-[#2a2a2a]/60 backdrop-blur-sm border border-white/10 rounded-2xl transition-colors hover:bg-white/10 group cursor-pointer"
       style={{
         boxShadow: "4px 4px 10px rgba(0,0,0,0.3)"
       }}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
     >
-      <Icon size={40} color={color} className="mb-2 drop-shadow-md" />
+      {/* Hand-drawn SVG Circle (hidden by default) */}
+      <svg className="absolute inset-0 w-full h-full pointer-events-none opacity-0 scale-125" viewBox="0 0 100 100" style={{ transform: "rotate(-10deg)" }}>
+        <path 
+          ref={circleRef}
+          d="M 50,5 C 75,5 95,25 95,50 C 95,75 75,95 50,95 C 25,95 5,75 5,50 C 5,25 25,5 50,5" 
+          fill="none" 
+          stroke={color} 
+          strokeWidth="3" 
+          strokeLinecap="round" 
+          style={{ strokeDasharray: 300, strokeDashoffset: 300 }}
+        />
+      </svg>
+      
+      <Icon size={40} color={color} className="mb-2 drop-shadow-md transition-transform group-hover:scale-110 duration-300" />
       <span className="text-white/80 font-bold text-sm text-center font-mono">{name}</span>
     </div>
   );

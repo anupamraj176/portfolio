@@ -2,10 +2,99 @@ import React, { useEffect, useRef } from "react";
 import { FaInstagramSquare, FaGithub, FaTwitter, FaLinkedin, FaFileDownload, FaGraduationCap, FaCode, FaHeart } from "react-icons/fa";
 import gsap from "gsap";
 import portfolioImg from "../assets/profile.jpeg";
+import CoffeeEasterEgg from "./CoffeeEasterEgg";
+
+const BouncyLetter = ({ children }) => {
+  const letterRef = useRef(null);
+
+  const handleMouseEnter = () => {
+    gsap.to(letterRef.current, {
+      y: -15,
+      rotation: Math.random() * 20 - 10,
+      scale: 1.2,
+      color: "#d97d4d",
+      duration: 0.3,
+      ease: "back.out(2)",
+    });
+  };
+
+  const handleMouseLeave = () => {
+    gsap.to(letterRef.current, {
+      y: 0,
+      rotation: 0,
+      scale: 1,
+      color: "white",
+      duration: 0.5,
+      ease: "bounce.out",
+    });
+  };
+
+  if (children === " ") {
+    return <span>&nbsp;</span>;
+  }
+
+  return (
+    <span
+      ref={letterRef}
+      className="inline-block cursor-default transition-colors"
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+    >
+      {children}
+    </span>
+  );
+};
+
+const MagneticIcon = ({ children, href }) => {
+  const iconRef = useRef(null);
+
+  const handleMouseMove = (e) => {
+    const { clientX, clientY } = e;
+    const { left, top, width, height } = iconRef.current.getBoundingClientRect();
+    
+    const centerX = left + width / 2;
+    const centerY = top + height / 2;
+    
+    // Calculate distance from center (clamped so it doesn't move too far)
+    const moveX = (clientX - centerX) * 0.4;
+    const moveY = (clientY - centerY) * 0.4;
+
+    gsap.to(iconRef.current, {
+      x: moveX,
+      y: moveY,
+      duration: 0.3,
+      ease: "power2.out",
+    });
+  };
+
+  const handleMouseLeave = () => {
+    gsap.to(iconRef.current, {
+      x: 0,
+      y: 0,
+      duration: 0.7,
+      ease: "elastic.out(1, 0.3)",
+    });
+  };
+
+  return (
+    <a
+      ref={iconRef}
+      href={href}
+      target="_blank"
+      rel="noreferrer"
+      className="text-white/60 hover:text-[#d97d4d] text-3xl inline-block p-2"
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+    >
+      {children}
+    </a>
+  );
+};
 
 export const Header = () => {
   const polaroidRef = useRef(null);
   const noteRef = useRef(null);
+  const titleText = "I'm Anupam Raj".split("");
 
   useEffect(() => {
     // Initial float up animation
@@ -54,7 +143,9 @@ export const Header = () => {
         </div>
         
         <h1 className="text-5xl sm:text-6xl md:text-7xl font-bold text-white mb-4 relative inline-block">
-          I'm Anupam Raj
+          {titleText.map((char, index) => (
+            <BouncyLetter key={index}>{char}</BouncyLetter>
+          ))}
           <span className="absolute -bottom-2 left-0 w-full h-2 bg-[#d97d4d] rounded-full opacity-80" style={{ transform: "rotate(-1deg)" }}></span>
         </h1>
         
@@ -84,22 +175,10 @@ export const Header = () => {
         </div>
 
         <div className="mt-12 flex items-center justify-center lg:justify-start gap-6">
-          {[
-            { icon: <FaGithub />, link: "https://github.com/anupamraj176" },
-            { icon: <FaLinkedin />, link: "https://www.linkedin.com/in/anupam-raj-88833134b/" },
-            { icon: <FaTwitter />, link: "#" },
-            { icon: <FaInstagramSquare />, link: "https://www.instagram.com/anupam__rajj/?hl=en" }
-          ].map((social, idx) => (
-            <a 
-              key={idx}
-              href={social.link}
-              target="_blank"
-              rel="noreferrer"
-              className="text-white/60 hover:text-[#d97d4d] text-3xl transition-colors hover:-translate-y-1 transform duration-200"
-            >
-              {social.icon}
-            </a>
-          ))}
+          <MagneticIcon href="https://github.com/anupamraj176"><FaGithub /></MagneticIcon>
+          <MagneticIcon href="https://www.linkedin.com/in/anupam-raj-88833134b/"><FaLinkedin /></MagneticIcon>
+          <MagneticIcon href="#"><FaTwitter /></MagneticIcon>
+          <MagneticIcon href="https://www.instagram.com/anupam__rajj/?hl=en"><FaInstagramSquare /></MagneticIcon>
         </div>
       </div>
 
@@ -149,6 +228,8 @@ export const Header = () => {
         </div>
       </div>
       
+      {/* Interactive Coffee Easter Egg */}
+      <CoffeeEasterEgg />
     </div>
   );
 };
