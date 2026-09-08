@@ -151,7 +151,7 @@ export const Contact = () => {
               <input
                 name="name"
                 type="text"
-                placeholder="John Doe"
+                placeholder="Enter Your Name"
                 value={formData.name}
                 onChange={handleChange}
                 className="w-full px-5 py-3 bg-[#1a1a1a]/80 text-white focus:outline-none focus:border-[#d97d4d] transition-colors text-lg"
@@ -164,7 +164,7 @@ export const Contact = () => {
               <input
                 name="email"
                 type="email"
-                placeholder="john@example.com"
+                placeholder="Enter your Email"
                 value={formData.email}
                 onChange={handleChange}
                 className="w-full px-5 py-3 bg-[#1a1a1a]/80 text-white focus:outline-none focus:border-[#d97d4d] transition-colors text-lg"
