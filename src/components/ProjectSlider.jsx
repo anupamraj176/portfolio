@@ -22,7 +22,7 @@ const projects = [
     desc: "Connecting farmers directly with consumers for fresh produce",
     stack: [FaReact, FaNodeJs, SiRedux, SiTailwindcss, SiJavascript ],
     github: "https://github.com/anupamraj176/SAI",
-    live: "https://sai-8zrg.onrender.com/",
+    live: "https://farmerhub-henna.vercel.app/",
     rotation: -2,
   },
   {
