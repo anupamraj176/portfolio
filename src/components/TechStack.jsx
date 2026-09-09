@@ -29,11 +29,10 @@ const TechItem = ({ icon: Icon, name, color, delay, floatAmount }) => {
   const circleRef = useRef(null);
 
   useEffect(() => {
-    // Floating animation
+    // Subtle wobble animation (instead of vertical floating)
     const floatAnim = gsap.to(itemRef.current, {
-      y: `+=${floatAmount}`,
-      rotation: `+=${floatAmount / 2}`,
-      duration: 3 + Math.random(),
+      rotation: (Math.random() > 0.5 ? 2 : -2),
+      duration: 2 + Math.random(),
       repeat: -1,
       yoyo: true,
       ease: "sine.inOut",
