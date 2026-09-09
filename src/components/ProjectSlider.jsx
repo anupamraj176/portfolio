@@ -68,14 +68,51 @@ const projects = [
 ];
 
 const ProjectCard = ({ project }) => {
+  const cardRef = useRef(null);
+
+  const handleMouseMove = (e) => {
+    if (!cardRef.current) return;
+    const { left, top, width, height } = cardRef.current.getBoundingClientRect();
+    
+    // Calculate rotation based on mouse position relative to card center
+    const x = (e.clientX - left - width / 2) / 10;
+    const y = (e.clientY - top - height / 2) / 10;
+
+    gsap.to(cardRef.current, {
+      rotationY: x,
+      rotationX: -y,
+      scale: 1.05,
+      transformPerspective: 1000,
+      ease: "power2.out",
+      duration: 0.5,
+      zIndex: 50
+    });
+  };
+
+  const handleMouseLeave = () => {
+    if (!cardRef.current) return;
+    gsap.to(cardRef.current, {
+      rotationY: 0,
+      rotationX: 0,
+      scale: 1,
+      ease: "power2.out",
+      duration: 0.5,
+      zIndex: 1
+    });
+  };
+
   return (
     <div 
-      className="w-[300px] sm:w-[350px] flex-shrink-0 bg-[#f4f4f4] p-4 pb-6 shadow-2xl relative border border-black/10 transition-transform hover:z-50 hover:scale-105 duration-300"
+      ref={cardRef}
+      className="w-[300px] sm:w-[350px] flex-shrink-0 bg-[#f4f4f4] p-4 pb-6 shadow-2xl relative border border-black/10 transition-shadow duration-300"
       style={{ 
         transform: `rotate(${project.rotation * 0.5}deg)`,
         boxShadow: "5px 15px 25px rgba(0,0,0,0.4)",
-        borderRadius: "24px"
+        borderRadius: "24px",
+        transformStyle: "preserve-3d" // Needed for 3D children if any
       }}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
     >
       {/* Red Pushpin */}
       <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-4 h-4 rounded-full bg-[#d97d4d] shadow-md border border-[#c2693b] z-20"
@@ -88,10 +125,10 @@ const ProjectCard = ({ project }) => {
 
       {/* Project Content */}
       <div className="bg-[#2a2a2a] w-full h-40 sm:h-48 rounded-[16px] flex items-center justify-center overflow-hidden border border-black/20 mb-4 text-white">
-        <h3 className="text-2xl font-bold opacity-50 px-4 text-center">{project.title}</h3>
+        <h3 className="text-2xl font-bold opacity-50 px-4 text-center" style={{ transform: "translateZ(20px)" }}>{project.title}</h3>
       </div>
 
-      <div>
+      <div style={{ transform: "translateZ(30px)" }}>
         <h3 className="text-xl sm:text-2xl font-bold text-gray-800 mb-1 leading-tight">{project.title}</h3>
         <p className="text-[#d97d4d] text-xs uppercase font-bold tracking-widest mb-3">{project.category}</p>
         <p className="text-gray-600 text-sm leading-relaxed mb-4 h-16">{project.desc}</p>

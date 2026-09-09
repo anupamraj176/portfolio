@@ -24,48 +24,9 @@ import { Draggable } from "gsap/Draggable";
 
 gsap.registerPlugin(Draggable);
 
-const TechItem = ({ icon: Icon, name, color, delay, floatAmount }) => {
+const TechItem = ({ icon: Icon, name, color }) => {
   const itemRef = useRef(null);
   const circleRef = useRef(null);
-
-  useEffect(() => {
-    // Subtle wobble animation (instead of vertical floating)
-    const floatAnim = gsap.to(itemRef.current, {
-      rotation: (Math.random() > 0.5 ? 2 : -2),
-      duration: 2 + Math.random(),
-      repeat: -1,
-      yoyo: true,
-      ease: "sine.inOut",
-      delay: delay
-    });
-
-    // Make Draggable
-    const dragger = Draggable.create(itemRef.current, {
-      type: "x,y",
-      bounds: "#home", // Or some bounds, wait, #tech-stack-container is better
-      inertia: true,
-      onDragStart: () => {
-        floatAnim.pause();
-        gsap.to(itemRef.current, { scale: 1.1, zIndex: 100 });
-      },
-      onDragEnd: function() {
-        gsap.to(itemRef.current, { 
-          x: 0, 
-          y: 0, 
-          scale: 1, 
-          zIndex: 1, 
-          duration: 1, 
-          ease: "elastic.out(1, 0.3)",
-          onComplete: () => floatAnim.play()
-        });
-      }
-    });
-
-    return () => {
-      floatAnim.kill();
-      if (dragger[0]) dragger[0].kill();
-    };
-  }, [delay, floatAmount]);
 
   const handleMouseEnter = () => {
     if (circleRef.current) {
@@ -86,7 +47,7 @@ const TechItem = ({ icon: Icon, name, color, delay, floatAmount }) => {
   return (
     <div 
       ref={itemRef}
-      className="relative flex flex-col items-center justify-center p-3 sm:p-4 bg-[#2a2a2a]/60 backdrop-blur-sm border border-white/10 rounded-2xl transition-colors hover:bg-white/10 group cursor-grab active:cursor-grabbing"
+      className="relative flex flex-col items-center justify-center p-3 sm:p-4 bg-[#2a2a2a]/60 backdrop-blur-sm border border-white/10 rounded-2xl transition-colors hover:bg-white/10 group cursor-pointer"
       style={{
         boxShadow: "4px 4px 10px rgba(0,0,0,0.3)"
       }}
@@ -135,31 +96,8 @@ export const TechStack = () => {
         rotation: -2,
         duration: 0.8,
         ease: "back.out(1.5)"
-      })
-      .from(frontendRef.current.children, {
-        y: 20,
-        opacity: 0,
-        scale: 0.8,
-        stagger: 0.1,
-        duration: 0.5,
-        ease: "power2.out"
-      }, "-=0.4")
-      .from(backendRef.current.children, {
-        y: 20,
-        opacity: 0,
-        scale: 0.8,
-        stagger: 0.1,
-        duration: 0.5,
-        ease: "power2.out"
-      }, "-=0.3")
-      .from(toolsRef.current.children, {
-        y: 20,
-        opacity: 0,
-        scale: 0.8,
-        stagger: 0.1,
-        duration: 0.5,
-        ease: "power2.out"
-      }, "-=0.3");
+      });
+      // Removed child animations completely as requested
 
     }, sectionRef);
 
@@ -214,12 +152,12 @@ export const TechStack = () => {
             <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-8 h-4 bg-white/50" style={{ transform: "rotate(3deg)" }}></div>
           </div>
           <div ref={frontendRef} className="grid grid-cols-2 gap-4 sm:gap-6 w-full max-w-[250px]">
-            <TechItem icon={FaReact} name="React" color="#61DAFB" delay={0.1} floatAmount={8} />
-            <TechItem icon={SiNextdotjs} name="Next.js" color="#FFFFFF" delay={0.3} floatAmount={6} />
-            <TechItem icon={SiJavascript} name="JavaScript" color="#F7DF1E" delay={0.5} floatAmount={10} />
-            <TechItem icon={SiTypescript} name="TypeScript" color="#3178C6" delay={0.2} floatAmount={7} />
-            <TechItem icon={SiTailwindcss} name="Tailwind" color="#06B6D4" delay={0.4} floatAmount={9} />
-            <TechItem icon={SiRedux} name="Redux" color="#764ABC" delay={0.6} floatAmount={5} />
+            <TechItem icon={FaReact} name="React" color="#61DAFB" />
+            <TechItem icon={SiNextdotjs} name="Next.js" color="#FFFFFF" />
+            <TechItem icon={SiJavascript} name="JavaScript" color="#F7DF1E" />
+            <TechItem icon={SiTypescript} name="TypeScript" color="#3178C6" />
+            <TechItem icon={SiTailwindcss} name="Tailwind" color="#06B6D4" />
+            <TechItem icon={SiRedux} name="Redux" color="#764ABC" />
           </div>
         </div>
 
@@ -232,10 +170,10 @@ export const TechStack = () => {
             <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-8 h-4 bg-white/50" style={{ transform: "rotate(-2deg)" }}></div>
           </div>
           <div ref={backendRef} className="grid grid-cols-2 gap-4 sm:gap-6 w-full max-w-[250px]">
-            <TechItem icon={FaNodeJs} name="Node.js" color="#339933" delay={0.2} floatAmount={8} />
-            <TechItem icon={SiExpress} name="Express" color="#FFFFFF" delay={0.4} floatAmount={6} />
-            <TechItem icon={SiMongodb} name="MongoDB" color="#47A248" delay={0.6} floatAmount={10} />
-            <TechItem icon={FaDatabase} name="SQL" color="#336791" delay={0.3} floatAmount={7} />
+            <TechItem icon={FaNodeJs} name="Node.js" color="#339933" />
+            <TechItem icon={SiExpress} name="Express" color="#FFFFFF" />
+            <TechItem icon={SiMongodb} name="MongoDB" color="#47A248" />
+            <TechItem icon={FaDatabase} name="SQL" color="#336791" />
           </div>
         </div>
 
@@ -248,8 +186,8 @@ export const TechStack = () => {
             <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-8 h-4 bg-white/50" style={{ transform: "rotate(1deg)" }}></div>
           </div>
           <div ref={toolsRef} className="grid grid-cols-2 gap-4 sm:gap-6 w-full max-w-[250px]">
-            <TechItem icon={FaGitAlt} name="Git" color="#F05032" delay={0.5} floatAmount={8} />
-            <TechItem icon={SiFigma} name="Figma" color="#F24E1E" delay={0.1} floatAmount={6} />
+            <TechItem icon={FaGitAlt} name="Git" color="#F05032" />
+            <TechItem icon={SiFigma} name="Figma" color="#F24E1E" />
           </div>
         </div>
 
