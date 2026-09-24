@@ -88,7 +88,7 @@ export const Education = () => {
       <div className="text-center mb-20 relative z-10">
         <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold text-white inline-block relative">
           My Journey
-          <span className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-[110%] h-1.5 bg-[#d97d4d] rounded-full opacity-80" style={{ transform: "rotate(1deg)" }}></span>
+          <span className="absolute -bottom-2 left-1/2 w-[110%] h-1.5 bg-[#d97d4d] rounded-full opacity-80" style={{ transform: "translateX(-50%) rotate(1deg)" }}></span>
         </h2>
       </div>
 
