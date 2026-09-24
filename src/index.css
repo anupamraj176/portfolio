@@ -60,45 +60,48 @@ body {
   }
 }
 
-/* --- Secret Neon Mode --- */
-body.neon-mode {
-  background-color: #050510 !important; /* Darker, slightly blue background */
+/* --- Whiteboard Mode --- */
+body.whiteboard-mode {
+  background-color: #f8f9fa !important;
+  color: #2c3e50 !important;
+  background-image: 
+    url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.02'/%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg width='80' height='80' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M40 36 L40 44 M36 40 L44 40' stroke='rgba(0,0,0,0.05)' stroke-width='1' fill='none' stroke-linecap='round'/%3E%3C/svg%3E") !important;
 }
 
-body.neon-mode * {
-  /* We add a glowing text-shadow and drop-shadow to everything when in neon mode */
-  /* This is a bit brute force but works for a fun easter egg */
+body.whiteboard-mode .text-white {
+  color: #2c3e50 !important;
 }
 
-body.neon-mode h1, 
-body.neon-mode h2, 
-body.neon-mode h3, 
-body.neon-mode p, 
-body.neon-mode span, 
-body.neon-mode a, 
-body.neon-mode li {
-  text-shadow: 0 0 5px currentColor, 0 0 10px currentColor, 0 0 20px currentColor;
+body.whiteboard-mode .text-white\/80,
+body.whiteboard-mode .text-white\/70,
+body.whiteboard-mode .text-white\/60,
+body.whiteboard-mode .text-white\/50 {
+  color: #4a5568 !important;
 }
 
-body.neon-mode svg {
-  filter: drop-shadow(0 0 5px currentColor) drop-shadow(0 0 10px currentColor);
+body.whiteboard-mode .bg-\[\#2a2a2a\],
+body.whiteboard-mode .bg-\[\#2a2a2a\]\/80,
+body.whiteboard-mode .bg-\[\#2a2a2a\]\/60,
+body.whiteboard-mode .bg-\[\#2a2a2a\]\/40 {
+  background-color: #ffffff !important;
+  border-color: #e2e8f0 !important;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06) !important;
 }
 
-body.neon-mode .bg-\[\#d97d4d\] {
-  background-color: #ff00ff !important;
-  box-shadow: 0 0 10px #ff00ff, 0 0 20px #ff00ff !important;
+body.whiteboard-mode .border-white\/10,
+body.whiteboard-mode .border-white\/20 {
+  border-color: #cbd5e0 !important;
 }
 
-body.neon-mode .text-\[\#d97d4d\] {
-  color: #00ffff !important;
+body.whiteboard-mode .text-\[\#d97d4d\] {
+  color: #c05621 !important; /* Slightly darker orange for better contrast on white */
 }
 
-body.neon-mode .border-white\/20, 
-body.neon-mode .border-white\/10 {
-  border-color: #ff00ff !important;
-  box-shadow: 0 0 10px #ff00ff inset, 0 0 10px #ff00ff;
+body.whiteboard-mode .bg-\[\#d97d4d\] {
+  background-color: #c05621 !important;
 }
 
-body.neon-mode .bg-\[\#2a2a2a\]\/60 {
-  background-color: rgba(20, 0, 40, 0.6) !important;
+body.whiteboard-mode svg {
+  filter: drop-shadow(0 1px 2px rgba(0,0,0,0.1));
 }

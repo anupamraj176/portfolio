@@ -10,11 +10,13 @@ import { ParticlesBackground } from './components/animations';
 import Doodles from './components/Doodles';
 import ClickDust from './components/ClickDust';
 import InteractiveMountains from './components/InteractiveMountains';
+import ThemeToggle from './components/ThemeToggle';
 
 function App() {
   return (
     <NavigationProvider>
-      <div className="min-h-screen text-white relative">
+      <div className="min-h-screen text-white relative transition-colors duration-500">
+        <ThemeToggle />
         <ClickDust />
         <Doodles />
         
